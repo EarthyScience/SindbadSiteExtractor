@@ -1,0 +1,2810 @@
+{
+    "1.c": 							"This json info file explains the variables for creating dataset for Sindbad and all related information",
+	"2.c":							"add more comments",
+    "3.c":							"and some more",
+    
+    "DataPath": {
+        "insituAGB": "/home/simon/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/insitu_AGB.csv",
+        "GlobBiomassAGB": "/home/simon/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/globbiomass_agb_100m.csv",
+        "HansenTreecover": "/home/simon/Net/Groups/BGI/scratch/uweber/nfidc/data/gee/final_datasets/data_final_uweber_v2021_01_sites_gee.csv",
+        "SoilGrids": "/home/simon/Net/Groups/BGI/scratch/uweber/nfidc/data/gee/final_datasets/data_final_uweber_v2021_01_sites_gee.csv",
+        "forest_age": "/home/simon/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/forest_age.csv",
+        "PFT": "/home/simon/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/PFT.csv",        
+        "hilda": "/home/simon/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/annual_mean/0d0083/hilda+/hildaplus_vGLOB-1.0-f_states.nc",
+        "fluxcom_cube": "/home/simon/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube",
+        "TEA_data": "/home/simon/Net/Groups/BGI/work_2/fluxnet-BGI/data/"},
+    "OutPath": {
+        "nc_file": "/home/simon/Net/Groups/BGI/work_3/sindbad/data/fluxnet/data/",
+        "figs": "/home/simon/Net/Groups/BGI/work_3/sindbad/data/fluxnet/dgn_figs/"
+    },
+    "sites_toRun": ["DE-Hai", "BE-Bra", "FR-Pue"],
+    "export_site": "unique",
+    "start_date": "2000-01-01",
+    "end_date": "2021-01-01",
+    "QC_climate": 0.8,
+    "temporal_resolution": {
+        "daily":true, 
+        "monthly":true, 
+        "annual":true
+    },
+    "FLUXNET_version":"FLUXNET2015",
+    "climateGapfill_only":false,
+    "utils": {
+        "path": "" 
+    },
+    "variables": {
+        "EddyCovariance_vars": {
+            "FLUXNET_EddyCovariance":
+            {   
+                "GPP_NT_FLUXNET":
+                {
+                    "partitioning": "NT", 
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [-10, 100],
+                    "sourceVariableName": "GPP",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "GPP_NT_FLUXNET",
+                    "nameLong": "Gross Primary Production - from Nighttime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "GPP_DT_FLUXNET":
+                {
+                    "partitioning": "DT", 
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [-10, 100],
+                    "sourceVariableName": "GPP",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "GPP_DT_FLUXNET",
+                    "nameLong": "Gross Primary Production - from Daytime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "NEE_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [-100, 100],
+                    "sourceVariableName": "NEE",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_FLUXNET",
+                    "nameLong": "Net Ecosystem Exchange - using Variable Ustar Threshold (VUT) for each year - from 50 percentile of USTAR threshold",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "NEE_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [-100, 100],
+                    "sourceVariableName": "NEE_RANDUNC",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_RANDUNC_FLUXNET",
+                    "nameLong": "Net Ecosystem Exchange random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "NEE_RANDUNC_weighted_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [-100, 100],
+                    "sourceVariableName": "NEE_RANDUNC",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_RANDUNC_weighted_FLUXNET",
+                    "nameLong": "Net Ecosystem Exchange random uncertainty weighted by number of original observations",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "NEE_QC_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "NEE_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_QC_FLUXNET",
+                    "nameLong": "Quality flag for NEE_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },            
+                "RECO_NT_FLUXNET":
+                {
+                    "partitioning": "NT", 
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "RECO",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "RECO_NT_FLUXNET",
+                    "nameLong": "Daily mean of Ecosystem Respiration - from Nighttime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },                        
+                "RECO_DT_FLUXNET":
+                {
+                    "partitioning": "DT", 
+                    "variableUnit": "gC m-2 d-1",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "RECO",
+                    "sourceVariableUnit": "gC m-2 d-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "RECO_DT_FLUXNET",
+                    "nameLong": "Daily mean of Ecosystem Respiration - from Daytime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "LE_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "LE",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_FLUXNET",
+                    "nameLong": "Daily mean of Latent heatflux",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "LE_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "LE_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_RANDUNC_FLUXNET",
+                    "nameLong": "Latent heatflux random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "LE_RANDUNC_weighted_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "LE_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_RANDUNC_weighted_FLUXNET",
+                    "nameLong": "Latent heatflux random uncertainty weighted by number of original observations",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "LE_QC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "LE_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_QC_FLUXNET",
+                    "nameLong": "Quality flag for LE_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "H_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "H",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_FLUXNET",
+                    "nameLong": "Daily mean of Sensible heatflux",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "H_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "H_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_RANDUNC_FLUXNET",
+                    "nameLong": "Sensible heatflux random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "H_RANDUNC_weighted_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "H_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_RANDUNC_weighted_FLUXNET",
+                    "nameLong": "Sensible heatflux random uncertainty weighted by number of original observations",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "H_QC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "H_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_QC_FLUXNET",
+                    "nameLong": "Quality flag for H_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                }
+                }},
+            "SWC_TS_vars": {
+                "FLUXNET_SWC_TS":
+                {
+                "SWC_shallow_FLUXNET":
+                {
+                    "partitioning": "",
+                    "depth" : "shallow",
+                    "variableUnit": "%",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "SWC",
+                    "sourceVariableUnit": "%",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "SWC_shallow_FLUXNET",
+                    "nameLong": "Soil water content - shallow layer",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "SWC_QC_shallow_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "shallow",
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "SWC_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "SWC_QC_shallow_FLUXNET",
+                    "nameLong": "Quality flag for SWC_shallow_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "SWC_deep_FLUXNET":
+                {
+                    "partitioning": "",
+                    "depth" : "deep", 
+                    "variableUnit": "%",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "SWC",
+                    "sourceVariableUnit": "%",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "SWC_deep_FLUXNET",
+                    "nameLong": "Soil water content - deep layer",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "SWC_QC_deep_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "deep",
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "SWC_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "SWC_QC_deep_FLUXNET",
+                    "nameLong": "Quality flag for SWC_deep_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "TS_shallow_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "shallow",
+                    "variableUnit": "deg C",
+                    "bounds": [-80, 60],
+                    "sourceVariableName": "TS",
+                    "sourceVariableUnit": "deg C",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "TS_shallow_FLUXNET",
+                    "nameLong": "Soil temperature - shallow layer",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "TS_QC_shallow_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "shallow",
+                    "variableUnit": "admimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "TS_QC",
+                    "sourceVariableUnit": "admimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "TS_QC_shallow_FLUXNET",
+                    "nameLong": "Quality flag for TS_shallow_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "TS_deep_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "deep",
+                    "variableUnit": "deg C",
+                    "bounds": [-80, 60],
+                    "sourceVariableName": "TS",
+                    "sourceVariableUnit": "deg C",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "TS_deep_FLUXNET",
+                    "nameLong": "Soil temperature - deep layer",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                },
+                "TS_QC_deep_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "depth" : "deep",
+                    "variableUnit": "admimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "TS_QC",
+                    "sourceVariableUnit": "admimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "TS_QC_deep_FLUXNET",
+                    "nameLong": "Quality flag for TS_deep_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                }
+                }},
+        "climate_vars": {
+            "FLUXNET_climate":
+            {
+            "TA_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_DayMean_FLUXNET",
+                "nameLong": "Daily mean of air temperature - gapfilled using MDS method",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "TA_QC_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "TA_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_QC_DayMean_FLUXNET",
+                "nameLong": "Quality flag for TA_DayMean_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "P_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "mm d-1",
+                "bounds": [0, 200],
+                "sourceVariableName": "P",
+                "sourceVariableUnit": "mm d-1",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P_DayMean_FLUXNET",
+                "nameLong": "Total daily precipitation",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "P_QC_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "P_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P_QC_DayMean_FLUXNET",
+                "nameLong": "Quality flag for P_DayMean_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },     
+            "VPD_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "hPa",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_DayMean_FLUXNET",
+                "nameLong": "Daily mean of Vapor Pressure Deficit - gapfilled using MDS method",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },                        
+            "VPD_QC_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "VPD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_QC_DayMean_FLUXNET",
+                "nameLong": "Quality flag for VPD_DayMean_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_DayMean_FLUXNET",
+                "nameLong": "Daily mean of Shortwave radiation - incoming - gapfilled using MDS (negative values set to zero - e.g. - negative values from instrumentation noise",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_QC_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "SW_IN_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_QC_DayMean_FLUXNET",
+                "nameLong": "Quality flag for SW_IN_DayMean_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_POT_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN_POT",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_POT_DayMean_FLUXNET",
+                "nameLong": "Daily mean of potential Shortwave radiation - incoming",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "NETRAD_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_DayMean_FLUXNET",
+                "nameLong": "Daily mean of Net radiation",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "NETRAD_QC_DayMean_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0,1],
+                "sourceVariableName": "NETRAD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_QC_DayMean_FLUXNET",
+                "nameLong": "Quality flag for NETRAD_DayMean_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "TA_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_DayTime_FLUXNET",
+                "nameLong": "DayTime mean of air temperature - gapfilled using MDS method",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "TA_QC_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "TA_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_QC_DayTime_FLUXNET",
+                "nameLong": "Quality flag for TA_DayTime_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },     
+            "VPD_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "hPa",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_DayTime_FLUXNET",
+                "spaceTimeType": "normal",
+                "nameLong": "DayTime mean of Vapor Pressure Deficit - gapfilled using MDS method",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },                        
+            "VPD_QC_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "VPD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_QC_DayTime_FLUXNET",
+                "nameLong": "Quality flag for VPD_DayTime_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_DayTime_FLUXNET",
+                "nameLong": "DayTime mean of Shortwave radiation - incoming - gapfilled using MDS (negative values set to zero - e.g. - negative values from instrumentation noise",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_QC_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "SW_IN_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_QC_DayTime_FLUXNET",
+                "nameLong": "Quality flag for SW_IN_DayTime_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "SW_IN_POT_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 800],
+                "sourceVariableName": "SW_IN_POT",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_POT_DayTime_FLUXNET",
+                "nameLong": "DayTime mean of potential Shortwave radiation - incoming",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "NETRAD_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_DayTime_FLUXNET",
+                "nameLong": "DayTime mean of Net radiation",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "NETRAD_QC_DayTime_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0,1],
+                "sourceVariableName": "NETRAD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_QC_DayTime_FLUXNET",
+                "nameLong": "Quality flag for NETRAD_DayTime_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            }
+            },
+            "ERA5_climate": {
+                "TA_DayMean_ERA5":
+             {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_DayMean_ERA5",
+                "nameLong": "Daily mean of air temperature - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "P_DayMean_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "mm d-1",
+                "bounds": [0, 200],
+                "sourceVariableName": "P",
+                "sourceVariableUnit": "mm d-1",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P_DayMean_ERA5",
+                "nameLong": "Total daily precipitation - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },            
+            "VPD_DayMean_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "hPa",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_DayMean_ERA5",
+                "nameLong": "Daily mean of Vapor Pressure Deficit - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "SW_IN_DayMean_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_DayMean_ERA5",
+                "nameLong": "Daily mean of Shortwave radiation - incoming - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "SW_IN_POT_DayMean_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN_POT",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_POT_DayMean_ERA5",
+                "nameLong": "Daily mean of potential Shortwave radiation - incoming - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "NETRAD_DayMean_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_DayMean_ERA5",
+                "nameLong": "Daily mean of Net radiation- ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "TA_DayTime_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_DayTime_ERA5",
+                "nameLong": "DayTime mean of Air temperature - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },          
+            "VPD_DayTime_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "hPa",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_DayTime_ERA5",
+                "nameLong": "DayTime mean of Vapor Pressure Deficit - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "SW_IN_DayTime_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_DayTime_ERA5",
+                "nameLong": "DayTime mean of Shortwave radiation - incoming - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "SW_IN_POT_DayTime_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 800],
+                "sourceVariableName": "SW_IN_POT",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_POT_DayTime_ERA5",
+                "nameLong": "DayTime mean of potential Shortwave radiation - incoming - ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            },
+            "NETRAD_DayTime_ERA5":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_DayTime_ERA5",
+                "nameLong": "DayTime mean of Net radiation- ERA5 downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "era5",
+                "dataPath": ""
+            }
+            }},
+        "EvapTrans_vars": {
+            "Nelson2019_EvapTrans":
+            {
+                "T_NT_75_Nelson2019":
+                {
+                    "partitioning": "",
+                    "variableUnit": "mm day-1",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "TEA_T_NT_75",
+                    "sourceVariableUnit": "mm day-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "T_NT_75_Nelson2019",
+                    "nameLong": "Daily mean of transpiration - from Nighttime partitioning method - quantile 75",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "TEA algorirm - Nelson2019",
+                    "dataPath": ""
+                },
+                "T_DT_75_Nelson2019":
+                {
+                    "partitioning": "",
+                    "variableUnit": "mm day-1",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "TEA_T_DT_75",
+                    "sourceVariableUnit": "mm day-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "T_DT_75_Nelson2019",
+                    "nameLong": "Daily mean of transpiration - from Daytime partitioning method - quantile 75",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "TEA algorirm - Nelson2019",
+                    "dataPath": ""
+                },
+                "ET_Nelson2019":
+                {
+                    "partitioning": "",
+                    "variableUnit": "mm day-1",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "ET",
+                    "sourceVariableUnit": "mm day-1",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "ET_Nelson2019",
+                    "nameLong": "Daily mean of evaporation",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "TEA algorirm - Nelson2019",
+                    "dataPath": ""
+                }
+            }},
+        "MODIS_vars":
+        {
+            "MODIS_MCD43A": {
+                "NDVI_MCD43A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [-1, 1],
+                    "sourceVariableName": "NDVI",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NDVI_MCD43A",
+                    "nameLong": "Normalized difference vegetation index - Derived from MCD43A4 version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MCD43A4",
+                    "dataPath": ""
+                },
+                "kNDVI_MCD43A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [-1, 1],
+                    "sourceVariableName": "kNDVI",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "kNDVI_MCD43A",
+                    "nameLong": "kernel Normalized difference vegetation index - Derived from MCD43A4 version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MCD43A4",
+                    "dataPath": ""
+                },
+                "EVI_MCD43A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [-1, 1],
+                    "sourceVariableName": "EVI",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "EVI_MCD43A",
+                    "nameLong": "Enhanced vegetation index - Derived from MCD43A4 version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MCD43A4",
+                    "dataPath": ""
+                },
+                "NDWI_MCD43A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [-1, 1],
+                    "sourceVariableName": "NDWI",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NDWI",
+                    "nameLong": "Normalized difference water index - Derived from MCD43A4 version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MCD43A4",
+                    "dataPath": ""
+                }        
+            },
+            "MODIS_MxD11A": {
+                "LST_DayMean_AQUA_MxD11A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "K",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "LST",
+                    "sourceVariableUnit": "K",
+                    "source2sindbadUnit": "1",
+                    "satellite": "AQUA",
+                    "isCategorical": false,
+                    "nameShort": "LST_DayMean_AQUA_MxD11A",
+                    "nameLong": "Land Surface Temperature DayMean AQUA calculated as an average between LST Day and Night - Derived from MxD11A version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MxD11A",
+                    "dataPath": ""
+                },
+                "LST_DayMean_TERRA_MxD11A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "K",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "LST",
+                    "sourceVariableUnit": "K",
+                    "source2sindbadUnit": "1",
+                    "satellite": "TERRA",
+                    "isCategorical": false,
+                    "nameShort": "LST_DayMean_TERRA_MxD11A",
+                    "nameLong": "Land Surface Temperature DayMean TERRA calculated as an average between LST Day and Night - Derived from MxD11A version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MxD11A",
+                    "dataPath": ""
+                },
+                "LST_DayTime_AQUA_MxD11A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "K",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "LST",
+                    "sourceVariableUnit": "K",
+                    "source2sindbadUnit": "1",
+                    "satellite": "AQUA",
+                    "isCategorical": false,
+                    "nameShort": "LST_DayTime_AQUA_MxD11A",
+                    "nameLong": "Land Surface Temperature DayTime AQUA calculated from LST Day - Derived from MxD11A version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MxD11A",
+                    "dataPath": ""
+                },
+                "LST_DayTime_TERRA_MxD11A":
+                {
+                    "partitioning": "",
+                    "variableUnit": "K",
+                    "bounds": [-1000, 1000],
+                    "sourceVariableName": "LST",
+                    "sourceVariableUnit": "K",
+                    "source2sindbadUnit": "1",
+                    "satellite": "TERRA",
+                    "isCategorical": false,
+                    "nameShort": "LST_DayTime_TERRA_MxD11A",
+                    "nameLong": "Land Surface Temperature DayTime TERRA calculated from LST Day - Derived from MxD11A version 6",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "MxD11A",
+                    "dataPath": ""
+                }
+            }},
+            "biomass_vars":
+            {
+            "AG_BIOMASS_TT_vars": {
+                "AG_BIOMASS_TT_gloBbiomass":
+                {
+                    "partitioning": "",
+                    "variableUnit": "gC m-2",
+                    "bounds": [0, 30000],
+                    "sourceVariableName": "AG_BIOMASS_TT_gloBbiomass",
+                    "sourceVariableUnit": "Mg ha",
+                    "source2sindbadUnit": "47",
+                    "isCategorical": false,
+                    "nameShort": "AG_BIOMASS_TT_gloBbiomass",
+                    "nameLong": "Above-ground biomass from gloBbiomass product calculated as the median of 5x5 pxiels 100m around the tower location",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "gloBbiomass",
+                    "dataPath": ""
+                },
+                "AG_BIOMASS_TT_insitu":
+                {
+                    "partitioning": "",
+                    "variableUnit": "gC m-2",
+                    "bounds": [0, 30000],
+                    "sourceVariableName": "AG_BIOMASS_TT_insitu",
+                    "sourceVariableUnit": "gC m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "AG_BIOMASS_TT_insitu",
+                    "nameLong": "Above-ground biomass from in-situ",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "dataPath": ""
+                }
+        }},
+        "TREECOVER_vars": {
+            "TREECOVER_RS":
+            {
+            "TREECOVER_hansen":
+            {
+                "partitioning": "",
+                "variableUnit": "%",
+                "bounds": [0, 100],
+                "sourceVariableName": "treecover2010_zstd5x5",
+                "sourceVariableUnit": "%",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TREECOVER_hansen",
+                "nameLong": "Percentage of tree cover from Hansen data calculated as the median values of 5x5 30m pixels",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "Hansen",
+                "dataPath": ""
+            }
+        }},
+        "Forest_age_vars":
+        {
+        "DIST_FOREST_FRAC": {
+            "DIST_FOREST_FRAC_Besnard2018":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "DIST_FOREST_FRAC_Besnard2018",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "DIST_FOREST_FRAC_Besnard2018",
+                "nameLong": "Occurence of disturbance event - 0: occurence 1: no occurence",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "Besnard2018",
+                "dataPath": ""
+            }
+        }},
+        "Soil_texture_vars":{
+            "Soil_texture_SoilGrids":
+            {
+            "AWCh1_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl1_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl2_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl3_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl4_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl5_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl6_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh1_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh1_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh1_sl7_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.0 - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl1_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl2_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl3_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl4_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl5_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl6_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh2_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh2_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh2_sl7_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.3 - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl1_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl2_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl3_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl4_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl5_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl6_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "AWCh3_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_AWCh3_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "AWCh3_sl7_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) with FC = pF 2.5 - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BDRICM_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cm",
+                "bounds": [0, 200],
+                "sourceVariableName": "SoilGrids_BDRICM_M_250m_ll_tif",
+                "sourceVariableUnit": "cm",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BDRICM_SoilGrids",
+                "nameLong": "Depth to bedrock (R horizon) up to 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BDRLOG_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_BDRLOG_M_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BDRLOG_SoilGrids",
+                "nameLong": "Probability of occurrence of R horizon",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BDTICM_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cm",
+                "bounds": [0, 20000],
+                "sourceVariableName": "SoilGrids_BDTICM_M_250m_ll_tif",
+                "sourceVariableUnit": "cm",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BDTICM_SoilGrids",
+                "nameLong": "Absolute depth to bedrock",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl1_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl2_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl3_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl4_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl5_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl6_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "BLDFIE_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "kg/m3",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_BLDFIE_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "kg/m3",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "BLDFIE_sl7_SoilGrids",
+                "nameLong": "Bulk density (fine earth) - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl1_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl2_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl3_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl4_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl5_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl6_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CECSOL_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "cmolc/kg",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CECSOL_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "cmolc/kg",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CECSOL_sl7_SoilGrids",
+                "nameLong": "Cation Exchange Capacity of soil - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl1_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl2_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl3_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl4_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl5_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl6_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CLYPPT_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CLYPPT_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CLYPPT_sl7_SoilGrids",
+                "nameLong": "Weight percentage of the clay particles (<0.0002 mm) - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl1_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl2_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl3_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl4_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl5_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl6_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "CRFVOL_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_CRFVOL_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "CRFVOL_sl7_SoilGrids",
+                "nameLong": "Volumetric percentage of coarse fragments (>2 mm) - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd1_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl1_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 0-5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd2_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl2_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 5-15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd3_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl3_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 15-30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd4_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl4_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 30-60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd5_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl5_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 60-100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "OCSTHA_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "ton/ha",
+                "bounds": [0, 2000],
+                "sourceVariableName": "SoilGrids_OCSTHA_M_sd6_250m_ll_tif",
+                "sourceVariableUnit": "ton/ha",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "OCSTHA_sl6_SoilGrids",
+                "nameLong": "Soil organic carbon stock - Standard depth: 100-200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl1_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl2_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl3_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl4_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl5_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl6_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "ORCDRC_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "permille",
+                "bounds": [0, 500],
+                "sourceVariableName": "SoilGrids_ORCDRC_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "permille",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "ORCDRC_sl7_SoilGrids",
+                "nameLong": "Soil organic carbon content - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl1_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl2_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl3_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl4_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl5_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl6_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIHOX_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIHOX_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIHOX_sl7_SoilGrids",
+                "nameLong": "pH index measured in water solution - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl1_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl2_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl3_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl4_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl5_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl6_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "PHIKCL_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "pH",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_PHIKCL_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "pH",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "PHIKCL_sl7_SoilGrids",
+                "nameLong": "pH index measured in KCl solution - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl1_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl2_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl3_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl4_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl5_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl6_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SLTPPT_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SLTPPT_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SLTPPT_sl7_SoilGrids",
+                "nameLong": "Weight percentage of the silt particles (0.0002–0.05 mm) - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl1_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl2_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl3_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl4_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl5_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl6_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "SNDPPT_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_SNDPPT_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SNDPPT_sl7_SoilGrids",
+                "nameLong": "Weight percentage of the sand particles (0.05–2 mm) - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl1_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl1_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl1_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 0 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl2_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl2_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl2_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 5 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl3_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl3_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl3_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 15 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl4_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl4_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl4_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 30 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl5_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl5_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl5_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 60 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl6_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl6_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl6_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 100 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            },
+            "WWP_sl7_SoilGrids":
+            {
+                "partitioning": "",
+                "variableUnit": "percentage",
+                "bounds": [0, 100],
+                "sourceVariableName": "SoilGrids_WWP_M_sl7_250m_ll_tif",
+                "sourceVariableUnit": "percentage",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "WWP_sl7_SoilGrids",
+                "nameLong": "Available soil water capacity (volumetric fraction) until wilting point - Standard depth: 200 cm",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "SoilGrids",
+                "dataPath": ""
+            }
+        }},
+        "Veg_Frac_vars":{
+            "Veg_Frac_insitu":
+            {
+            "Frac_grass_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_grass_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_grass",
+                "nameLong": "Fraction of grass - 0: no grass and 1: only grass",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "Frac_shrub_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_shrub_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_shrub",
+                "nameLong": "Fraction of shrub - 0: no shrub and 1: only shrub",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "Frac_tree_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_tree_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_tree",
+                "nameLong": "Fraction of tree - 0: no tree and 1: only tree",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "Frac_crop_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_crop_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_crop_insitu",
+                "nameLong": "Fraction of crop - 0: no crop and 1: only crop",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "Frac_savanna_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_savanna_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_savanna_insitu",
+                "nameLong": "Fraction of savanna - 0: no savanna and 1: only savanna",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            },
+            "Frac_wetland_insitu":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_wetland_insitu",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_wetland_insitu",
+                "nameLong": "Fraction of wetland - 0: no wetland and 1: only wetland",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "dataPath": ""
+            }},
+        "Veg_Frac_hilda":{
+            "Frac_grass_hilda":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_grass_hilda",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_grass_hilda",
+                "nameLong": "Fraction of grass (class 33: Pasture) - 0: no grass and 1: only grass",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "hilda+",
+                "dataPath": ""
+            },
+            "Frac_shrub_hilda":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_shrub_hilda",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_shrub_hilda",
+                "nameLong": "Fraction of shrub (class 55: Grass/shrubland) - 0: no shrub and 1: only shrub",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "hilda+",
+                "dataPath": ""
+            },
+            "Frac_tree_hilda":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_tree_hilda",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_tree_hilda",
+                "nameLong": "Fraction of tree (class 40: Unknown/Other, 41: Evergreen needle leaf, 42: Evergreen broad leaf, 43: Deciduous needle leaf, 44: Deciduous broad leaf 45: Mixed) - 0: no tree and 1: only tree",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "hilda+",
+                "dataPath": ""
+            },
+            "Frac_crop_hilda":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_crop_hilda",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_crop_hilda",
+                "nameLong": "Fraction of crop (class 22: Cropland) - 0: no crop and 1: only crop",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "hilda+",
+                "dataPath": ""
+            },
+            "Frac_other_hilda":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "Frac_other_hilda",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": true,
+                "nameShort": "Frac_other_hilda",
+                "nameLong": "Fraction of other land (class 66: Other land) - 0: no other and 1: only other",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "hilda+",
+                "dataPath": ""
+            }
+        }}
+    }
+}
+
