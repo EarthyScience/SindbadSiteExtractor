@@ -1,0 +1,91 @@
+{
+    "DataPath": {
+        "cliff_output": "/Net/Groups/BGI/work_3/cliff/output/csvs/"},
+    "OutPath": {
+        "nc_file": "/Net/Groups/BGI/work_3/sindbad/data/cliff/data/",
+        "figs": "/Net/Groups/BGI/work_3/sindbad/data/cliff/dgn_figs/"
+    },
+    "variables": {
+                "TA":
+             {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA",
+                "nameLong": "Daily mean of air temperature - cliff downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "cliff",
+                "publication":"",
+                "dataPath": "/Net/Groups/BGI/work_3/cliff/output/csvs/"
+            },
+            "P":
+            {
+                "partitioning": "",
+                "variableUnit": "mm d-1",
+                "bounds": [0, 200],
+                "sourceVariableName": "P",
+                "sourceVariableUnit": "mm d-1",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P",
+                "nameLong": "Total daily precipitation - cliff downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "cliff",
+                "publication":"",                
+                "dataPath": "/Net/Groups/BGI/work_3/cliff/output/csvs/"
+            },            
+            "VPD":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "kPa",
+                "source2sindbadUnit": "10",
+                "isCategorical": false,
+                "nameShort": "VPD",
+                "nameLong": "Daily mean of Vapor Pressure Deficit - cliff downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "cliff",
+                "publication":"",                
+                "dataPath": "/Net/Groups/BGI/work_3/cliff/output/csvs/"
+            },
+            "SW_IN":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 1000],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN",
+                "nameLong": "Daily mean of Shortwave radiation - incoming - cliff downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "cliff",
+                "publication":"",
+                "dataPath": "/Net/Groups/BGI/work_3/cliff/output/csvs/"
+            },
+            "NETRAD":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD",
+                "nameLong": "Daily mean of Net radiation- cliff downscaling",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "cliff",
+                "publication":"",
+                "dataPath": "/Net/Groups/BGI/work_3/cliff/output/csvs/"
+            }
+        }
+    }
+

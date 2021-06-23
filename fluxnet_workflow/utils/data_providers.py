@@ -15,10 +15,15 @@ from fluxcom.variable import Variable
 import xarray as xr
 import pandas as pd
 import numpy as np
+import sys
+sys.path.append('/Net/Groups/BGI/work_3/sindbad/sindbad-preproc/fluxnet_workflow/')
+from utils.data_structure import data_structure_temporal_NoDepth
 
 class EddyCovariance_FLUXNET:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.version = config["FLUXNET_version"]
         self.vars = config["variables"]["EddyCovariance_vars"]["FLUXNET_EddyCovariance"]
@@ -29,10 +34,10 @@ class EddyCovariance_FLUXNET:
         
         #%% Process data
         ec_prov    = ec.eddy_covariance.EddyProvider(cubepath   = self.cubepath,
-                                     transforms = hourly_to_daily,
-                                     NEE_partitioning_method = None,
-                                     version    = self.version, 
-                                     site       =self.site)
+                                                     transforms = hourly_to_daily,
+                                                     NEE_partitioning_method = None,
+                                                     version    = self.version, 
+                                                     site       =self.site)
         ec_vars = []
         for k, v in self.vars.items():
             ec_vars.append(Variable(v['sourceVariableName'], unit = v['sourceVariableUnit'], partitioning = v['partitioning']))   
@@ -41,9 +46,9 @@ class EddyCovariance_FLUXNET:
                 
         #%% Retrieve weighted uncertainty - NEE
         NEE_unc_prov    = ec.eddy_covariance.EddyProvider(cubepath   = self.cubepath,
-                                                     NEE_partitioning_method = None,
-                                                     version    = self.version, 
-                                                     site       =self.site)
+                                                          NEE_partitioning_method = None,
+                                                          version    = self.version, 
+                                                          site       =self.site)
         weighted_NEE_unc_transformer = [transformers.CarbonUncertaintyWeightedHourToDay(NEE_unc_prov.get_data(Variable('NEE_QC')))]
         NEE_unc_prov.add_transform(weighted_NEE_unc_transformer)
         weighted_NEE_unc = NEE_unc_prov.get_data(Variable('NEE_RANDUNC'))   
@@ -51,9 +56,9 @@ class EddyCovariance_FLUXNET:
         
         #%% Retrieve weighted uncertainty - LE
         LE_unc_prov    = ec.eddy_covariance.EddyProvider(cubepath   = self.cubepath,
-                                                     NEE_partitioning_method = None,
-                                                     version    = self.version, 
-                                                     site       =self.site)
+                                                         NEE_partitioning_method = None,
+                                                         version    = self.version, 
+                                                         site       =self.site)
         weighted_LE_unc_transformer = [transformers.UncertaintyWeightedHourToDay(LE_unc_prov.get_data(Variable('LE_QC')))]
         LE_unc_prov.add_transform(weighted_LE_unc_transformer)
         weighted_LE_unc = LE_unc_prov.get_data(Variable('LE_RANDUNC'))   
@@ -61,9 +66,9 @@ class EddyCovariance_FLUXNET:
         
         #%% Retrieve weighted uncertainty - H
         H_unc_prov    = ec.eddy_covariance.EddyProvider(cubepath   = self.cubepath,
-                                                     NEE_partitioning_method = None,
-                                                     version    = self.version, 
-                                                     site       =self.site)
+                                                        NEE_partitioning_method = None,
+                                                        version    = self.version, 
+                                                        site       =self.site)
         weighted_H_unc_transformer = [transformers.UncertaintyWeightedHourToDay(H_unc_prov.get_data(Variable('H_QC')))]
         H_unc_prov.add_transform(weighted_H_unc_transformer)
         weighted_H_unc = H_unc_prov.get_data(Variable('H_RANDUNC'))   
@@ -74,16 +79,21 @@ class EddyCovariance_FLUXNET:
         for var_ in list(self.vars.keys()):
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             ec_data[var_] = ec_data[var_] * unit_scalar
-            if (np.nanmin(ec_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(ec_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)
+            #if (np.nanmin(ec_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(ec_data[var_]) > self.vars[var_]['bounds'][1]):
+            #    print("Values are out of bounds:\n"+var_)
         
-        return ec_data.sel(time = slice(self.start_date, self.end_date))
+        #%% Restructure data
+        ec_data = data_structure_temporal_NoDepth(ec_data, self.lat, self.lon)
+        
+        return ec_data#.sel(time = slice(self.start_date, self.end_date))
 
 class SWC_TS_FLUXNET:
-    def __init__(self, site, config):
+    def __init__(self, site_info, config):
     
         #%% Process data
-        self.site = site
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.version = config["FLUXNET_version"]
         self.vars = config["variables"]["SWC_TS_vars"]['FLUXNET_SWC_TS']
@@ -97,25 +107,35 @@ class SWC_TS_FLUXNET:
                                      NEE_partitioning_method = None,
                                      version    = self.version, 
                                      site       = self.site)
-        ec_vars = []
-        for k, v in self.vars.items():
-            ec_vars.append(Variable(v['sourceVariableName'], depth = v['depth']))   
-        ec_data = ec_prov.get_data(ec_vars)
-        ec_data = ec_data.rename(**{v:v+'_FLUXNET' for v in list(set(ec_data.variables)-set(ec_data.coords))})
-        
-                
+        ec_data = []
+        for var_ in list(self.vars.keys()):
+            ec_vars = []
+            ec_vars.append(Variable(self.vars[var_]['sourceVariableName'], depth = "shallow"))   
+            ec_vars.append(Variable(self.vars[var_]['sourceVariableName'], depth = "deep"))   
+            ds_ = ec_prov.get_data(ec_vars)    
+            ds_ = xr.DataArray(ds_.to_array().values.reshape(len(list(ds_.keys())),-1,1,1), 
+                         dims=['depth_FLUXNET', 'time', 'lat', 'lon'],
+                         coords={'depth_FLUXNET': np.arange(len(list(ds_.keys()))) +1,
+                                 'time': ds_.time.values,
+                                 'lat': [self.lat],
+                                 'lon': [self.lon]}).to_dataset(name=var_)
+            ec_data.append(ds_)
+        ec_data = xr.merge(ec_data)        
+               
         #%% Apply unit correction and check value bounds
         for var_ in list(self.vars.keys()):
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             ec_data[var_] = ec_data[var_] * unit_scalar
-            if (np.nanmin(ec_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(ec_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)
-                
-        return ec_data.sel(time = slice(self.start_date, self.end_date))
+            #if (np.nanmin(ec_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(ec_data[var_]) > self.vars[var_]['bounds'][1]):
+            #    print("Values are out of bounds:\n"+var_)
+                        
+        return ec_data#.sel(time = slice(self.start_date, self.end_date))
     
 class Climate_FLUXNET:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.version = config["FLUXNET_version"]
         self.vars = config["variables"]["climate_vars"]['FLUXNET_climate']
@@ -160,14 +180,19 @@ class Climate_FLUXNET:
         for var_ in list(self.vars.keys()):
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             Climate_FLUXNET_data[var_] = Climate_FLUXNET_data[var_] * unit_scalar
-            if (np.nanmin(Climate_FLUXNET_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(Climate_FLUXNET_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)        
+            #if (np.nanmin(Climate_FLUXNET_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(Climate_FLUXNET_data[var_]) > self.vars[var_]['bounds'][1]):
+            #    print("Values are out of bounds:\n"+var_)
+                
+        #%% Restructure data
+        Climate_FLUXNET_data = data_structure_temporal_NoDepth(Climate_FLUXNET_data, self.lat, self.lon)        
         
-        return Climate_FLUXNET_data.sel(time = slice(self.start_date, self.end_date))
+        return Climate_FLUXNET_data#.sel(time = slice(self.start_date, self.end_date))
     
 class Climate_ERA5:   
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.version = config["FLUXNET_version"]
         self.vars = config["variables"]["climate_vars"]["ERA5_climate"]
@@ -213,37 +238,45 @@ class Climate_ERA5:
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             Climate_ERA5_data[var_] = Climate_ERA5_data[var_] * unit_scalar
             if (np.nanmin(Climate_ERA5_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(Climate_ERA5_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)        
+                print("Values are out of bounds:\n"+var_)
         
-        return Climate_ERA5_data.sel(time = slice(self.start_date, self.end_date))
+        #%% Restructure data
+        Climate_ERA5_data = data_structure_temporal_NoDepth(Climate_ERA5_data, self.lat, self.lon)        
+                
+        return Climate_ERA5_data#.sel(time = slice(self.start_date, self.end_date))
 
 class gapfill_climate:
     
         def __init__(self,Climate_site_data, Climate_downscaled_data, config):    
-            self.climate_FLUXNET_gapfilled = Climate_site_data.copy()
+            self.Climate_site_data = Climate_site_data.copy()
             self.Climate_downscaled_data = Climate_downscaled_data.copy()
             self.QC_climate = config["QC_climate"]            
             
         def gapfill_climate_proc(self):
             
+            climate_FLUXNET_gapfilled = []
             for var_ in list(self.Climate_downscaled_data.keys()):                
                 var_FLUXNET = var_.replace('ERA5','FLUXNET')
                 try:
-                    self.climate_FLUXNET_gapfilled[var_FLUXNET] = self.climate_FLUXNET_gapfilled[var_FLUXNET].where(self.climate_FLUXNET_gapfilled[var_FLUXNET.replace('Day','QC_Day')] > self.QC_climate)
+                    var_FLUXNET_afterQA = self.Climate_site_data[var_FLUXNET].where(self.Climate_site_data[var_FLUXNET.replace('Day','QC_Day')] > self.QC_climate)
                 except:
-                    print(f"No QC variable for {var_FLUXNET}")
+                    var_FLUXNET_afterQA = self.Climate_site_data[var_FLUXNET]
+                    print(f"No QC variable for {var_FLUXNET} - No QC applied")
                 
                 #%% Perform the gapfilling
-                self.climate_FLUXNET_gapfilled[var_FLUXNET] = self.climate_FLUXNET_gapfilled[var_FLUXNET].where(np.isfinite(self.climate_FLUXNET_gapfilled[var_FLUXNET]), self.Climate_downscaled_data[var_])
+                climate_FLUXNET_gapfilled.append(var_FLUXNET_afterQA.where(np.isfinite(var_FLUXNET_afterQA), self.Climate_downscaled_data[var_]).to_dataset(name = var_FLUXNET))
                 
             #%% Rename variable
-            self.climate_FLUXNET_gapfilled = self.climate_FLUXNET_gapfilled.rename(**{v:v+'_gapfilled' for v in list(set(self.climate_FLUXNET_gapfilled.variables)-set(self.climate_FLUXNET_gapfilled.coords))})   
+            climate_FLUXNET_gapfilled = xr.merge(climate_FLUXNET_gapfilled)
+            climate_FLUXNET_gapfilled = climate_FLUXNET_gapfilled.rename(**{v:v+'_gapfilled' for v in list(set(climate_FLUXNET_gapfilled.variables)-set(climate_FLUXNET_gapfilled.coords))})   
             
-            return self.climate_FLUXNET_gapfilled
+            return climate_FLUXNET_gapfilled
     
 class MODIS_MCD43A:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.vars = config["variables"]["MODIS_vars"]["MODIS_MCD43A"]
         self.start_date = config["start_date"]
@@ -266,13 +299,18 @@ class MODIS_MCD43A:
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             modis_data[var_] = modis_data[var_] * unit_scalar
             if (np.nanmin(modis_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(modis_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)
+                print("Values are out of bounds:\n"+var_)
+        
+        #%% Restructure data
+        modis_data = data_structure_temporal_NoDepth(modis_data, self.lat, self.lon)               
                 
-        return modis_data.sel(time = slice(self.start_date, self.end_date))
+        return modis_data#.sel(time = slice(self.start_date, self.end_date))
     
 class MODIS_MxD11A:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.cubepath = config["DataPath"]["fluxcom_cube"]
         self.vars = config["variables"]["MODIS_vars"]["MODIS_MxD11A"]
         self.start_date = config["start_date"]
@@ -303,23 +341,34 @@ class MODIS_MxD11A:
             elif var_ == 'LST_DayTime_TERRA_MxD11A':
                 LST_DayTime_TERRA = LST_Day_TERRA.to_dataset(name = 'LST_DayTime_TERRA_MxD11A')                    
                     
-        modis_data = xr.merge([LST_DayMean_AQUA, LST_DayMean_TERRA, LST_DayTime_AQUA, LST_DayTime_TERRA])     
-        return modis_data.sel(time = slice(self.start_date, self.end_date))
+        modis_data = xr.merge([LST_DayMean_AQUA, LST_DayMean_TERRA, LST_DayTime_AQUA, LST_DayTime_TERRA])
+        
+        #%% Restructure data
+        modis_data = data_structure_temporal_NoDepth(modis_data, self.lat, self.lon)   
+        
+        return modis_data#.sel(time = slice(self.start_date, self.end_date))
 
-class EvapTrans_Nelson2019:
-    def __init__(self, site, config):
-        self.site = site
+class EvapTrans_Nelson2018:
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']
+        self.start_date = config["start_date"]
+        self.end_date = config["end_date"]        
         self.datapath = config["DataPath"]["TEA_data"] + '/' + self.site + '/TEA/L1_daily/'
-        self.vars = config["variables"]["EvapTrans_vars"]["Nelson2019_EvapTrans"]
+        self.vars = config["variables"]["EvapTrans_vars"]["Nelson2018_EvapTrans"]
         self.start_date = config["start_date"]
         self.end_date = config["end_date"]
             
-    def EvapTrans_Nelson2019_proc(self):
+    def EvapTrans_Nelson2018_proc(self):
         
         #%% Process data
         TEA_data = []
         for var_ in list(self.vars.keys()):
-            TEA_data.append(xr.open_mfdataset(self.datapath + "*.nc")[self.vars[var_]['sourceVariableName']].to_dataset().rename({self.vars[var_]['sourceVariableName']: var_}))
+            try:
+                TEA_data.append(xr.open_mfdataset(self.datapath + "*.nc")[self.vars[var_]['sourceVariableName']].to_dataset().rename({self.vars[var_]['sourceVariableName']: var_}))
+            except:
+                TEA_data.append(xr.DataArray(np.nan, dims=['time'],coords={'time': [np.datetime64(str(self.start_date))]}).to_dataset(name = var_))
         TEA_data = xr.merge(TEA_data)
         
         #%% Apply unit correction and check value bounds
@@ -327,13 +376,20 @@ class EvapTrans_Nelson2019:
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             TEA_data[var_] = TEA_data[var_] * unit_scalar
             if (np.nanmin(TEA_data[var_]) < self.vars[var_]['bounds'][0]) | (np.nanmax(TEA_data[var_]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+var_)
-                
-        return TEA_data.sel(time = slice(self.start_date, self.end_date))
+                print("Values are out of bounds:\n"+var_)
+        
+        #%% Restructure data
+        TEA_data = data_structure_temporal_NoDepth(TEA_data, self.lat, self.lon)        
+                        
+        return TEA_data#.sel(time = slice(self.start_date, self.end_date))
     
 class insitu_AGB:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']
+        self.start_date = config["start_date"]
+        self.end_date = config["end_date"]                
         self.datapath = config["DataPath"]["insituAGB"]
         self.vars = config["variables"]['biomass_vars']["AG_BIOMASS_TT_vars"]['AG_BIOMASS_TT_insitu']['sourceVariableName']
         self.scalar =  config["variables"]['biomass_vars']["AG_BIOMASS_TT_vars"]['AG_BIOMASS_TT_insitu']['source2sindbadUnit']
@@ -345,7 +401,8 @@ class insitu_AGB:
         insitu_AGB_df = pd.read_csv(self.datapath)
         insitu_AGB_data = insitu_AGB_df.loc[insitu_AGB_df['Site_ID'] == self.site]
         if insitu_AGB_data.size == 0:
-            insitu_AGB_data = xr.Dataset({self.vars:np.nan})
+            insitu_AGB_data = xr.DataArray(np.nan, dims=['time'],
+                                            coords={'time': [np.datetime64(str(self.start_date))]}).to_dataset(name = self.vars)
         else:
             insitu_AGB_data = xr.DataArray(insitu_AGB_data['insitu_AGB'].values, dims=['time'],
                                            coords={'time':  [np.datetime64(str(y)) for y in insitu_AGB_data.year.values]}).to_dataset(name = self.vars)
@@ -354,13 +411,20 @@ class insitu_AGB:
         unit_scalar = int(self.scalar)
         insitu_AGB_data[self.vars] = insitu_AGB_data[self.vars] * unit_scalar
         if (np.nanmin(insitu_AGB_data[self.vars]) < self.bounds[0]) | (np.nanmax(insitu_AGB_data[self.vars]) > self.bounds[1]):
-            raise RuntimeWarning("Values are out of bounds:\n"+self.vars)
-                
+            print("Values are out of bounds:\n"+self.vars)
+            
+        #%% Restructure data
+        insitu_AGB_data = data_structure_temporal_NoDepth(insitu_AGB_data, self.lat, self.lon)        
+                        
         return insitu_AGB_data
     
 class gloBbiomass_AGB:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']     
+        self.start_date = config["start_date"]
+        self.end_date = config["end_date"]           
         self.datapath = config["DataPath"]["GlobBiomassAGB"]
         self.vars = config["variables"]['biomass_vars']["AG_BIOMASS_TT_vars"]['AG_BIOMASS_TT_gloBbiomass']['sourceVariableName']
         self.scalar =  config["variables"]['biomass_vars']["AG_BIOMASS_TT_vars"]['AG_BIOMASS_TT_gloBbiomass']['source2sindbadUnit']
@@ -372,7 +436,8 @@ class gloBbiomass_AGB:
         gloBbiomass_AGB_df = pd.read_csv(self.datapath)
         gloBbiomass_AGB_data = np.array(gloBbiomass_AGB_df.loc[gloBbiomass_AGB_df['Site_ID'] == self.site].drop(['Site_ID', 'lon', 'lat'], axis=1), dtype=float)
         if gloBbiomass_AGB_data.size == 0:
-            gloBbiomass_AGB_data = xr.Dataset({self.vars:np.nan})
+            gloBbiomass_AGB_data = xr.DataArray(np.nan, dims=['time'],
+                                       coords={'time': [np.datetime64(str(self.start_date))]}).to_dataset(name = self.vars)
         else:
             gloBbiomass_AGB_data[gloBbiomass_AGB_data == -9999] = np.nan
             gloBbiomass_AGB_data = np.nanmedian(gloBbiomass_AGB_data)
@@ -383,13 +448,20 @@ class gloBbiomass_AGB:
         unit_scalar = int(self.scalar)
         gloBbiomass_AGB_data[self.vars] = gloBbiomass_AGB_data[self.vars] * unit_scalar
         if (np.nanmin(gloBbiomass_AGB_data[self.vars]) < self.bounds[0]) | (np.nanmax(gloBbiomass_AGB_data[self.vars]) > self.bounds[1]):
-            raise RuntimeWarning("Values are out of bounds:\n"+self.vars)        
+            print("Values are out of bounds:\n"+self.vars)        
         
+        #%% Restructure data
+        gloBbiomass_AGB_data = data_structure_temporal_NoDepth(gloBbiomass_AGB_data, self.lat, self.lon)        
+                
         return gloBbiomass_AGB_data
     
 class hansen_treecover:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']
+        self.start_date = config["start_date"]
+        self.end_date = config["end_date"]                
         self.datapath = config["DataPath"]["HansenTreecover"]
         self.sourceVariableName = config["variables"]["TREECOVER_vars"]['TREECOVER_RS']['TREECOVER_hansen']['sourceVariableName']
         self.vars = config["variables"]["TREECOVER_vars"]['TREECOVER_RS']['TREECOVER_hansen']['nameShort']        
@@ -402,7 +474,8 @@ class hansen_treecover:
         hansen_treecover_df = pd.read_csv(self.datapath)
         hansen_treecover_data = np.array(hansen_treecover_df.loc[hansen_treecover_df['SiteID'] == self.site][self.sourceVariableName], dtype=float)
         if hansen_treecover_data.size == 0:
-            hansen_treecover_data = xr.Dataset({self.vars:np.nan})
+            hansen_treecover_data = xr.DataArray(np.nan, dims=['time'],
+                                       coords={'time': [np.datetime64(str(self.start_date))]}).to_dataset(name = self.vars)
         else:
             hansen_treecover_data = xr.DataArray(hansen_treecover_data, dims=['time'],
                                        coords={'time': [np.datetime64(str(2010))]}).to_dataset(name = self.vars)
@@ -411,13 +484,18 @@ class hansen_treecover:
         unit_scalar = int(self.scalar)
         hansen_treecover_data[self.vars] = hansen_treecover_data[self.vars] * unit_scalar
         if (np.nanmin(hansen_treecover_data[self.vars]) < self.bounds[0]) | (np.nanmax(hansen_treecover_data[self.vars]) > self.bounds[1]):
-            raise RuntimeWarning("Values are out of bounds:\n"+self.vars)        
+            print("Values are out of bounds:\n"+self.vars)        
+        
+        #%% Restructure data
+        hansen_treecover_data = data_structure_temporal_NoDepth(hansen_treecover_data, self.lat, self.lon)        
         
         return hansen_treecover_data
 
 class forest_age:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.datapath = config["DataPath"]["forest_age"]
         self.vars = config["variables"]['Forest_age_vars']["DIST_FOREST_FRAC"]['DIST_FOREST_FRAC_Besnard2018']['sourceVariableName']
         self.scalar =  config["variables"]['Forest_age_vars']["DIST_FOREST_FRAC"]['DIST_FOREST_FRAC_Besnard2018']['source2sindbadUnit']
@@ -430,12 +508,13 @@ class forest_age:
         #%% Process data 
         forest_age_df = pd.read_csv(self.datapath)
         
-        LAST_DISTURBANCE_DATE = pd.to_datetime(forest_age_df.loc[forest_age_df['Site_ID'] == self.site]['Plantation_Date_max'])
+        LAST_DISTURBANCE_DATE =  forest_age_df.loc[forest_age_df['Site_ID'] == self.site]['Plantation_Date_max'].values.astype(np.datetime64)
         if LAST_DISTURBANCE_DATE.size ==0:
-            forest_age_data = xr.Dataset({self.vars:np.nan})
+            LAST_DISTURBANCE_DATE = [np.nan]
+            forest_age_data = xr.DataArray(np.nan, dims=['time'], coords={'time': [np.datetime64(str(self.start_date))]}).to_dataset(name = self.vars)
         else:    
-            date_ = np.arange(self.start_date, self.end_date ,dtype="M8[D]")
-            forest_age_data = np.concatenate([(day_ - LAST_DISTURBANCE_DATE).astype('timedelta64[D]').values for day_ in date_])
+            date_ = np.arange(np.datetime64(self.start_date), np.datetime64(self.end_date) + np.timedelta64(1,'D') ,dtype="M8[D]")        
+            forest_age_data = np.concatenate([(day_ - LAST_DISTURBANCE_DATE).astype('int') / 365.25 for day_ in date_] )
             forest_age_data = xr.DataArray(forest_age_data, dims=['time'],
                                        coords={'time': date_})
             forest_age_data = forest_age_data.where(forest_age_data==0)
@@ -446,12 +525,18 @@ class forest_age:
         unit_scalar = int(self.scalar)
         forest_age_data[self.vars] = forest_age_data[self.vars] * unit_scalar
         if (np.nanmin(forest_age_data[self.vars]) < self.bounds[0]) | (np.nanmax(forest_age_data[self.vars]) > self.bounds[1]):
-            raise RuntimeWarning("Values are out of bounds:\n"+self.vars)
-        return forest_age_data, LAST_DISTURBANCE_DATE.values
+            print("Values are out of bounds:\n"+self.vars)
+            
+        #%% Restructure data
+        forest_age_data = data_structure_temporal_NoDepth(forest_age_data, self.lat, self.lon)        
+        
+        return forest_age_data, LAST_DISTURBANCE_DATE
     
 class insitu_VegFrac:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.datapath = config["DataPath"]["PFT"]
         self.vars = config["variables"]["Veg_Frac_vars"]['Veg_Frac_insitu']
         self.start_date = config["start_date"]
@@ -462,7 +547,7 @@ class insitu_VegFrac:
         #%% Process data     
         PFT_df = pd.read_csv(self.datapath)
         PFT_ = PFT_df.loc[PFT_df['Site_ID'] == self.site]
-        date_ = np.arange(self.start_date, self.end_date ,dtype="M8[D]")
+        date_ = np.arange(np.datetime64(self.start_date), np.datetime64(self.end_date) + np.timedelta64(1,'D') ,dtype="M8[D]")        
         if PFT_.size == 0:
             PFT_ = np.nan
             Frac_tree_insitu = xr.Dataset({self.vars['Frac_tree_insitu']['sourceVariableName']: xr.DataArray(data = np.nan, dims = ['time'], coords = {'time': date_})})
@@ -511,13 +596,19 @@ class insitu_VegFrac:
             else:
                 Frac_wetland_insitu = xr.Dataset({self.vars['Frac_wetland_insitu']['sourceVariableName']: xr.DataArray(data = 0, dims = ['time'], coords = {'time': date_})})
             
-        return PFT_, Frac_tree_insitu, Frac_grass_insitu, Frac_shrub_insitu, Frac_crop_insitu, Frac_savanna_insitu, Frac_wetland_insitu
+        #%% Merge class
+        Frac_Veg_insitu = xr.merge([Frac_tree_insitu, Frac_grass_insitu, Frac_shrub_insitu, Frac_crop_insitu, Frac_savanna_insitu, Frac_wetland_insitu])
+        
+        #%% Restructure data
+        Frac_Veg_insitu = data_structure_temporal_NoDepth(Frac_Veg_insitu, self.lat, self.lon)   
+        
+        return PFT_, Frac_Veg_insitu, 
 
 class hilda_VegFrac:
-    def __init__(self, site, lat, lon, config):
-        self.site = site
-        self.lat = lat
-        self.lon = lon
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.datapath = config["DataPath"]["hilda"]
         self.vars = config["variables"]["Veg_Frac_vars"]['Veg_Frac_hilda']
         self.start_date = config["start_date"]
@@ -529,7 +620,7 @@ class hilda_VegFrac:
         hilda_data = xr.open_dataset(self.datapath).sel(time = slice(int(self.start_date[0:4]),int(self.end_date[0:4])))
         hilda_site = hilda_data.sel(latitude = self.lat, longitude = self.lon, method='nearest').LULC_states
         hilda_site = np.round(hilda_site, -1)        
-        date_ = np.arange(self.start_date, self.end_date ,dtype="M8[D]")        
+        date_ = np.arange(np.datetime64(self.start_date), np.datetime64(self.end_date) + np.timedelta64(1,'D') ,dtype="M8[D]")        
         if hilda_site.size == 0:
             Frac_tree_hilda = xr.Dataset({self.vars['Frac_tree_hilda']['sourceVariableName']: xr.DataArray(data = np.nan, dims = ['time'], coords = {'time': date_})})
             Frac_grass_hilda = xr.Dataset({self.vars['Frac_grass_hilda']['sourceVariableName']: xr.DataArray(data = np.nan, dims = ['time'], coords = {'time': date_})})
@@ -564,12 +655,21 @@ class hilda_VegFrac:
             Frac_tree_hilda = xr.merge(annual_tree)   
             Frac_grass_hilda = xr.merge(annual_grass)   
             Frac_shrub_hilda = xr.merge(annual_shrub)   
-            Frac_other_hilda = xr.merge(annual_other)             
-        return Frac_tree_hilda, Frac_grass_hilda, Frac_shrub_hilda, Frac_crop_hilda, Frac_other_hilda
+            Frac_other_hilda = xr.merge(annual_other)
+
+        #%% Merge class
+        Frac_Veg_hilda = xr.merge([Frac_tree_hilda, Frac_grass_hilda, Frac_shrub_hilda, Frac_crop_hilda, Frac_other_hilda])
+        
+        #%% Restructure data
+        Frac_Veg_hilda = data_structure_temporal_NoDepth(Frac_Veg_hilda, self.lat, self.lon)
+             
+        return Frac_Veg_hilda
     
 class soilGrids_soilTexture:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, site_info, config):
+        self.site = site_info['site_ID']
+        self.lat = site_info['latitude']
+        self.lon = site_info['longitude']        
         self.datapath = config["DataPath"]["SoilGrids"]
         self.vars = config["variables"]["Soil_texture_vars"]['Soil_texture_SoilGrids']
         self.start_date = config["start_date"]
@@ -581,21 +681,30 @@ class soilGrids_soilTexture:
         soilGrids_soilTexture_df = pd.read_csv(self.datapath)
         soilGrids_vars = []
         for var_ in list(self.vars.keys()):
-            soilGrids_soilTexture_data = np.array(soilGrids_soilTexture_df.loc[soilGrids_soilTexture_df['SiteID'] == self.site][self.vars[var_]['sourceVariableName']], dtype=float)
-            date_ = np.arange(self.start_date, self.end_date ,dtype="M8[D]")
+            soilTexture_var = soilGrids_soilTexture_df.filter(like = self.vars[var_]['sourceVariableName'], axis=1).filter(regex='^((?!Sync).)*$').loc[soilGrids_soilTexture_df['SiteID'] == self.site]
+            soilGrids_soilTexture_data = soilTexture_var.reindex(sorted(soilTexture_var.columns), axis=1).values.reshape(-1).astype('d')
+            
             if soilGrids_soilTexture_data.size == 0:
-                soilGrids_soilTexture_data = xr.DataArray(np.repeat(np.nan, len(date_)), dims=['time'],
-                                                          coords={'time': date_}).to_dataset(name = self.vars[var_]['nameShort'])
+                soilGrids_soilTexture_data = xr.DataArray(np.repeat(np.nan, len(soilTexture_var.columns)).reshape(len(soilTexture_var.columns), 1, 1), 
+                                                          dims=['depth_soilGrids','lat', 'lon'],
+                                                          coords={'depth_soilGrids': np.arange(len(soilTexture_var.columns))+1,
+                                                                  'lat': [self.lat],
+                                                                  'lon': [self.lon]}).to_dataset(name = var_)
             else:
-                soilGrids_soilTexture_data = xr.DataArray(np.repeat(soilGrids_soilTexture_data, len(date_)), dims=['time'],
-                                                          coords={'time': date_}).to_dataset(name = self.vars[var_]['nameShort'])
-        
+                soilGrids_soilTexture_data = xr.DataArray(soilGrids_soilTexture_data.reshape(soilGrids_soilTexture_data.size, 1, 1), 
+                                                          dims=['depth_soilGrids','lat', 'lon'],
+                                                          coords={'depth_soilGrids': np.arange(soilGrids_soilTexture_data.size)+1,
+                                                                  'lat': [self.lat],
+                                                                  'lon': [self.lon]}).to_dataset(name = var_)
+            
             #%% Apply unit correction and check value bounds
             unit_scalar = int(self.vars[var_]['source2sindbadUnit'])
             soilGrids_soilTexture_data[self.vars[var_]['nameShort']] = soilGrids_soilTexture_data[self.vars[var_]['nameShort']] * unit_scalar
             if (np.nanmin(soilGrids_soilTexture_data[self.vars[var_]['nameShort']]) < self.vars[var_]['bounds'][0]) | (np.nanmax(soilGrids_soilTexture_data[self.vars[var_]['nameShort']]) > self.vars[var_]['bounds'][1]):
-                raise RuntimeWarning("Values are out of bounds:\n"+self.vars[var_]['nameShort'])
+                #soilGrids_soilTexture_data[var_] = np.repeat(np.nan, soilGrids_soilTexture_data.depth_soilGrids.shape[0]).reshape(soilGrids_soilTexture_data.depth_soilGrids.shape[0], 1, 1)
+                print(f'Values are out of bounds for {var_}')
             soilGrids_vars.append(soilGrids_soilTexture_data)
+        
         soilGrids_vars = xr.merge(soilGrids_vars)        
         return soilGrids_vars
     
@@ -603,22 +712,15 @@ class data_harm:
     def __init__(self, data, config):
         self.data = data
         self.config = config
+        self.start_date = config["start_date"]
+        self.end_date = config["end_date"]
         
     def data_harm_proc(self):
         
-        #%% Process data
-        ds_ = []
-        for var_ in sorted(list(self.data.keys())):
-
-            #%% harmonize data            
-            ds_.append(xr.DataArray(self.data[var_].values.reshape(-1, 1,1, 1), 
-                         dims=['time', 'lat', 'lon', 'site'],
-                         coords={'time': self.data.time.values,
-                                 'lat': [self.data.tower_lat.values],
-                                 'lon': [self.data.tower_lon.values],
-                                 'site':[self.data.site.values]}).to_dataset(name= var_))
-        ds_ = xr.merge(ds_)
-       
+        #%Sort variable alphabeticatly
+        var_ = sorted(list(self.data.keys()))
+        self.data = self.data[var_]    
+        
         #%% Add metadata
         for dat_type in self.config["variables"].keys():
                                
@@ -626,22 +728,29 @@ class data_harm:
                     
                     for var_ in list(self.config["variables"][dat_type][source_].keys()):
                         if 'ERA5' in var_:
-                            ds_[var_.replace('ERA5',"FLUXNET_gapfilled")] = ds_[var_.replace('ERA5',"FLUXNET_gapfilled")].assign_attrs(bounds = str([np.nanmin(ds_[var_.replace('ERA5',"FLUXNET_gapfilled")]), np.nanmax(ds_[var_.replace('ERA5',"FLUXNET_gapfilled")])]),
+                            self.data[var_.replace('ERA5',"FLUXNET_gapfilled")] = self.data[var_.replace('ERA5',"FLUXNET_gapfilled")].assign_attrs(bounds = str([np.nanmin(self.data[var_.replace('ERA5',"FLUXNET_gapfilled")]), np.nanmax(self.data[var_.replace('ERA5',"FLUXNET_gapfilled")])]),
                                                                                                                                        QA_applied = self.config['QC_climate'],
                                                                                                                                        units = self.config["variables"][dat_type][source_][var_]['variableUnit'],
                                                                                                                                        short_name = var_.replace('ERA5',"FLUXNET_gapfilled"),
                                                                                                                                        long_name = var_.replace('ERA5',"FLUXNET_gapfilled") + ' - FLUXNET climate data gapfilled with ERA5',
-                                                                                                                                       sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'])
-                            ds_[var_] = ds_[var_].assign_attrs(bounds = str([np.nanmin(ds_[var_]), np.nanmax(ds_[var_])]),
+                                                                                                                                       sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'],
+                                                                                                                                       publication = self.config["variables"][dat_type][source_][var_]['publication'],
+                                                                                                                                       dataPath = self.config["variables"][dat_type][source_][var_]['dataPath'],
+                                                                                                                                       )
+                            self.data[var_] = self.data[var_].assign_attrs(bounds = str([np.nanmin(self.data[var_]), np.nanmax(self.data[var_])]),
                                                                units = self.config["variables"][dat_type][source_][var_]['variableUnit'],
                                                                short_name = self.config["variables"][dat_type][source_][var_]['nameShort'],
                                                                long_name = self.config["variables"][dat_type][source_][var_]['nameLong'],
-                                                               sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'])
+                                                               sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'],
+                                                               publication = self.config["variables"][dat_type][source_][var_]['publication'],
+                                                               dataPath = self.config["variables"][dat_type][source_][var_]['dataPath'])
                         else:
-                            ds_[var_] = ds_[var_].assign_attrs(bounds = str([np.nanmin(ds_[var_]), np.nanmax(ds_[var_])]),
+                            self.data[var_] = self.data[var_].assign_attrs(bounds = str([np.nanmin(self.data[var_]), np.nanmax(self.data[var_])]),
                                                                units = self.config["variables"][dat_type][source_][var_]['variableUnit'],
                                                                short_name = self.config["variables"][dat_type][source_][var_]['nameShort'],
                                                                long_name = self.config["variables"][dat_type][source_][var_]['nameLong'],
-                                                               sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'])
+                                                               sourceDataProductName = self.config["variables"][dat_type][source_][var_]['sourceDataProductName'],
+                                                               publication = self.config["variables"][dat_type][source_][var_]['publication'],
+                                                               dataPath = self.config["variables"][dat_type][source_][var_]['dataPath'])
                      
-        return ds_
+        return self.data.sel(time = slice(self.start_date, self.end_date))

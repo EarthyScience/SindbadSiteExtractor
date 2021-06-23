@@ -1,0 +1,410 @@
+{
+    "DataPath": {
+        "PFT": "/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/PFT.csv",        
+        "fluxcom_cube": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"},
+    "OutPath": {
+        "nc_file": "/Net/Groups/BGI/work_3/sindbad/data/fluxnet/data/"
+    },
+    "njobs_parallel": 5,
+    "sites_toRun": ["all"],
+    "export_site": "unique",
+    "start_date": "1989-01-01",
+    "end_date": "2019-12-31",
+    "FLUXNET_version":"FLUXNET2015",
+    "utils": {
+        "path": "" 
+    },
+    "variables": {
+        "EddyCovariance_vars": {
+            "FLUXNET_EddyCovariance":
+            {   
+                "GPP_NT_FLUXNET":
+                {
+                    "partitioning": "NT", 
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [-20, 100],
+                    "sourceVariableName": "GPP",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "GPP_NT_FLUXNET",
+                    "nameLong": "Gross Primary Production - from Nighttime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "GPP_DT_FLUXNET":
+                {
+                    "partitioning": "DT", 
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [-10, 100],
+                    "sourceVariableName": "GPP",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "GPP_DT_FLUXNET",
+                    "nameLong": "Gross Primary Production - from Daytime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "NEE_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [-100, 100],
+                    "sourceVariableName": "NEE",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_FLUXNET",
+                    "nameLong": "Net Ecosystem Exchange - using Variable Ustar Threshold (VUT) for each year - from 50 percentile of USTAR threshold",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "NEE_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [-100, 100],
+                    "sourceVariableName": "NEE_RANDUNC",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_RANDUNC_FLUXNET",
+                    "nameLong": "Net Ecosystem Exchange random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "NEE_QC_FLUXNET":
+                {
+                    "partitioning": "",
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "NEE_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "NEE_QC_FLUXNET",
+                    "nameLong": "Quality flag for NEE_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },            
+                "RECO_NT_FLUXNET":
+                {
+                    "partitioning": "NT", 
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "RECO",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "RECO_NT_FLUXNET",
+                    "nameLong": "Ecosystem Respiration - from Nighttime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },                        
+                "RECO_DT_FLUXNET":
+                {
+                    "partitioning": "DT", 
+                    "variableUnit": "umolCO2 m-2 s-1 ",
+                    "bounds": [0, 100],
+                    "sourceVariableName": "RECO",
+                    "sourceVariableUnit": "umolCO2 m-2 s-1 ",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "RECO_DT_FLUXNET",
+                    "nameLong": "Ecosystem Respiration - from Daytime partitioning method - based on NEE_VUT_USTAR50",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "LE_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "LE",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_FLUXNET",
+                    "nameLong": "Latent heatflux",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "LE_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "LE_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_RANDUNC_FLUXNET",
+                    "nameLong": "Latent heatflux random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "LE_QC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "LE_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "LE_QC_FLUXNET",
+                    "nameLong": "Quality flag for LE_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "H_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "H",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_FLUXNET",
+                    "nameLong": "Sensible heatflux",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "H_RANDUNC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "W m-2",
+                    "bounds": [-500, 500],
+                    "sourceVariableName": "H_RANDUNC",
+                    "sourceVariableUnit": "W m-2",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_RANDUNC_FLUXNET",
+                    "nameLong": "Sensible heatflux random uncertainty",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                },
+                "H_QC_FLUXNET":
+                {
+                    "partitioning": "", 
+                    "variableUnit": "adimensional",
+                    "bounds": [0, 1],
+                    "sourceVariableName": "H_QC",
+                    "sourceVariableUnit": "adimensional",
+                    "source2sindbadUnit": "1",
+                    "isCategorical": false,
+                    "nameShort": "H_QC_FLUXNET",
+                    "nameLong": "Quality flag for H_FLUXNET, fraction of good or measured values (level 0 or 1)",
+                    "spaceTimeType": "normal",
+                    "sourceDataProductName": "FLUXNET",
+                    "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                    "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+                }
+                }},
+        "climate_vars": {
+            "FLUXNET_climate":
+            {
+            "TA_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "deg C",
+                "bounds": [-80, 60],
+                "sourceVariableName": "TA",
+                "sourceVariableUnit": "deg C",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_FLUXNET",
+                "nameLong": "Air temperature - gapfilled using MDS method",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "TA_QC_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "TA_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "TA_QC_FLUXNET",
+                "nameLong": "Quality flag for TA_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "P_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "mm hr-1",
+                "bounds": [0, 200],
+                "sourceVariableName": "P",
+                "sourceVariableUnit": "mm hr-1",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P_FLUXNET",
+                "nameLong": "Total hourly precipitation",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "P_QC_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "P_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "P_QC_FLUXNET",
+                "nameLong": "Quality flag for P_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },     
+            "VPD_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "hPa",
+                "bounds": [0, 100],
+                "sourceVariableName": "VPD",
+                "sourceVariableUnit": "hPa",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_FLUXNET",
+                "nameLong": "Vapor Pressure Deficit - gapfilled using MDS method",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },                        
+            "VPD_QC_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "VPD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "VPD_QC_FLUXNET",
+                "nameLong": "Quality flag for VPD_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "SW_IN_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_FLUXNET",
+                "nameLong": "Shortwave radiation - incoming - gapfilled using MDS (negative values set to zero - e.g. - negative values from instrumentation noise",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "SW_IN_QC_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0, 1],
+                "sourceVariableName": "SW_IN_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_QC_FLUXNET",
+                "nameLong": "Quality flag for SW_IN_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "SW_IN_POT_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [0, 600],
+                "sourceVariableName": "SW_IN_POT",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "SW_IN_POT_FLUXNET",
+                "nameLong": "Potential Shortwave radiation - incoming",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "NETRAD_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "W m-2",
+                "bounds": [-500, 500],
+                "sourceVariableName": "NETRAD",
+                "sourceVariableUnit": "W m-2",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_FLUXNET",
+                "nameLong": "Net radiation",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            },
+            "NETRAD_QC_FLUXNET":
+            {
+                "partitioning": "",
+                "variableUnit": "adimensional",
+                "bounds": [0,1],
+                "sourceVariableName": "NETRAD_QC",
+                "sourceVariableUnit": "adimensional",
+                "source2sindbadUnit": "1",
+                "isCategorical": false,
+                "nameShort": "NETRAD_QC_FLUXNET",
+                "nameLong": "Quality flag for NETRAD_FLUXNET, fraction of measured values (level 0 or 1)",
+                "spaceTimeType": "normal",
+                "sourceDataProductName": "FLUXNET",
+                "publication":"https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+                "dataPath": "/Net/Groups/BGI/scratch/FLUXCOM/v0.01/site_cube"
+            }
+            }}}}
+
