@@ -1,0 +1,48 @@
+{
+    "OutPath": "/User/homes/skoirala/skoirala/toolDev/cliff_input/outputs/sindbad/",
+    "diagnostic_plots": true,
+    "njobs_parallel": 20,
+    "sites_toRuna": [
+        "AR-SLu",
+        "DE-Hai"
+    ],
+    "sites_toRun": [
+        "all"
+    ],
+    "start_date": "1989-01-01",
+    "end_date": "2020-12-31",
+    "temporal_resolution": "daily",
+    "FLUXNET_version": "FLUXNET2015",
+    "exp_name": "SINDBAD",
+    "sites_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "loop_sources": false,
+    "resample_output": [
+        "monthly"
+    ],
+    "gap_fill": {
+        "do_fill": false,
+        "clim": {
+            "target": "bgi_FLUXCOM_clim",
+            "source": "cliff_erai",
+            "qc_thres": 0.8
+        }
+    },
+    "sel_datasets": "all except cliff_erai",
+    "dataset": {
+        "bgi_FLUXCOM_obs": "configuration/sindbad/fluxcom_obs.json",
+        "bgi_FLUXCOM_clim": "configuration/sindbad/fluxcom_clim.json",
+        "bgi_FLUXCOM_surface": "configuration/sindbad/fluxcom_surface.json",
+        "jung_qc": "configuration/sindbad/jung_QC.json",
+        "nelson_tea": "configuration/sindbad/nelson_TEA.json",
+        "modis_MCD43A": "configuration/sindbad/modis_MCD43A.json",
+        "modis_MxD11A1": "configuration/sindbad/modis_MxD11A1.json",
+        "soilgrids": "configuration/sindbad/soilgrids.json",
+        "vf_insitu": "configuration/sindbad/vegFrac_insitu.json",
+        "vf_hilda": "configuration/sindbad/vegFrac_hilda.json",
+        "tf_hansen": "configuration/sindbad/treeFrac_hansen.json",
+        "db_besnard2018": "configuration/sindbad/disturbage_besnard2018.json",
+        "atmCO2": "configuration/sindbad/atmCO2_point.json",
+        "agb": "configuration/sindbad/agb.json",
+        "cliff_erai": "configuration/sindbad/cliff_csv.json"
+    }
+}

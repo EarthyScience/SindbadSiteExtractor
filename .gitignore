@@ -1,0 +1,30 @@
+# Ignore everything in repository root 
+/*
+
+# Files to not ignore
+!/.gitignore
+!/.gitattributes
+!/README.md
+
+# Folders to not ignore (ignore every folder other than these)
+!/juicer/
+!/providers/
+!/utils/
+!/sinproc_installer/
+!/configuration/
+
+# Folder to ignore
+# ./data
+# ./input
+# ./settings
+# ./sandbox
+# ./output
+*~
+*.swpi
+*.swo
+*.bak
+*.txt
+*.asv
+*.nc
+*.csv
+*.png

@@ -1,0 +1,60 @@
+{
+    "provider": "atmCO2_point",
+    "var_suffix": "",
+    "cube_data_path": "",
+    "gap_fill": false,
+    "base_info": {
+        "partitioning": "",
+        "variableUnit": "ppm",
+        "bounds": [100, 500],
+        "sourceVariableName": "",
+        "sourceVariableUnit": "ppm",
+        "source2sindbadUnit": 1,
+        "isCategorical": false,
+        "nameShort": "",
+        "nameLong": "",
+        "spaceTimeType": "normal",
+        "sourceDataProductName": "NOAA, SCRIPPS",
+        "QC": [],
+        "weightVar": "",
+        "DaySum": false,
+        "DayMin": false,
+        "DayMax": false,
+        "wDayMean": false,
+        "DayTime": false,
+        "isEnergy": false,
+        "isWater": false,
+        "isCarbon": false,
+        "skipUnitcheck": false,
+        "publication": "contact mjung[at]bgc-jena.mpg.de",
+        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",        "description": "Quality flags identifying abd quality data [0]. Combined with fqcOK for intepreting data points flagged as 1."
+    },
+    "sel_variables": "all",
+    "variables": {
+        "atmCO2_NOAA_MLO": {
+            "sourceVariableName": "atmCO2",
+            "nameShort": "atmCO2_MaunaLoa",
+            "nameLong": "Atmospheric Carbon Dioxide Dry Air Mole Fractions at Mauna Loa",
+            "publication": "DOI:10.1126/science.1244693",
+            "sourceDataProductName": "NOAA",
+            "data_path": "/Net/Groups/BGI/work_3/sindbad/data/NOAA_atmCO2/co2_mlo_surface-insitu_1_ccgg_DailyData.nc",
+            "description": "K.W. Thoning, A.M. Crotwell, and J.W. Mund (2021), Atmospheric Carbon Dioxide Dry Air Mole Fractions from continuous measurements at Mauna Loa, Hawaii, Barrow, Alaska, American Samoa and South Pole. 1973-2020, Version 2021-08-09 National Oceanic and Atmospheric Administration (NOAA), Global Monitoring Laboratory (GML), Boulder, Colorado, USA https://doi.org/10.15138/yaf1-bk21 FTP path: ftp://aftp.cmdl.noaa.gov/data/greenhouse_gases/co2/in-situ/surface/"
+        },
+        "atmCO2_SCRIPPS_global": {
+            "partitioning": "",
+            "variableUnit": "ppm",
+            "bounds": [
+                0,
+                1000
+            ],
+            "sourceVariableName": "atmCO2",
+            "nameShort": "atmCO2_global",
+            "sourceDataProductName": "SCRIPPS",
+            "nameLong": "Atmospheric Carbon Dioxide Dry Air Mole Fractions",
+            "description": "Annual Merge of ice core and mauna loa, linearly interpolated to daily for 1800-2020,  https://scrippsco2.ucsd.edu/data/atmospheric_co2/icecore_merged_products.html",
+            "publication": "C. D. Keeling, S. C. Piper, R. B. Bacastow,M. Wahlen, T. P. Whorf, M. Heimann, and H. A. Meijer, Exchanges of atmospheric CO2 and 13CO2 with the terrestrial biosphere and oceans from 1978 to 2000. I. Global aspects, SIO Reference Series, No. 01-06, Scripps Institution of Oceanography, San Diego, 88 pages, 2001.",
+            "data_path": "/Net/Groups/BGI/work_3/sindbad/data/obs/co2_scripps/spline_merged_ice_core_lineardaily-1800-2020.nc"
+        }
+
+}
+}

@@ -1,0 +1,57 @@
+{
+    "provider": "surface_FLUXCOM",
+    "var_suffix": "FLUXNET",
+    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "gap_fill": false,
+    "base_info": {
+        "partitioning": "",
+        "variableUnit": "%",
+        "bounds": [],
+        "sourceVariableName": "",
+        "sourceVariableUnit": "",
+        "source2sindbadUnit": 1,
+        "isCategorical": false,
+        "nameShort": "",
+        "nameLong": "",
+        "spaceTimeType": "normal",
+        "sourceDataProductName": "FLUXNET",
+        "QC": [],
+        "weightVar": "",
+        "DaySum": false,
+        "DayMin": false,
+        "DayMax": false,
+        "wDayMean": false,
+        "DayTime": false,
+        "isEnergy": false,
+        "isWater": false,
+        "isCarbon": false,
+        "skipUnitcheck": false,
+        "publication": "https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
+        "data_path": "",
+        "description": "Surface state measurements around eddy towers."
+    },
+    "sel_variables": "all",
+    "variables": {
+        "SWC": {
+            "sourceVariableName": "SWC",
+            "bounds": [
+                0,
+                100
+            ],
+            "sourceVariableUnit": "%",
+            "nameShort": "SWC",
+            "nameLong": "soil water content - depth=1: shallow layer, depth=2:deep layer"
+        },
+        "TS": {
+            "variableUnit": "deg C",
+            "bounds": [
+                -80,
+                60
+            ],
+            "sourceVariableName": "TS",
+            "sourceVariableUnit": "deg C",
+            "nameShort": "TS",
+            "nameLong": "soil temperature - depth=1: shallow layer, depth=2:deep layer"
+        }
+    }
+}

@@ -1,0 +1,81 @@
+{
+    "provider": "jung_QC",
+    "var_suffix": "Jung",
+    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "gap_fill": false,
+    "base_info": {
+        "partitioning": "",
+        "variableUnit": "adimensional",
+        "bounds": [
+            0,
+            1
+        ],
+        "sourceVariableName": "",
+        "sourceVariableUnit": "adimensional",
+        "source2sindbadUnit": 1,
+        "isCategorical": true,
+        "nameShort": "",
+        "nameLong": "",
+        "spaceTimeType": "normal",
+        "sourceDataProductName": "FLUXNET-Jung",
+        "QC": [],
+        "weightVar": "",
+        "DaySum": false,
+        "DayMin": false,
+        "DayMax": false,
+        "wDayMean": false,
+        "DayTime": false,
+        "isEnergy": false,
+        "isWater": false,
+        "isCarbon": false,
+        "skipUnitcheck": false,
+        "publication": "contact mjung[at]bgc-jena.mpg.de",
+        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",        "description": "Quality flags identifying abd quality data [0]. Combined with fqcOK for intepreting data points flagged as 1."
+
+    },
+    "sel_variables": "all",
+    "variables": {
+        "GPP_QC_NT": {
+            "partitioning": "NT",
+            "sourceVariableName": "GPP_QC",
+            "nameShort": "GPP_QC",
+            "nameLong": "Jung QC for Gross Primary Production - from Nighttime partitioning method"
+        },
+        "GPP_QC_DT": {
+            "partitioning": "DT",
+            "sourceVariableName": "GPP_QC",
+            "nameShort": "GPP_QC",
+            "nameLong": "Jung QC for Gross Primary Production - from Daytime partitioning method"
+        },
+        "RECO_QC_NT": {
+            "partitioning": "NT",
+            "sourceVariableName": "RECO_QC",
+            "nameShort": "RECO_QC",
+            "nameLong": "Jung QC for Ecosystem Respiration - from Nighttime partitioning method"
+        },
+        "RECO_QC_DT": {
+            "partitioning": "DT",
+            "sourceVariableName": "RECO_QC",
+            "nameShort": "RECO_QC",
+            "nameLong": "Jung QC for Ecosystem Respiration - from Daytime partitioning method"
+        },
+        "NEE_QC": {
+            "partitioning": "",
+            "sourceVariableName": "NEE_QC",
+            "nameShort": "NEE_QC",
+            "nameLong": "Jung QC for Net Ecosystem Exchange - from Daytime partitioning method"
+        },
+        "LE_QC": {
+            "partitioning": "",
+            "sourceVariableName": "LE_QC",
+            "nameShort": "LE_QC",
+            "nameLong": "Jung QC for Latent Heat Flux"
+        },
+        "H_QC": {
+            "partitioning": "",
+            "sourceVariableName": "H_QC",
+            "nameShort": "H_QC",
+            "nameLong": "Jung QC for Sensible Heat Flux"
+        }
+    }
+}

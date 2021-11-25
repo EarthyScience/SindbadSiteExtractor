@@ -1,0 +1,57 @@
+{
+    "provider": "nelson_TEA",
+    "var_suffix": "TEA",
+    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "gap_fill": false,
+    "base_info": {
+        "partitioning": "",
+        "variableUnit": "mm",
+        "bounds": [
+            -1000,
+            1000
+        ],
+        "sourceVariableName": "",
+        "sourceVariableUnit": "mm",
+        "source2sindbadUnit": 1,
+        "isCategorical": false,
+        "nameShort": "",
+        "nameLong": "",
+        "spaceTimeType": "normal",
+        "sourceDataProductName": "TEA algorirm - Nelson2018",
+        "QC": [],
+        "weightVar": "",
+        "DaySum": false,
+        "DayMin": false,
+        "DayMax": false,
+        "wDayMean": false,
+        "DayTime": false,
+        "isEnergy": false,
+        "isWater": true,
+        "isCarbon": false,
+        "skipUnitcheck": false,
+        "publication": "DOI:10.1029/2018JG004727",
+        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",
+        "description": "Derived from TEA partitioning method"
+    },
+    "sel_variables": "all",
+    "variables": {
+        "T_NT": {
+            "partitioning": "NT",
+            "sourceVariableName": "ET_T",
+            "nameShort": "T_NT",
+            "nameLong": "transpiration - from Nighttime GPP- quantile 75"
+        },
+        "T_DT": {
+            "partitioning": "DT",
+            "sourceVariableName": "ET_T",
+            "nameShort": "T_DT",
+            "nameLong": "transpiration - from Daytime GPP- quantile 75"
+        },
+        "ET_POT": {
+            "partitioning": "",
+            "sourceVariableName": "ET_POT",
+            "nameShort": "PotET",
+            "nameLong": "potential evaporation"
+        }
+    }
+}
