@@ -5,6 +5,8 @@
 !/.gitignore
 !/.gitattributes
 !/README.md
+!/run_experiment.py
+!/__init__.py
 
 # Folders to not ignore (ignore every folder other than these)
 !/juicer/
@@ -12,6 +14,11 @@
 !/utils/
 !/sinproc_installer/
 !/configuration/
+
+/providers/__pycache__
+/utils/__pycache__
+/sinproc_installer/__pycache__
+/sinproc_installer/fluxcom*
 
 # Folder to ignore
 # ./data
