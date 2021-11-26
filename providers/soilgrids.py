@@ -19,7 +19,7 @@ class soilgrids:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -27,16 +27,13 @@ class soilgrids:
         self.temporal_resolution = config["temporal_resolution"]
         
     def process(self):
-        soilGrids_soilTexture_df = pd.read_csv(self.cubepath)
         src_data = []
         for var_name in list(self.vars.keys()):
+            src_df = pd.read_csv(self.vars[var_name]['data_path'])
             src_name =  self.vars[var_name]['sourceVariableName']
-            logger.info(f'------{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}-----')
-            print (f'{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}')
-            src_units = self.vars[var_name]['sourceVariableUnit']
-            tar_units = self.vars[var_name]['variableUnit']
+            shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
 
-            soilTexture_var = soilGrids_soilTexture_df.filter(like = self.vars[var_name]['sourceVariableName'], axis=1).filter(regex='^((?!Sync).)*$').loc[soilGrids_soilTexture_df['SiteID'] == self.site]
+            soilTexture_var = src_df.filter(like = self.vars[var_name]['sourceVariableName'], axis=1).filter(regex='^((?!Sync).)*$').loc[src_df['SiteID'] == self.site]
             soilGrids_soilTexture_data = soilTexture_var.reindex(sorted(soilTexture_var.columns), axis=1).values.reshape(-1).astype('d')
             
             data = xr.DataArray(np.repeat(np.nan, len(soilTexture_var.columns)).reshape(len(soilTexture_var.columns), 1, 1), 
@@ -48,9 +45,11 @@ class soilgrids:
                 data[var_name].values = np.ones_like(data[var_name].values) * soilGrids_soilTexture_data.reshape(soilGrids_soilTexture_data.size, 1, 1)
 
             data.attrs["variable_name"]=var_name
-            units_scalar = self.vars[var_name]['source2sindbadUnit']
-            data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+
+            data = shut.set_units(data, src_name, self.vars[var_name]['sourceVariableUnit'], self.vars[var_name]['variableUnit'], self.vars[var_name]['source2sindbadUnit'])
+            
             src_data.append(data)
+
             shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, self.vars[var_name]["variableUnit"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data[var_name] , None)
         src_dataset =  xr.merge(src_data)
         return src_dataset

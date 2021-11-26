@@ -28,25 +28,30 @@ class cliff_gapfill:
     def process(self):
         data_gapfilled = []
         vars_in_src = list(set(self.data_src.variables)-set(self.data_src.coords))
+
         data_src, data_tar = xr.align(self.data_src, self.data_tar, join="outer")
-        logger.info(f'{self.site}: cliff_gapfill: target: {self.fill_tar}, source: {self.fill_src} using quality flag threshold of {self.qc_thres}')
+                
         for var_src in vars_in_src:
             var_tar = var_src.replace(self.info_src['var_suffix'],self.info_tar['var_suffix'])
             if var_tar.endswith('_'):
                 var_tar = var_tar[:-1]
+
             data_src_var = data_src[var_src]
             data_tar_var = data_tar[var_tar]
+            qc_var = self.info_tar['variables'][var_tar]['QC']
+
+            shut.log_and_print(self.site, f'CLIFF GAPFILL ({self.fill_src} --> {self.fill_tar} [qc_thres={self.qc_thres}])', var_tar, var_src, self.temporal_resolution)
+
             try:
-                qc_var = var_tar+'_QC'
-                if len(self.info_tar['var_suffix']) > 0:
-                    qc_var = qc_var + '_' + self.info_tar['var_suffix']
                 data_tar_gfw_tmp = data_tar_var.where(data_tar[qc_var] > self.qc_thres)
             except:
                 data_tar_gfw_tmp = data_tar_var
-                logger.info(f"No QC variable {qc_var} found for {var_tar}. QC masking will not be applied")
+                logger.info(f"QC variable {qc_var} for {var_tar} was not found in data. QC masking will not be applied.")
             
             data = xr.where(np.isfinite(data_tar_gfw_tmp), data_tar_gfw_tmp, data_src_var)
+
             data = data.rename(var_tar+'_'+self.info_src['var_suffix']+'_gfld')
+
             shut.log_site_info(f'{self.fill_src} to {self.fill_tar}', self.site, self.temporal_resolution, var_src, var_tar, 'units assumed same', 'units assumed same', 'units assumed same', [np.nan,np.nan], data , None)
 
             data_gapfilled.append(data)
@@ -54,7 +59,6 @@ class cliff_gapfill:
         data_gapfilled =   xr.merge(data_gapfilled)
         return data_gapfilled
 
-        
 
 if __name__ == '__main__':
     import inspect, os

@@ -1,8 +1,6 @@
 {
     "provider": "jung_QC",
     "var_suffix": "Jung",
-    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",
@@ -30,7 +28,8 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "contact mjung[at]bgc-jena.mpg.de",
-        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",        "description": "Quality flags identifying abd quality data [0]. Combined with fqcOK for intepreting data points flagged as 1."
+        "data_path": "",
+        "description": "Quality flags identifying abd quality data [0]. Combined with fqcOK for intepreting data points flagged as 1."
 
     },
     "sel_variables": "all",

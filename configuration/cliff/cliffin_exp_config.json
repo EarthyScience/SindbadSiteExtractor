@@ -1,7 +1,7 @@
 {
-    "OutPath": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-2/",
+    "OutPath": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-3/",
     "diagnostic_plots": true,
-    "njobs_parallel": 30,
+    "njobs_parallel": 60,
     "sites_toRun1": [
         "AT-Neu"
     ],
@@ -13,7 +13,7 @@
     "temporal_resolution": "daily",
     "FLUXNET_version": "FLUXNET2015",
     "exp_name": "CLIFF input",
-    "sites_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
     "loop_sources": true,
     "resample_output": [
         "monthly",

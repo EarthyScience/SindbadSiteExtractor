@@ -22,7 +22,7 @@ class disturbage_besnard2018:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -37,21 +37,22 @@ class disturbage_besnard2018:
             dtype_metadata = "M8[h]"
         else:
             logger.warning(f"disturbage_besnard2018 only provides daily or hourly (resampled) data but the resolution is {self.temporal_resolution}. The vegetation fraction data will not be included in {self.temporal_resolution} data for {self.site}.")
-            return []
-        src_df = pd.read_csv(self.cubepath)
-        last_disturbance_on =  src_df.loc[src_df['Site_ID'] == self.site]['Plantation_Date_max'].values.astype(np.datetime64)
+            return None
         date_ = np.arange(np.datetime64(self.start_date), np.datetime64(self.end_date) + np.timedelta64(1,'D') ,dtype=dtype_metadata)        
 
 
         src_data = []
 
         for var_name in list(self.vars.keys()):
+            src_df = pd.read_csv(self.vars[var_name]['data_path'])
+            last_disturbance_on =  src_df.loc[src_df['Site_ID'] == self.site]['Plantation_Date_max'].values.astype(np.datetime64)
+            
             src_name =  self.vars[var_name]['sourceVariableName']
-            logger.info(f'------{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}-----')
-            print (f'{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}')
-            src_units = self.vars[var_name]['sourceVariableUnit']
-            tar_units = self.vars[var_name]['variableUnit']
+
+            shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
+
             data = xr.Dataset({var_name: xr.DataArray(data = np.nan, dims = ['time'], coords = {'time': date_})})
+
             if len(last_disturbance_on) == 0:
                 last_disturbance_on = ['undisturbed']
             else:
@@ -65,11 +66,13 @@ class disturbage_besnard2018:
                 data[var_name] = forest_age_data
                 
             data.attrs["variable_name"]=var_name
-            units_scalar = self.vars[var_name]['source2sindbadUnit']
 
-            data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+            data = shut.set_units(data, src_name, self.vars[var_name]['sourceVariableUnit'], self.vars[var_name]['variableUnit'], self.vars[var_name]['source2sindbadUnit'])
+
             src_data.append(data)
+            
             shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, self.vars[var_name]["variableUnit"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data[var_name] , None)
+
         src_dataset =  xr.merge(src_data)
         src_dataset =   shut.data_structure_temporal_NoDepth(src_dataset, self.lat, self.lon)                  
         src_dataset = src_dataset.assign_attrs(last_disturbance_on= last_disturbance_on[0])

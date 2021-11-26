@@ -33,6 +33,10 @@ def flatten_hour_to_time(_data):
     _data['time']=times
     return _data
 
+def log_and_print(site, prod_name, var_name, src_name, temporal_resolution):
+    logger.info(f"xTract:::{site}:: {prod_name} | target: {var_name}, src: {src_name}: {temporal_resolution}")
+    print(f"exTraction:::{site}:: {prod_name} | target: {var_name}, src: {src_name}: {temporal_resolution}")
+
 def log_site_info(dataset, site, t_reso, src_var_name, tar_var_name, data_units, json_units_tar, json_units_src, bounds_in, data, transform, partitioning='None'):
     tname = get_transform_name(transform)
     ## get data information

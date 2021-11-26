@@ -22,7 +22,7 @@ class surface_FLUXCOM:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -32,21 +32,25 @@ class surface_FLUXCOM:
     def process(self):
         if self.temporal_resolution != 'daily':
             logger.warning(f"surface_FLUXCOM only provides daily data but the resolution is {self.temporal_resolution}. The surface characteristics will not be included in {self.temporal_resolution} data for {self.site}.")
-            return []
-        src_prov    = ec.eddy_covariance.EddyProvider(cubepath = self.cubepath,version = self.version, site = self.site, NEE_partitioning_method = None)
+            return None
+
+        src_prov    = ec.eddy_covariance.EddyProvider(cubepath = self.flx_cubepath,version = self.version, site = self.site, NEE_partitioning_method = None)
+
         src_vars = [_var.name for _var in src_prov.variables]
         src_data = []
         variants = 'shallow deep'.split()
         for var_name in list(self.vars.keys()):
             src_name =  self.vars[var_name]['sourceVariableName']
             if src_name in src_vars:
-                logger.info(f'------{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}-----')
-                print (f'{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}')
+                
+                shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
+                
                 src_units = self.vars[var_name]['sourceVariableUnit']
                 src_units_l = src_units.lower()
                 tar_units = self.vars[var_name]['variableUnit']
                 tar_units_l = tar_units.lower()
                 src_partitioning = self.vars[var_name]['partitioning']
+                
                 transform = []
                 if self.temporal_resolution == 'daily':
                     if self.vars[var_name]['isEnergy'] and src_units_l.startswith('w') and tar_units_l.startswith('mj'):
@@ -76,15 +80,16 @@ class surface_FLUXCOM:
                         transform = []
                 if len(transform) > 0:
                     src_prov.add_transform(transform)
+                
                 data = []
                 for depth in variants:
-                    print (f'{self.site}: target: {var_name}, src: {src_name}, depth: {depth}, :: {self.temporal_resolution}')
                     data_tmp = src_prov.get_data(Variable(src_name, units=src_units, partitioning=src_partitioning, depth=depth))
                     data.append(data_tmp)
+
                 if self.temporal_resolution == 'hourly':
                     data = shut.flatten_hour_to_time(data)
-
                 data = xr.merge(data)
+
                 data = xr.DataArray(data.to_array().values.reshape(len(list(data.keys())),-1,1,1), 
                          dims=['depth_FLUXNET', 'time', 'latitude', 'longitude'],
                          coords={'depth_FLUXNET': np.arange(len(list(data.keys()))) +1,
@@ -93,15 +98,17 @@ class surface_FLUXCOM:
                                  'longitude': [self.lon]})
                 data = data.rename(var_name)
                 data.attrs["variable_name"]=var_name
-                units_scalar = self.vars[var_name]['source2sindbadUnit']
-                data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+
+                data = shut.set_units(data, src_name, src_units, tar_units, self.vars[var_name]['source2sindbadUnit'])
+
                 src_data.append(data)
+                
                 shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, data.attrs["units"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data , src_prov.transforms, partitioning=src_partitioning)
                 src_prov.transforms=[]
+
         src_dataset =  xr.merge(src_data)
         return src_dataset
                         
-
 
 if __name__ == '__main__':
     import inspect, os

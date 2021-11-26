@@ -1,8 +1,6 @@
 {
     "provider": "modis_MxD11A1",
     "var_suffix": "MxD11A1",
-    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "deg C",

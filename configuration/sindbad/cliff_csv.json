@@ -1,8 +1,6 @@
 {
     "provider": "cliff_csvload",
     "var_suffix": "cliff_ERAIv2",
-    "cube_data_path": "/Net/Groups/BGI/work_3/cliff/output/csvs/",
-    "gap_fill": false,
     "src_cliff": "ERAinterim.v2",
     "src_start_date": "1979-01-01",
     "src_end_date": "2017-12-31",
@@ -30,7 +28,7 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "ncarval[at]bgc-jena.mpg.de",
-        "data_path": "",
+        "data_path": "/Net/Groups/BGI/work_3/cliff/output/csvs/",
         "description": "Downscaled climate forcing using ERA-Interim"
         },
     "sel_variables": "all except SW_IN_POT",

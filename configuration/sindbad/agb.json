@@ -1,8 +1,6 @@
 {
     "provider": "agb",
     "var_suffix": "",
-    "cube_data_path": "",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "",

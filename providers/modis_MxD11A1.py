@@ -20,7 +20,7 @@ class modis_MxD11A1:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -30,8 +30,8 @@ class modis_MxD11A1:
     def process(self):
         if self.temporal_resolution != 'daily':
             logger.warning(f"modis_MxD11A1 only provides daily data but the resolution is {self.temporal_resolution}. The MxD11A1 LST will not be included in {self.temporal_resolution} data for {self.site}.")
-            return []
-        src_prov    = MxD11A1(cubepath=self.cubepath, site=self.site, transforms=[shtf.k_to_degC()])
+            return None
+        src_prov    = MxD11A1(cubepath=self.flx_cubepath, site=self.site, transforms=[shtf.k_to_degC()])
 
         src_vars = [_var.name for _var in src_prov.variables]
         src_data = []
@@ -39,13 +39,12 @@ class modis_MxD11A1:
         for var_name in list(self.vars.keys()):
             src_name =  self.vars[var_name]['sourceVariableName']
             if src_name in src_vars:
-                src_units = self.vars[var_name]['sourceVariableUnit']
-                tar_units = self.vars[var_name]['variableUnit']
                 satellite = self.vars[var_name]['satellite']
                 data_tmp = {}
+                shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
                 for daynight in variants:
                     print (f'{self.site}: target: {var_name}, src: {src_name}, satellite: {satellite}, daynight: {daynight}:: {self.temporal_resolution}')
-                    data_tmp[daynight] = src_prov.get_data(Variable(src_name, units=src_units, day_night=daynight, satellite=satellite))  - 273.15
+                    data_tmp[daynight] = src_prov.get_data(Variable(src_name, units=self.vars[var_name]['sourceVariableUnit'], day_night=daynight, satellite=satellite))  - 273.15 # manually subtracted here because the transformer does not work
                 if 'DayTime' in var_name:
                     data = data_tmp['Day']
                 else:
@@ -58,8 +57,7 @@ class modis_MxD11A1:
                 data.attrs["variable_name"]=var_name
                 data.attrs["units"] = "deg C"
                 
-                units_scalar = self.vars[var_name]['source2sindbadUnit']
-                data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+                data = shut.set_units(data, src_name, self.vars[var_name]['sourceVariableUnit'], self.vars[var_name]['variableUnit'], self.vars[var_name]['source2sindbadUnit'])
                 src_data.append(data)
 
                 shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, data.attrs["units"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data , src_prov.transforms, partitioning=src_partitioning)

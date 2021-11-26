@@ -1,12 +1,12 @@
 {
-    "OutPath": "/User/homes/skoirala/skoirala/toolDev/cliff_input/outputs/sindbad/",
+    "OutPath": "/User/homes/skoirala/skoirala/toolDev/cliff_input/outputs/gapfill/",
     "diagnostic_plots": true,
-    "njobs_parallel": 20,
-    "sites_toRuna": [
+    "njobs_parallel": 1,
+    "sites_toRun": [
         "AR-SLu",
         "DE-Hai"
     ],
-    "sites_toRun": [
+    "sites_toRunA": [
         "all"
     ],
     "start_date": "1989-01-01",
@@ -14,20 +14,20 @@
     "temporal_resolution": "daily",
     "FLUXNET_version": "FLUXNET2015",
     "exp_name": "SINDBAD",
-    "sites_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
+    "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
     "loop_sources": false,
     "resample_output": [
         "monthly"
     ],
     "gap_fill": {
-        "do_fill": false,
+        "do_fill": true,
         "clim": {
             "target": "bgi_FLUXCOM_clim",
             "source": "cliff_erai",
             "qc_thres": 0.8
         }
     },
-    "sel_datasets": "all except cliff_erai",
+    "sel_datasets": "all",
     "dataset": {
         "bgi_FLUXCOM_obs": "configuration/sindbad/fluxcom_obs.json",
         "bgi_FLUXCOM_clim": "configuration/sindbad/fluxcom_clim.json",

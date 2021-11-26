@@ -1,8 +1,6 @@
 {
     "provider": "treefrac_hansen",
     "var_suffix": "hansen",
-    "cube_data_path": "/Net/Groups/BGI/scratch/uweber/nfidc/data/gee/final_datasets/data_final_uweber_v2021_01_sites_gee.csv",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",

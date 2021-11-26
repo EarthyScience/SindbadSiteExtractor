@@ -1,8 +1,6 @@
 {
     "provider": "disturbage_besnard2018",
     "var_suffix": "sb2018",
-    "cube_data_path": "/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/forest_age.csv",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",

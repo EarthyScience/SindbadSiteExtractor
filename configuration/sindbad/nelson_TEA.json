@@ -1,8 +1,6 @@
 {
     "provider": "nelson_TEA",
     "var_suffix": "TEA",
-    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "mm",
@@ -30,7 +28,7 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "DOI:10.1029/2018JG004727",
-        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",
+        "data_path": "",
         "description": "Derived from TEA partitioning method"
     },
     "sel_variables": "all",

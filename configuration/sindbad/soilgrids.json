@@ -1,8 +1,6 @@
 {
     "provider": "soilgrids",
     "var_suffix": "SoilGrids",
-    "cube_data_path": "/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/insitu/ancillary_data/soilGrids_FLUXNET.csv",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "%",

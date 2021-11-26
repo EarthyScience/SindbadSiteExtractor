@@ -20,7 +20,7 @@ class nelson_TEA:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -28,10 +28,7 @@ class nelson_TEA:
         self.temporal_resolution = config["temporal_resolution"]
         
     def process(self):
-        # if self.temporal_resolution != 'daily':
-        #     logger.warning(f"jung_QC only provides daily data but the resolution is {self.temporal_resolution}. Returning empty data")
-        #     return []
-        src_prov    = TEAProvider(cubepath   = self.cubepath,
+        src_prov    = TEAProvider(cubepath   = self.flx_cubepath,
                                     version    = self.version, 
                                     site       =self.site)
         src_vars = [_var.name for _var in src_prov.variables]
@@ -39,10 +36,8 @@ class nelson_TEA:
         for var_name in list(self.vars.keys()):
             src_name =  self.vars[var_name]['sourceVariableName']
             if src_name in src_vars:
-                src_units = self.vars[var_name]['sourceVariableUnit']
-                tar_units = self.vars[var_name]['variableUnit']
                 src_partitioning = self.vars[var_name]['partitioning']
-                print (f'{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}')
+                shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
 
                 if self.vars[var_name]['isWater']:
                     transform=shtf.DaySum()
@@ -50,18 +45,15 @@ class nelson_TEA:
                 src_prov.add_transform(transform)
                 data = src_prov.get_data(Variable(src_name, partitioning=src_partitioning))
                 logger.info(f'{self.dataset}: Skipping unit tests in nelson_TEA, due to error while assigning mm. Follow latest FLUXCOM developments.')
-                # data = src_prov.get_data(Variable(src_name, units=src_units, partitioning=src_partitioning))
+                # data = src_prov.get_data(Variable(src_name, units=self.vars[var_name]['sourceVariableUnit'], partitioning=src_partitioning))
                 data = data.rename(var_name)
                 data.attrs["variable_name"]=var_name
                 
-                units_scalar = self.vars[var_name]['source2sindbadUnit']
-                data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+                data = shut.set_units(data, src_name, self.vars[var_name]['sourceVariableUnit'], self.vars[var_name]['variableUnit'], self.vars[var_name]['source2sindbadUnit'])
                 
                 src_data.append(data)
 
                 shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, data.attrs["units"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data , src_prov.transforms, partitioning=src_partitioning)
-
-                src_prov.transforms=[]
 
         src_dataset =   xr.merge(src_data)
         src_dataset =   shut.data_structure_temporal_NoDepth(src_dataset, self.lat, self.lon)                  

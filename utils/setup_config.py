@@ -105,6 +105,7 @@ def add_suffix_to_sel_variables(var_list, suffix):
 
 def get_variable_info(_config):
     _config_out = _config.copy()
+    variables_all = {}
     for data_key in _config["sel_datasets"]:
         data_info = _config['dataset'][data_key]
         variables = {}
@@ -118,9 +119,9 @@ def get_variable_info(_config):
             var = var_base + var_sfx
             merged_var_info = merge_var_info(data_info["base_info"], var_info[var_base])
             variables[var] = merged_var_info.copy()
-            if len(data_info["cube_data_path"].strip()) > 0:
-                data_path = data_info["cube_data_path"].strip()
-                variables[var]["data_path"]= data_path
+            # if len(data_info["cube_data_path"].strip()) > 0:
+            #     data_path = data_info["cube_data_path"].strip()
+            #     variables[var]["data_path"]= data_path
             qc_vars = variables[var]["QC"].copy()
 
             if _config["temporal_resolution"] == "daily":
@@ -131,6 +132,7 @@ def get_variable_info(_config):
             for QC in qc_vars:
                 var_field_name = var_base + "_QC" + var_sfx
                 variables[var_field_name] = add_qc_vars(var_base, merged_var_info.copy(), QC)
+                variables[var]['QC'] = variables[var_field_name]["sourceVariableName"] 
             if _config["temporal_resolution"] == "daily":
                 field_daystats = {"DayMin": "daily minimum",
                 "DayMax": "daily maximum", "DayTime": "daytime mean", "DaySum": "daily sum", "wDayMean":"weighted daily mean"}
@@ -149,16 +151,18 @@ def get_variable_info(_config):
                         for QC in qc_vars:
                             var_field_name_qc = var_base + "_QC_" + fi_da +  var_sfx
                             variables[var_field_name_qc] = add_qc_vars(var_base, variables[var_field_name], QC)
-
+                            variables[var_field_name]['QC'] = variables[var_field_name_qc]["sourceVariableName"]
+                            
+            variables_all.update(variables)
         data_info["sel_variables"] = add_suffix_to_sel_variables(sel_vars, var_sfx)
 
         for var, var_det in variables.items():
-            for unwant in "wDayMean DayMin DayMax DaySum DayTime QC".split():
+            for unwant in "wDayMean DayMin DayMax DaySum DayTime".split():
                 if unwant in var_det:
                     variables[var].pop(unwant)
         _config_out['dataset'][data_key].pop('base_info')
         _config_out["dataset"][data_key]['variables'] = variables
-    return variables, _config_out
+    return variables_all, _config_out
 
 def get_prov_configuration(conf_file):
     with open(conf_file, 'r') as config_file:

@@ -1,8 +1,6 @@
 {
     "provider": "vegfrac_hilda",
     "var_suffix": "hilda",
-    "cube_data_path": "/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/annual_mean/0d0083/hilda+/hildaplus_vGLOB-1.0-f_states.nc",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",
@@ -27,7 +25,7 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "https://landchangestories.org/hildaplus/; Winkler et al., (under review, GCB)",
-        "data_path": "",
+        "data_path": "/Net/Groups/BGI/work_3/biomass/BIOMASCAT/data/annual_mean/0d0083/hilda+/hildaplus_vGLOB-1.0-f_states.nc",
         "class":"",
         "description": "flags for indicating existence of vegetation types: 1 if exists, 0 otherwise."
     },

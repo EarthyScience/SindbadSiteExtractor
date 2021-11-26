@@ -61,7 +61,7 @@ def add_date_variables(dat):
     return dat
 
 def get_bounds_str(data, bounds_in):
-    bounds_str = f', bounds: data: [{round(np.nanmin(data.values),3)}, {round(np.nanmax(data.values),3)}], json: [{bounds_in[0]}, {bounds_in[1]}]'
+    bounds_str = f'bounds: data: [{round(np.nanmin(data.values),3)}, {round(np.nanmax(data.values),3)}], json: [{bounds_in[0]}, {bounds_in[1]}]'
     return bounds_str
 
 def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
@@ -81,7 +81,7 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
         for var_, var_info in data_set['variables'].items():
             if var_ in plotvars:
                 dat_ = ds[var_]
-                print(f'plot: {data_freq} | {site} : {var_}')
+                print(f'plot:: {dat_.sourceDataProductName} : {data_freq} | {site} : {var_}')
                 if ('depth_FLUXNET' in dat_.dims) & ('time' in dat_.dims):
                     fig, ax = plt.subplots(1, 1, figsize=(8, 4), gridspec_kw={'wspace': 0.35, 'hspace': 0.5})
                     for layer_ in dat_.depth_FLUXNET.values:      
@@ -177,7 +177,6 @@ def resample_data(_data, _res):
     return _data_out 
 
 def harmonize_data_attrs(site_info, data, _config, resampled=None):
-    # kera
     site = site_info['site_ID']
     start_date = _config["start_date"]
     end_date = _config["end_date"]
@@ -195,13 +194,15 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
         var_info = _config["dataset"][source_]['variables']
         var_selected_src = list(_config["dataset"][source_]['variables'].keys())
         var_selected = list(set(var_selected_src).intersection(set(var_selected_data)))
-        # logging.info(var_selected_data, var_selected_src, var_selected)
 
-        # logging.info(var_info, source_)
         for var_ in var_selected:
             sourceDataProductName = var_info[var_]['sourceDataProductName']
             print(f'harmonize Attrs: {sourceDataProductName}, {data_freq}, {site} : {var_}')
-            nameLong = f"{data_freq} {var_info[var_]['nameLong']} from {sourceDataProductName}"
+            if 'time' in data[var_].dims and 'depth_soilGrids' in data[var_].dims:
+                nameLong = f"{data_freq} {var_info[var_]['nameLong']} from {sourceDataProductName}"
+            else:
+                nameLong = f"{var_info[var_]['nameLong']} from {sourceDataProductName}"
+
 
 
             data[var_] = data[var_].assign_attrs(
@@ -282,19 +283,18 @@ def compile_site_data(site, exp_settings=None):
     last_disturbance_on = ''
     for provider in exp_settings["sel_datasets"]:
         # logging.info(exp_settings["dataset"][provider], exp_settings["dataset"][provider].keys())
-        if not isinstance(exp_settings["dataset"][provider]["gap_fill"], list):
-            provider_name = exp_settings["dataset"][provider]["provider"]
-            logging.info(f'Getting dataset| configuration: {provider}, provider: {provider_name}, site: {site_info["site_ID"]}')
-            provider_mod = load_provider(provider_name)
-            provider_class = getattr(provider_mod, provider_name)
-            provided_data = provider_class(site_info=site_info, config=exp_settings, dataset=provider).process()
-            if not isinstance(provided_data, list):
-                data_all[provider] = provided_data
-                if (len(sitePFT) == 0) & ('PFT' in provided_data.attrs):
-                    sitePFT = f"{provided_data.attrs['PFT']}"
-                    PFTprovider = f"{provider} using {provider_name}"
-                if (len(last_disturbance_on) == 0) & ('last_disturbance_on' in provided_data.attrs):
-                    last_disturbance_on = f"{provided_data.attrs['last_disturbance_on']}"
+        provider_name = exp_settings["dataset"][provider]["provider"]
+        logging.info(f'Getting dataset| configuration: {provider}, provider: {provider_name}, site: {site_info["site_ID"]}')
+        provider_mod = load_provider(provider_name)
+        provider_class = getattr(provider_mod, provider_name)
+        provided_data = provider_class(site_info=site_info, config=exp_settings, dataset=provider).process()
+        if not isinstance(provided_data, list):
+            data_all[provider] = provided_data
+            if (len(sitePFT) == 0) & ('PFT' in provided_data.attrs):
+                sitePFT = f"{provided_data.attrs['PFT']}"
+                PFTprovider = f"{provider} using {provider_name}"
+            if (len(last_disturbance_on) == 0) & ('last_disturbance_on' in provided_data.attrs):
+                last_disturbance_on = f"{provided_data.attrs['last_disturbance_on']}"
     if exp_settings["gap_fill"]['do_fill'] == True:
         for gfik, gfiv in exp_settings["gap_fill"].items():
             if isinstance(gfiv, dict):

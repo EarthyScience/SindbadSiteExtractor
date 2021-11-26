@@ -19,7 +19,7 @@ class modis_MCD43A:
         self.lat = site_info['latitude']
         self.lon = site_info['longitude']
         self.dataset = dataset
-        self.cubepath = config['dataset'][dataset]["cube_data_path"]
+        self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
         self.start_date = config["start_date"]
@@ -29,29 +29,26 @@ class modis_MCD43A:
     def process(self):
         if self.temporal_resolution != 'daily':
             logger.warning(f"modis_MCD43A only provides daily data but the resolution is {self.temporal_resolution}. The MCD43A reflectances will not be included in {self.temporal_resolution} data for {self.site}.")
-            return []
-        src_prov    = MCD43A(cubepath=self.cubepath, site=self.site)
+            return None
+        src_prov    = MCD43A(cubepath=self.flx_cubepath, site=self.site)
         src_vars = [_var.name for _var in src_prov.variables]
         src_data = []
         for var_name in list(self.vars.keys()):
             src_name =  self.vars[var_name]['sourceVariableName']
             if src_name in src_vars:
-                src_units = self.vars[var_name]['sourceVariableUnit']
-                tar_units = self.vars[var_name]['variableUnit']
-                src_partitioning = self.vars[var_name]['partitioning']
-                print (f'{self.site}: target: {var_name}, src: {src_name}: {self.temporal_resolution}')
 
-                data = src_prov.get_data(Variable(src_name, units=src_units, partitioning=src_partitioning))
+                src_partitioning = self.vars[var_name]['partitioning']
+                shut.log_and_print(self.site, self.vars[var_name]['sourceDataProductName'], var_name, src_name, self.temporal_resolution)
+
+                data = src_prov.get_data(Variable(src_name, units=self.vars[var_name]['sourceVariableUnit'], partitioning=src_partitioning))
                 data = data.rename(var_name)
                 data.attrs["variable_name"]=var_name
                 
-                units_scalar = self.vars[var_name]['source2sindbadUnit']
-                data = shut.set_units(data, src_name, src_units, tar_units, units_scalar)
+                data = shut.set_units(data, src_name, self.vars[var_name]['sourceVariableUnit'], self.vars[var_name]['variableUnit'], self.vars[var_name]['source2sindbadUnit'])
                 src_data.append(data)
 
                 shut.log_site_info(self.dataset, self.site, self.temporal_resolution, src_name, var_name, data.attrs["units"], self.vars[var_name]["variableUnit"], self.vars[var_name]["sourceVariableUnit"], self.vars[var_name]["bounds"], data , src_prov.transforms, partitioning=src_partitioning)
 
-                src_prov.transforms=[]
 
         src_dataset =   xr.merge(src_data)
         src_dataset =   shut.data_structure_temporal_NoDepth(src_dataset, self.lat, self.lon)                  

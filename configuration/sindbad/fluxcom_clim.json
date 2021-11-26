@@ -1,8 +1,6 @@
 {
     "provider": "bgi_FLUXCOM",
     "var_suffix": "",
-    "cube_data_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "gap_fill": false,
     "base_info": {
         "partitioning": "",
         "variableUnit": "",
@@ -94,7 +92,7 @@
             "nameShort": "atmospheric pressure",
             "nameLong": "atmospheric pressure",
             "QC": [
-                "QC"
+                "VPD_QC"
             ],
             "DayTime": true
         },
@@ -177,7 +175,7 @@
             "nameShort": "Wind_speed",
             "nameLong": "wind speed",
             "QC": [
-                "QC"
+                "TA_QC"
             ],
             "DayTime": true
         },
@@ -192,7 +190,7 @@
             "nameShort": "Relative Humidity",
             "nameLong": "relative humidity of air",
             "QC": [
-                "QC"
+                "VPD_QC"
             ],
             "DayTime": true
         }

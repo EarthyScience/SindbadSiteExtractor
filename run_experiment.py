@@ -61,7 +61,7 @@ if __name__ == '__main__':
             # #%% Check sites to process
             if f'sites_{fn_version}' not in locals():
                 if exp_config["sites_toRun"] == ['all']:
-                    sites = get_site_list(exp_config["sites_data_path"], exp_config["FLUXNET_version"])
+                    sites = get_site_list(exp_config["fluxcom_cube_path"], exp_config["FLUXNET_version"])
                 else:
                     sites = exp_config["sites_toRun"]
             else:
