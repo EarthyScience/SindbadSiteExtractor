@@ -1,5 +1,5 @@
 {
-    "provider": "bgi_FLUXCOM",
+    "extractor": "bgi_FLUXCOM",
     "var_suffix": "",
     "base_info": {
         "partitioning": "",
@@ -13,7 +13,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "FLUXNET",
-        "QC": [],
+        "QC":  "QC",
+        "RANDUNC":  "RANDUNC",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,
@@ -41,9 +42,6 @@
             "sourceVariableUnit": "umolCO2 m-2 s-1",
             "nameShort": "GPP",
             "nameLong": "gross primary productivity - from day time partitioning method [NEE_VUT_USTAR50]",
-            "QC": [
-                "QC"
-            ],
             "isCarbon": true,
             "skipUnitcheck": true
         },
@@ -58,9 +56,6 @@
             "sourceVariableUnit": "umolCO2 m-2 s-1",
             "nameShort": "GPP",
             "nameLong": "gross primary productivity - from night time partitioning method [NEE_VUT_USTAR50]",
-            "QC": [
-                "QC"
-            ],
             "isCarbon": true,
             "skipUnitcheck": true
         },
@@ -74,22 +69,6 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "H",
             "nameLong": "sensible heatflux",
-            "QC": [
-                "QC"
-            ],
-            "isEnergy": true,
-            "skipUnitcheck": true
-        },
-        "H_RANDUNC": {
-            "variableUnit": "W m-2",
-            "bounds": [
-                -50,
-                50
-            ],
-            "sourceVariableName": "H_RANDUNC",
-            "sourceVariableUnit": "W m-2",
-            "nameShort": "H_RANDUNC",
-            "nameLong": "H random uncertainty",
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -103,23 +82,6 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "LE",
             "nameLong": "latent heatflux",
-            "QC": [
-                "QC"
-            ],
-            "isEnergy": true,
-            "skipUnitcheck": true
-        },
-        "LE_RANDUNC": {
-            "variableUnit": "W m-2",
-            "bounds": [
-                -50,
-                50
-            ],
-            "sourceVariableName": "LE_RANDUNC",
-            "sourceVariableUnit": "W m-2",
-            "isCategorical": false,
-            "nameShort": "LE_RANDUNC",
-            "nameLong": "LE random uncertainty",
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -129,27 +91,11 @@
                 -100,
                 100
             ],
+            "source2sindbadUnit": 10,
             "sourceVariableName": "NEE",
             "sourceVariableUnit": "umolCO2 m-2 s-1",
             "nameShort": "NEE",
             "nameLong": "Net Ecosystem Exchange [Variable Ustar Threshold (VUT)50 percentile]",
-            "QC": [
-                "QC"
-            ],
-            "isCarbon": true,
-            "skipUnitcheck": true
-        },
-        "NEE_RANDUNC": {
-            "partitioning": "",
-            "variableUnit": "gC m-2",
-            "bounds": [
-                -100,
-                100
-            ],
-            "sourceVariableName": "NEE_RANDUNC",
-            "sourceVariableUnit": "umolCO2 m-2 s-1",
-            "nameShort": "NEE_RANDUNC",
-            "nameLong": "NEE random uncertainty",
             "isCarbon": true,
             "skipUnitcheck": true
         },
@@ -164,9 +110,6 @@
             "sourceVariableUnit": "umolCO2 m-2 s-1",
             "nameShort": "RECO_NT",
             "nameLong": "Daily Ecosystem Respiration from Nighttime partitioning method [NEE_VUT_USTAR50]",
-            "QC": [
-                "QC"
-            ],
             "isCarbon": true,
             "skipUnitcheck": true
         },
@@ -182,9 +125,6 @@
             "nameShort": "RECO_DT",
             "nameLong": "Daily Ecosystem Respiration from Daytime partitioning method [NEE_VUT_USTAR50]",
             "isCarbon": true,
-            "QC": [
-                "QC"
-            ],
             "skipUnitcheck": true
         }
     }

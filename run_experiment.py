@@ -30,7 +30,7 @@ def get_site_list(cubepath, version):
 class DataCompiler:    
     def __init__(self, exp_settings=None):
         self.exp_settings = exp_settings
-    def process(self, site):
+    def extract(self, site):
         site_data = compile_site_data(site, self.exp_settings)
         return site_data
 

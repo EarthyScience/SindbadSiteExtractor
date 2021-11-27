@@ -1,5 +1,5 @@
 {
-    "provider": "treefrac_hansen",
+    "extractor": "treefrac_hansen",
     "var_suffix": "hansen",
     "base_info": {
         "partitioning": "",
@@ -16,7 +16,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "Hansen",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

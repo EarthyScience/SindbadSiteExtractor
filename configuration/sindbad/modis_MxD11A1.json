@@ -1,5 +1,5 @@
 {
-    "provider": "modis_MxD11A1",
+    "extractor": "modis_MxD11A1",
     "var_suffix": "MxD11A1",
     "base_info": {
         "partitioning": "",
@@ -17,7 +17,8 @@
         "satellite": "",    
         "spaceTimeType": "normal",
         "sourceDataProductName": "MxD11A1",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

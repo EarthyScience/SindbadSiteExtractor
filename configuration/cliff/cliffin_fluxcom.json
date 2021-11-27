@@ -1,5 +1,5 @@
 {
-    "provider": "bgi_FLUXCOM",
+    "extractor": "bgi_FLUXCOM",
     "var_suffix": "",
     "base_info": {
         "partitioning": "",
@@ -13,7 +13,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "FLUXNET",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,
@@ -40,9 +41,7 @@
             "sourceVariableUnit": "deg C",
             "nameShort": "TA",
             "nameLong": "air temperature - gapfilled using MDS method",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayMin": true,
             "DayMax": true,
             "DayTime": true
@@ -58,9 +57,7 @@
             "nameShort": "P",
             "nameLong": "precipitation",
             "DaySum": true,
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "isWater": true,
             "skipUnitcheck": true
         },
@@ -75,9 +72,7 @@
             "source2sindbadUnit": 100,
             "nameShort": "VPD",
             "nameLong": "vapor pressure deficit",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true
         },
         "PA": {
@@ -91,9 +86,7 @@
             "source2sindbadUnit": 1000,
             "nameShort": "atmospheric pressure",
             "nameLong": "atmospheric pressure",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true
         },
         "LW_IN": {
@@ -106,9 +99,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "LW_IN",
             "nameLong": "longwave radiation - incoming",
-            "QC": [
-                "QC"
-            ],
+            "QC": "SW_IN_QC",
             "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
@@ -123,9 +114,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "SW_IN",
             "nameLong": "shortwave radiation - incoming",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
@@ -140,9 +129,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "SW_IN_POT",
             "nameLong": "potential shortwave radiation - incoming",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
@@ -157,9 +144,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "NETRAD",
             "nameLong": "net radiation",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
@@ -174,9 +159,7 @@
             "sourceVariableUnit": "m s-1",
             "nameShort": "Wind_speed",
             "nameLong": "wind speed",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "DayTime": true
         },
         "RH": {
@@ -189,9 +172,7 @@
             "sourceVariableUnit": "%",
             "nameShort": "Relative Humidity",
             "nameLong": "relative humidity of air",
-            "QC": [
-                "QC"
-            ],
+            "QC": "VPD_QC",
             "DayTime": true
         },
         "H": {
@@ -204,9 +185,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "H",
             "nameLong": "sensible heatflux",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -220,9 +199,7 @@
             "sourceVariableUnit": "W m-2",
             "nameShort": "LE",
             "nameLong": "latent heatflux",
-            "QC": [
-                "QC"
-            ],
+            "QC":  "QC",
             "isEnergy": true,
             "skipUnitcheck": true
         }

@@ -1,5 +1,5 @@
 {
-    "provider": "jung_QC",
+    "extractor": "jung_QC",
     "var_suffix": "Jung",
     "base_info": {
         "partitioning": "",
@@ -16,7 +16,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "FLUXNET-Jung",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

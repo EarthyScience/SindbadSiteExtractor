@@ -1,5 +1,5 @@
 {
-    "provider": "atmCO2_point",
+    "extractor": "atmCO2_point",
     "var_suffix": "",
     "base_info": {
         "partitioning": "",
@@ -13,7 +13,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "NOAA, SCRIPPS",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

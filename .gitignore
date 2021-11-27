@@ -10,12 +10,12 @@
 
 # Folders to not ignore (ignore every folder other than these)
 !/juicer/
-!/providers/
+!/extractors/
 !/utils/
 !/sinproc_installer/
 !/configuration/
 
-/providers/__pycache__
+/extractors/__pycache__
 /utils/__pycache__
 /sinproc_installer/__pycache__
 /sinproc_installer/fluxcom*

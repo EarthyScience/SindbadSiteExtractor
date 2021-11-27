@@ -1,5 +1,5 @@
 {
-    "provider": "cliff_csvload",
+    "extractor": "cliff_csvload",
     "var_suffix": "cliff_ERAIv2",
     "src_cliff": "ERAinterim.v2",
     "src_start_date": "1979-01-01",
@@ -16,7 +16,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "CLIFF_ERAI_v2",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

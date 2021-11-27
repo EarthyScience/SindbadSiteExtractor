@@ -6,7 +6,7 @@ A repository for the preprocessor of data to be used in SINDBAD MDI framework, a
 # Components:
 
 The tool put together data from 3 main sources
-- FLUXCOM data provider that provides 
+- FLUXCOM data extractor that provides 
     - the fluxnet datasetsLaThuile2007 and FLUXNET2015 releases
     - remote sensing cutouts from fluxnet sites
 
@@ -17,4 +17,4 @@ The tool put together data from 3 main sources
 
 # Contact:
 
-Sujan Koirala (on the tool and data), Nuno Carvalhais (on the data), Simon Besnard (on the providers and biomass/age estimates)
+Sujan Koirala (on the tool and data), Nuno Carvalhais (on the data), Simon Besnard (on the extractors and biomass/age estimates)

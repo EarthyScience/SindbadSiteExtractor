@@ -1,5 +1,5 @@
 {
-    "provider": "modis_MCD43A",
+    "extractor": "modis_MCD43A",
     "var_suffix": "MCD43A",
     "base_info": {
         "partitioning": "",
@@ -16,7 +16,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "MCD43A",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

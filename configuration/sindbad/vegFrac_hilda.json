@@ -1,5 +1,5 @@
 {
-    "provider": "vegfrac_hilda",
+    "extractor": "vegfrac_hilda",
     "var_suffix": "hilda",
     "base_info": {
         "partitioning": "",
@@ -13,7 +13,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "HILDA+",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

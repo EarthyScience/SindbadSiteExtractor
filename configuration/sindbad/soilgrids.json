@@ -1,5 +1,5 @@
 {
-    "provider": "soilgrids",
+    "extractor": "soilgrids",
     "var_suffix": "SoilGrids",
     "base_info": {
         "partitioning": "",
@@ -13,7 +13,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "SoilGrids",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,

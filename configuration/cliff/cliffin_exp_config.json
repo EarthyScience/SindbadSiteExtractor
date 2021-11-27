@@ -1,7 +1,7 @@
 {
-    "OutPath": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-3/",
+    "OutPath": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-5/",
     "diagnostic_plots": true,
-    "njobs_parallel": 60,
+    "njobs_parallel": 30,
     "sites_toRun1": [
         "AT-Neu"
     ],
@@ -19,8 +19,8 @@
         "monthly",
         "annual"
     ],
+    "do_gap_fill": false,
     "gap_fill": {
-        "do_fill": false,
         "clim": {
             "target": "",
             "source": "",

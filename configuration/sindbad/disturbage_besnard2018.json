@@ -1,5 +1,5 @@
 {
-    "provider": "disturbage_besnard2018",
+    "extractor": "disturbage_besnard2018",
     "var_suffix": "sb2018",
     "base_info": {
         "partitioning": "",
@@ -16,7 +16,8 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "Besnard2018",
-        "QC": [],
+        "QC": "",
+        "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,
         "DayMin": false,
