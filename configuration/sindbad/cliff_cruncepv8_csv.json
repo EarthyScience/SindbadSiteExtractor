@@ -1,6 +1,6 @@
 {
     "extractor": "cliff_csvload",
-    "var_suffix": "cliff_CRUNv8",
+    "var_suffix": "cNCEPv8",
     "src_cliff": "CRUNCEP.v8",
     "src_start_date": "1901-01-01",
     "src_end_date": "2016-12-31",
@@ -30,7 +30,7 @@
         "skipUnitcheck": false,
         "publication": "ncarval[at]bgc-jena.mpg.de",
         "data_path": "/Net/Groups/BGI/work_3/cliff/output/downscaling/csvs/",
-        "description": "Downscaled climate forcing using ERA-Interim"
+        "description": "CLIFF-downscaled climate forcing using CRUNCEP v8"
         },
     "sel_variables": "all except SW_IN_POT",
     "variables": {

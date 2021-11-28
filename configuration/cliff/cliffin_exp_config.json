@@ -10,15 +10,11 @@
     ],
     "start_date": "1989-01-01",
     "end_date": "2020-12-31",
-    "temporal_resolution": "daily",
-    "FLUXNET_version": "FLUXNET2015",
+    "temporal_resolution": "daily hourly",
+    "FLUXNET_version": "LaThuile FLUXNET2015",
     "exp_name": "CLIFF input",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "loop_sources": true,
-    "resample_output": [
-        "monthly",
-        "annual"
-    ],
+    "resample_output": "",
     "allow_extraction_errors": false,
     "sel_gapfills": "none",
     "gap_fill": {

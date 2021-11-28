@@ -32,7 +32,7 @@ def extract(dataset, site_info, config):
             data_tmp = {}
             bxtr.log_var_start(tar_name)
             for daynight in variants:
-                print (f'{bxtr.site}: target: {tar_name}, src: {src_name}, satellite: {satellite}, daynight: {daynight}:: {bxtr.temporal_resolution}')
+                # print (f'{bxtr.site}: target: {tar_name}, src: {src_name}, satellite: {satellite}, daynight: {daynight}:: {bxtr.temporal_resolution}')
                 data_tmp[daynight] = src_prov.get_data(Variable(src_name, units=bxtr.vars[tar_name]['sourceVariableUnit'], day_night=daynight, satellite=satellite))  - 273.15 # manually subtracted here because the transformer does not work
             if 'DayTime' in tar_name:
                 data = data_tmp['Day']

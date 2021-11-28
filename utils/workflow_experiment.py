@@ -118,6 +118,7 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                                    var_,
                                    dat_.units,
                                    data_freq,
+                                   exp_settings,
                                    tar_label='variable',
                                    src_label='units')
 
@@ -172,7 +173,7 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                     x_l = ax.set_xlabel('time', size=8)
                 elif 'depth_soilGrids' in dat_.dims:
                     if 'time' in dat_.dims:
-                        ## time axis is automatically generated in the monthly data are created using resampling
+                        ## time axis is automatically generated in the monthly data that are created using resampling
                         dat_ = dat_.mean(dim='time', keep_attrs=True)
                     fig, ax = plt.subplots(1,
                                            1,
@@ -190,14 +191,14 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                                     dat_.units + ']',
                                     size=8)
                 t_l = plt.title(
-                    f'{exp_settings["FLUXNET_version"]}:::{site_info["site_ID"]}:: {data_key} [exp-json], src: {dat_.sourceDataProductName} \n{get_bounds_str(dat_,var_info["bounds"])}',
+                    f'{exp_settings["FLUXNET_version"]}:::{site_info["site_ID"]}:: {data_key} [exp-json]- src: {dat_.sourceDataProductName} \n{get_bounds_str(dat_,var_info["bounds"])}',
                     multialignment='center',
                     va='bottom',
                     size=8,
                     color='#339900',
                     y=1.06)
                 plt.savefig(
-                    site_fig_dir + "/" + site_info["site_ID"] + '_' + var_ +
+                    site_fig_dir + "/" + site_info["site_ID"] + '.' + var_.lower() +
                     "." + exp_settings['start_date'].split('-')[0] + "-" +
                     str(int(exp_settings['end_date'].split('-')[0])) + '.' +
                     data_freq + '.png',
@@ -208,7 +209,6 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                 logging.warning(
                     f'Variable {var_} from {data_key} dataset was not found in processed data.'
                 )
-    shut.log_and_print_sep()
     return
 
 
@@ -275,7 +275,6 @@ def write_netcdf(ds, exp_settings, site, resampled=None):
     ds.to_netcdf(ncfile_name, mode='w')
     shut.log_and_print_sep(f'ncFile: {data_freq} : {ncfile_name}'.center(
         150, ' '))
-    shut.log_and_print_sep()
     return
 
 
@@ -350,6 +349,7 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
                                var_,
                                data[var_].units,
                                data_freq,
+                               _config,
                                tar_label='variable',
                                src_label='units')
 
@@ -390,7 +390,6 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
         end_year=_config['end_date'].split('-')[0],
         creation_date=datetime.now().strftime("%d-%m-%Y %H:%M"),
         creation_script=CurrentScript)
-    shut.log_and_print_sep()
     return data
 
 
@@ -421,7 +420,6 @@ def finalize_and_save(data_dict,
     shut.log_and_print_sep(
         f'harmonizing, plotting, and saving for gapfiller: {gap_filler_key}'.
         center(150, '-'))
-    shut.log_and_print_sep()
     _exp_settings = copy.deepcopy(exp_settings)
     _data_dict = copy.deepcopy(data_dict)
     try:
@@ -437,7 +435,7 @@ def finalize_and_save(data_dict,
         print(e)
         logging.info(e)
         close_logger()
-        return {site: {'status': 'failed'}}
+        return None
 
     if gap_filled_data is None:
         if _exp_settings['do_gap_fill'] == False:
@@ -445,7 +443,7 @@ def finalize_and_save(data_dict,
         else:
             _exp_settings = update_out_dir(_exp_settings, 'no_CLIFF')
             for _gf in _exp_settings['sel_gapfills']:
-                _data_dict.pop(_exp_settings['gap_fill'][_gf]['source'])
+                _data_dict.pop(_exp_settings['gap_fill'][_gf]['source'], None)
     else:
         gap_filler = _exp_settings['gap_fill'][gap_filler_key]['source']
         gap_filled = _exp_settings['gap_fill'][gap_filler_key]['target']
@@ -458,7 +456,6 @@ def finalize_and_save(data_dict,
             "src_end_date"]
         sel_data_gf_only = [gap_filler, gap_filled, f'{gap_filler_key}_gfld']
 
-    shut.log_and_print_sep()
     #%% Merge all data
     logging.info(f'Merging all data: {site_info["site_ID"]}')
     ds = xr.merge(_data_dict.values())
@@ -501,7 +498,6 @@ def finalize_and_save(data_dict,
         shut.log_and_print_sep(
             f'harmonizing, plotting, and saving complete {res}'.center(
                 150, '-'))
-        shut.log_and_print_sep()
 
     shut.log_and_print_sep()
 
@@ -551,12 +547,19 @@ def compile_site_data(site, exp_settings=None):
             provided_data = extractor_function(site_info=site_info,
                                                config=exp_settings,
                                                dataset=extractor)
-        except:
+        except Exception as e:
+            print(e)     
+            logging.info(
+                f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]} due to error {e}'
+            )
             if exp_settings["allow_extraction_errors"]:
-                continue
+                logging.info(
+                    f'Allowing to continue because allow_extraction_errors in exp[json] is set to {exp_settings["allow_extraction_errors"]}'
+                )
+                provided_data = None
             else:
                 sys.exit(
-                    f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]}'
+                    f'Cannot continue because allow_extraction_errors in exp[json] is set to {exp_settings["allow_extraction_errors"]}'
                 )
         if provided_data is not None:
             data_all[extractor] = provided_data
@@ -566,7 +569,6 @@ def compile_site_data(site, exp_settings=None):
             if (len(last_disturbance_on) == 0) & ('last_disturbance_on'
                                                   in provided_data.attrs):
                 last_disturbance_on = f"{provided_data.attrs['last_disturbance_on']}"
-        shut.log_and_print_sep()
 
     exp_settings['last_disturbance_on'] = last_disturbance_on
     exp_settings['sitePFT'] = sitePFT
@@ -576,41 +578,44 @@ def compile_site_data(site, exp_settings=None):
     if exp_settings['do_gap_fill'] == True:
         for gfik in exp_settings['sel_gapfills']:
             gfiv = exp_settings["gap_fill"][gfik]
-            data_gapfilled = cliff_gapfill(fill_src=gfiv['source'],
-                                           fill_tar=gfiv['target'],
-                                           site_info=site_info,
-                                           data_dict=data_all,
-                                           qc_thres=gfiv['qc_thres'],
-                                           config=exp_settings).gapfill()
-            gf_exp_settings = add_gapfill_settings(exp_settings,
-                                                   fill_src=gfiv['source'],
-                                                   fill_tar=gfiv['target'],
-                                                   dataset_key=f'{gfik}_gfld',
-                                                   qc_thres=gfiv['qc_thres'])
-            # data_all[f'{gfik}_gfld'] = data_gapfilled
-            site_dict_d = finalize_and_save(data_all,
-                                            site,
-                                            site_info,
-                                            gf_exp_settings,
-                                            gap_filled_data=data_gapfilled,
-                                            gap_filler_key=gfik)
-
+            if gfiv['source'] in data_all.keys() and gfiv['target'] in data_all.keys():
+                data_gapfilled = cliff_gapfill(fill_src=gfiv['source'],
+                                            fill_tar=gfiv['target'],
+                                            site_info=site_info,
+                                            data_dict=data_all,
+                                            qc_thres=gfiv['qc_thres'],
+                                            config=exp_settings).gapfill()
+                gf_exp_settings = add_gapfill_settings(exp_settings,
+                                                    fill_src=gfiv['source'],
+                                                    fill_tar=gfiv['target'],
+                                                    dataset_key=f'{gfik}_gfld',
+                                                    qc_thres=gfiv['qc_thres'])
+                # data_all[f'{gfik}_gfld'] = data_gapfilled
+                site_dict_d = finalize_and_save(data_all,
+                                                site,
+                                                site_info,
+                                                gf_exp_settings,
+                                                gap_filled_data=data_gapfilled,
+                                                gap_filler_key=gfik)
     #%% Export site data
     site_dict = {
         site: {
             'start_year': exp_settings['start_date'].split('-')[0],
             'end_year': exp_settings['end_date'].split('-')[0],
             'latitude': site_info['latitude'],
-            'longitude': site_info['longitude']
+            'longitude': site_info['longitude'],
+            'status': 'success'
         }
     }
-    # add pft to the settings
-    if 'PFT' in list(site_dict_d['attrs'].keys()):
-        site_dict[site]['PFT'] = site_dict['attrs']['PFT']
+        # add pft to the settings
+    if site_dict_d is not None and 'PFT' in list(site_dict_d['attrs'].keys()):
+            site_dict[site]['PFT'] = site_dict['attrs']['PFT']
+    else:
+        site_dict[site]['status'] = 'failed'
+
 
     shut.log_and_print_sep(
         f'Successful data processing for site: {site}'.center(150, ' '))
-    shut.log_and_print_sep()
 
     close_logger()
 

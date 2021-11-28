@@ -32,6 +32,9 @@ def extract(dataset, site_info, config):
 
         if len(soilGrids_soilTexture_data) != 0:
             data[tar_name].values = np.ones_like(data[tar_name].values) * soilGrids_soilTexture_data.reshape(soilGrids_soilTexture_data.size, 1, 1)
+        else:
+            logger.warning(f"::MISSING:: variable {tar_name} has no data in source {bxtr.vars[tar_name]['data_path']} for {bxtr.site}. NaN values will be set.")
+
 
         data = bxtr.convert_units(data, tar_name)
         bxtr.log_var_end(data, tar_name, None)

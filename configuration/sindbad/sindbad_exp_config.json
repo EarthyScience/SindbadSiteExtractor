@@ -1,11 +1,9 @@
 {
-    "OutPath": "/User/homes/skoirala/skoirala/toolDev/outputs_sindbad_preproc/gapfill/",
+    "OutPath": "/Net/Groups/BGI/scratch/skoirala/cliffNet/",
     "diagnostic_plots": true,
-    "njobs_parallel": 25,
+    "njobs_parallel": 40,
     "sites_toRun1": [
-        "AR-SLu",
-        "US-Wi3",
-        "JP-MBF"
+        "ZA-Kru"
     ],
     "sites_toRun": [
         "all"
@@ -13,22 +11,26 @@
     "start_date": "1989-01-01",
     "end_date": "2020-12-31",
     "temporal_resolution": "daily",
-    "FLUXNET_version": "FLUXNET2015",
+    "FLUXNET_version": "FLUXNET2015 LaThuile",
     "exp_name": "SINDBAD",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "loop_sources": true,
     "resample_output": "",
-    "sel_gapfills": "clim clim2",
+    "sel_gapfills": "erai cruncep crujra",
     "allow_extraction_errors": true,
     "gap_fill": {
-        "clim": {
+        "erai": {
             "target": "bgi_FLUXCOM_clim",
             "source": "cliff_erai",
             "qc_thres": 0.85
         },
-        "clim2": {
+        "cruncep": {
             "target": "bgi_FLUXCOM_clim",
-            "source": "cliff_cru",
+            "source": "cliff_crun",
+            "qc_thres": 0.85
+        },
+        "crujra": {
+            "target": "bgi_FLUXCOM_clim",
+            "source": "cliff_cruj",
             "qc_thres": 0.85
         }
     },
@@ -49,7 +51,8 @@
         "atmCO2": "configuration/sindbad/atmCO2_point.json",
         "agb": "configuration/sindbad/agb.json",
         "cliff_erai": "configuration/sindbad/cliff_erai_csv.json",
-        "cliff_cru": "configuration/sindbad/cliff_cruncepv8_csv.json",
+        "cliff_crun": "configuration/sindbad/cliff_cruncepv8_csv.json",
+        "cliff_cruj": "configuration/sindbad/cliff_crujrav2_2_csv.json",
         "swinpot": "configuration/sindbad/oneflux_swinpot_csv.json"
     }
 }

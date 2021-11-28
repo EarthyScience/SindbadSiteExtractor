@@ -44,6 +44,8 @@ def extract(dataset, site_info, config):
                 annual_vegfrac.append(xr.Dataset({tar_name: xr.DataArray(data = int(vegfrac.sel(time= int(year_.values)).values), dims = ['time'], coords = {'time': date_y})}))
 
             data = xr.merge(annual_vegfrac)
+        else:
+            logger.warning(f"::MISSING:: variable {tar_name} has no data in source {bxtr.vars[tar_name]['data_path']} for {bxtr.site}. NaN values will be set.")
 
         data = bxtr.convert_units(data, tar_name)
         bxtr.log_var_end(data, tar_name, None)

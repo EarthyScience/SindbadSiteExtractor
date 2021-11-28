@@ -38,13 +38,13 @@ def extract(dataset, site_info, config):
             xr.DataArray(data=np.nan, dims=['time'], coords={'time': date_})
         })
 
-        if len(sel_data) == 0:
-            data[tar_name].values = np.zeros_like(data[tar_name].values)
-        else:
+        if len(sel_data) > 0:
             sel_data[sel_data == -9999] = np.nan
             sel_data = np.nanmedian(sel_data)
             data[tar_name].values = np.ones_like(
                 data[tar_name].values) * sel_data
+        else:
+            logger.warning(f"::MISSING:: variable {tar_name} has no data in source {bxtr.vars[tar_name]['data_path']} for {bxtr.site}. NaN values will be set.")
 
         data = bxtr.convert_units(data, tar_name)
         bxtr.log_var_end(data, tar_name, None)

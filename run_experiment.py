@@ -48,12 +48,20 @@ if __name__ == '__main__':
     # get basic config to check the sources and loop
     exp_config_r = set_conf.get_inp_config(config_filepath)
 
-    if exp_config_r["loop_sources"]:
-        fn_versions = ['FLUXNET2015', 'LaThuile']
-        tm_scales = ['daily', 'hourly']
+    fn_versions = exp_config_r["FLUXNET_version"]
+    tm_scales = exp_config_r["temporal_resolution"]
+
+    if isinstance(fn_versions, list):
+        fn_versions=[_fn.strip() for _fn in fn_versions if len(_fn) != 0]
     else:
-        fn_versions = [exp_config_r["FLUXNET_version"]]
-        tm_scales = [exp_config_r["temporal_resolution"]]
+        fn_tmp = fn_versions.split(" ")
+        fn_versions=[_fn.strip() for _fn in fn_tmp if len(_fn) != 0]
+
+    if isinstance(tm_scales, list):
+        tm_scales=[_tm.strip() for _tm in tm_scales if len(_tm) != 0]
+    else:
+        tm_tmp = tm_scales.split(" ")
+        tm_scales=[_tm.strip() for _tm in tm_tmp if len(_tm) != 0]
 
     # loop through sites and get full configurations
     for tm_scale in tm_scales:
@@ -64,6 +72,7 @@ if __name__ == '__main__':
             if f'sites_{fn_version}' not in locals():
                 if exp_config["sites_toRun"] == ['all']:
                     sites = get_site_list(exp_config["fluxcom_cube_path"], exp_config["FLUXNET_version"])
+                    # eval(f'sites_{fn_version} = sites')
                 else:
                     sites = exp_config["sites_toRun"]
             else:

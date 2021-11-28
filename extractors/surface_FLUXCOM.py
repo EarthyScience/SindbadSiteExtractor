@@ -35,7 +35,6 @@ def extract(dataset, site_info, config):
             
             transform = bxtr.get_transform(tar_name,src_prov=src_prov)
             src_prov.add_transform(transform)
-            shut.log_and_print('xTrct', bxtr.site, bxtr.vars[tar_name]['sourceDataProductName'], tar_name, src_name, bxtr.temporal_resolution)
             
             
             data = []

@@ -34,13 +34,15 @@ def extract(dataset, site_info, config):
 
         if len(PFT_dat) == 0:
             PFT_ = 'undefined'
+            logger.warning(f"::MISSING:: variable {tar_name} has no PFT data in source {bxtr.vars[tar_name]['data_path']} for {bxtr.site}. Setting PFT as undefined")
+
         else:
             PFT_ = PFT_dat['PFT'].values[0]
             if PFT_ in bxtr.vars[tar_name]['PFT_types']:
                 data[tar_name].values = np.ones_like(data[tar_name].values)
             else:
                 data[tar_name].values = np.zeros_like(data[tar_name].values)
-            
+
         data = bxtr.convert_units(data, tar_name)
         bxtr.log_var_end(data, tar_name, None)
         src_data.append(data)

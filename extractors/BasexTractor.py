@@ -33,6 +33,7 @@ class BasexTractor:
         self.temporal_resolution = config["temporal_resolution"]
         self.vars = config["dataset"][dataset]["variables"]
         self.extractor = config["dataset"][dataset]["extractor"]
+        self.config = config
 
         if ("src_start_date" in config["dataset"][dataset]) & (
                 "src_end_date" in config["dataset"][dataset]):
@@ -175,6 +176,7 @@ class BasexTractor:
             tar_name,
             self.vars[tar_name]["sourceVariableName"],
             self.temporal_resolution,
+            self.config
         )
 
     def merge_and_format(self, data):

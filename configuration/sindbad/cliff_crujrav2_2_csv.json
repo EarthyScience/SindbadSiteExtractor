@@ -1,9 +1,9 @@
 {
     "extractor": "cliff_csvload",
-    "var_suffix": "ERAIv2",
-    "src_cliff": "ERAinterim.v2",
-    "src_start_date": "1979-01-01",
-    "src_end_date": "2017-12-31",
+    "var_suffix": "cJRAv22",
+    "src_cliff": "CRUJRA.v2_2",
+    "src_start_date": "1901-01-01",
+    "src_end_date": "2019-12-31",
     "base_info": {
         "partitioning": "",
         "variableUnit": "",
@@ -15,7 +15,7 @@
         "nameShort": "",
         "nameLong": "",
         "spaceTimeType": "normal",
-        "sourceDataProductName": "CLIFF_ERAI_v2",
+        "sourceDataProductName": "CLIFF_CRUJRA_v2_2",
         "QC": "",
         "RANDUNC": "",
         "weightVar": "",
@@ -30,7 +30,7 @@
         "skipUnitcheck": false,
         "publication": "ncarval[at]bgc-jena.mpg.de",
         "data_path": "/Net/Groups/BGI/work_3/cliff/output/downscaling/csvs/",
-        "description": "CLIFF-downscaled climate forcing using ERA-Interim"
+        "description": "CLIFF-downscaled climate forcing using CRUJRA v2.2"
         },
     "sel_variables": "all except SW_IN_POT",
     "variables": {

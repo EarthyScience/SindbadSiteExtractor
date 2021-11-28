@@ -57,13 +57,14 @@ def log_and_print(task,
                   var_name,
                   src_name,
                   temporal_resolution,
+                  config,
                   tar_label='target',
                   src_label='source'):
     logger.info(
-        f"{task}::{temporal_resolution}::{site} -> {tar_label}: {var_name.ljust(30,' ')}, {src_label}: {src_name.ljust(20,' ')} | {prod_name}"
+        f"{config['FLUXNET_version']}:::{task}::{temporal_resolution}::{site} -> {tar_label}: {var_name.ljust(30,' ')}, {src_label}: {src_name.ljust(20,' ')} | {prod_name}"
     )
     print(
-        f"{task}::{temporal_resolution}::{site} -> {tar_label}: {var_name.ljust(30,' ')}, {src_label}: {src_name.ljust(20,' ')} | {prod_name}"
+        f"{config['FLUXNET_version']}:::{task}::{temporal_resolution}::{site} -> {tar_label}: {var_name.ljust(30,' ')}, {src_label}: {src_name.ljust(20,' ')} | {prod_name}"
     )
     return
 

@@ -26,6 +26,7 @@ class cliff_gapfill:
         self.fill_tar = fill_tar
         self.fill_src = fill_src
         self.temporal_resolution = config["temporal_resolution"]
+        self.config = config
 
     def gapfill(self):
         data_gapfilled = []
@@ -51,12 +52,12 @@ class cliff_gapfill:
                     data_tar[qc_var].fillna(0) > self.qc_thres)
                 shut.log_and_print('GapFill', self.site, f'CLIFF',
                                    f'{var_tar}[{qc_var} < {self.qc_thres}]',
-                                   var_src, self.temporal_resolution)
+                                   var_src, self.temporal_resolution, self.config)
             except:
                 data_tar_gfw_tmp = data_tar_var
                 shut.log_and_print('GapFill', self.site, f'CLIFF',
                                    f'{var_tar}[{qc_var} not found!!]', var_src,
-                                   self.temporal_resolution)
+                                   self.temporal_resolution, self.config)
 
             data = xr.where(np.isfinite(data_tar_gfw_tmp), data_tar_gfw_tmp,
                             data_src_var)
