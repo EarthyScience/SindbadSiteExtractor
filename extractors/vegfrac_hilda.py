@@ -22,7 +22,7 @@ def extract(dataset, site_info, config):
 
     src_data = []
 
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
 
         hilda_data_all = xr.open_dataset(bxtr.vars[tar_name]['data_path']).sel(time = slice(int(bxtr.start_date[0:4]),int(bxtr.end_date[0:4])))
         hilda_data = hilda_data_all.sel(latitude = bxtr.lat, longitude = bxtr.lon, method='nearest').LULC_states

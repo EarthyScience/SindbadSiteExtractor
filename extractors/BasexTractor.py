@@ -29,6 +29,7 @@ class BasexTractor:
         self.flx_cubepath = config["fluxcom_cube_path"]
         self.version = config["FLUXNET_version"]
         self.vars = config["dataset"][dataset]["variables"]
+        self.vars_list = list(config["dataset"][dataset]["variables"].keys())
         self.temporal_resolution = config["temporal_resolution"]
         self.vars = config["dataset"][dataset]["variables"]
         self.extractor = config["dataset"][dataset]["extractor"]
@@ -178,15 +179,8 @@ class BasexTractor:
 
     def merge_and_format(self, data):
         if self.temporal_resolution == "hourly":
-            _tmp = []
-            for _data in data:
-                if 'hour' in _data.dims:
-                    _tmp.append(shut.flatten_hour_to_time(_data))
-                else:
-                    _tmp.append(_data)
-        else:
-            _tmp = data
-        dataset = xr.merge(_tmp)
+            data = shut.flatten_hour_to_time(data)
+        dataset = xr.merge(data)
         dataset = shut.data_structure_temporal_NoDepth(dataset, self.lat,
                                                        self.lon)
         return dataset

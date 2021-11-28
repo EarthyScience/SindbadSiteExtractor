@@ -25,7 +25,7 @@ def extract(dataset, site_info, config):
 
     src_vars = [_var.name for _var in src_prov.variables]
     src_data = []
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
         src_name =  bxtr.vars[tar_name]['sourceVariableName']
         if src_name in src_vars:
 

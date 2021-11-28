@@ -27,7 +27,7 @@ def extract(dataset, site_info, config):
     src_vars = [_var.name for _var in src_prov.variables]
     src_data = []
     variants = 'shallow deep'.split()
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
         src_name =  bxtr.vars[tar_name]['sourceVariableName']
         if src_name in src_vars:
             
@@ -43,8 +43,7 @@ def extract(dataset, site_info, config):
                 data_tmp = src_prov.get_data(Variable(src_name, units=bxtr.vars[tar_name]['sourceVariableUnit'], partitioning=bxtr.vars[tar_name]['partitioning'], depth=depth))
                 data.append(data_tmp)
 
-            if bxtr.temporal_resolution == 'hourly':
-                data = [shut.flatten_hour_to_time(_data) for _data in data]
+            data = shut.flatten_hour_to_time(data)
 
             data = xr.merge(data)
             data = xr.DataArray(data.to_array().values.reshape(len(list(data.keys())),-1,1,1), 

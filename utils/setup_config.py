@@ -106,7 +106,7 @@ def setup_out_dir(exp_config):
 
 def merge_var_info(base_info, sel_var_info):
     """
-    merge the base_info in each provider with the corresponding changes from each variable within the provider's json. 
+    merge the base_info in each extractor with the corresponding changes from each variable within the extractor's json. 
     - The values in the base_info are default, and these are changed if they exist for each variable. 
     - This avoids repeating the blocks of same information for each variable in the json
     """
@@ -130,6 +130,11 @@ def get_selected_list(sel, full):
     """
     olist = full
     if isinstance(sel, list):
+        print(sel, 'before')
+        for _sel in sel:
+            if _sel.strip() == '':
+                sel.remove(_sel)
+        print(sel, 'after')
         if "all" in sel:
             return olist
         else:
@@ -152,7 +157,7 @@ def get_selected_list(sel, full):
 
 
 def add_suffix_to_sel_variables(var_list, suffix):
-    "adds the suffix to the variables that is provided as var_suffix in the json for each provider"
+    "adds the suffix to the variables that is provided as var_suffix in the json for each extractor"
     if len(suffix) > 0:
         return [_l + suffix for _l in var_list]
     else:
@@ -240,12 +245,12 @@ def get_variable_info(_config):
     return variables_all, _config_out
 
 
-def get_prov_configuration(conf_file):
+def get_extractor_configuration(conf_file):
     print(conf_file)
     with open(conf_file, 'r') as config_file:
-        prov_rf = config_file.read()
-    prov_conf = json.loads(prov_rf)
-    return prov_conf
+        extractor_rf = config_file.read()
+    extractor_conf = json.loads(extractor_rf)
+    return extractor_conf
 
 
 def check_units_consistency(full_info):
@@ -277,7 +282,7 @@ def check_units_consistency(full_info):
                     if src_unit != tar_unit:
                         if float(unit_scalar) == 1:
                             sys.exit(
-                                f'dataset: {name}: {var} is in {src_unit} in source [sourceVariableUnit] and {tar_unit} in target [variableUnit], but the unit scalar [source2sindbadUnit] is {unit_scalar}. Fix inconsistency setting the units and coversion correctly or using skipUnitcheck: true'
+                                f'dataset: {name}: {var} unit is {src_unit} in source [sourceVariableUnit] and {tar_unit} in target [variableUnit], but the unit scalar [source2sindbadUnit] is {unit_scalar}. Fix inconsistency by setting the units and coversion correctly or using skipUnitcheck: true'
                             )
                 else:
                     unf.write(
@@ -318,6 +323,36 @@ def check_duplicate_datasets(sel_dataset):
         print(f"No duplicates found in selected datasets: \n {sel_dataset}")
     return
 
+def get_gapfill_settings(_config):
+    '''
+    check the gap filling settings
+    '''
+    _config['sel_gapfills'] = get_selected_list(
+        _config['sel_gapfills'], list(_config['gap_fill'].keys()))
+    if check_duplicates_in_list(_config['sel_gapfills']):
+        sys.exit(
+            f"Selected gap_fills in exp_config are duplicates. 'sel_gapfills' list and keys of gap_fill need to be unique. Cannot continue: \n {sorted(_config['sel_gapfills'])}"
+        )
+
+    sgf=_config['sel_gapfills']
+
+    if len(sgf) == 0:
+        _config['do_gap_fill'] = False
+    if len(sgf) == 1 and (sgf[0].lower().strip() in ['none', 'no', 'nothing', '']):
+        _config['do_gap_fill'] = False
+    else:
+        _config['do_gap_fill'] = True
+    
+    if _config['do_gap_fill']:
+        for gfik in sgf:
+            gfiv = _config['gap_fill'][gfik]
+            check_fields = ['source', 'target']
+            for _cf in check_fields:
+                if gfiv[_cf] not in _config['sel_datasets']:
+                    sys.exit(
+                    f"Cannot do gap filling for {gfik}: {_cf} is set as {gfiv[_cf]}. But, {gfiv[_cf]} is not in selected datasets. \n {_config['sel_datasets']} \n Change sel_datasets or gap filling {_cf} or set sel_gapfills to any of [{' | '.join(['none', 'no', 'nothing'])}].")
+
+    return _config
 
 def get_inp_config(exp_config_path):
     with open(exp_config_path, 'r') as config_file:
@@ -347,12 +382,12 @@ def get_exp_configuration(exp_config_path,
     ## check if the selected datasets have duplicates
     check_duplicate_datasets(exp_config['sel_datasets'])
 
-    # get provider information for each of the selected datasets
-    for prov in exp_config['sel_datasets']:
-        prov_dict = get_prov_configuration(exp_config['dataset'][prov])
-        exp_config['dataset'][prov] = prov_dict
+    # get extractor information for each of the selected datasets
+    for extractor in exp_config['sel_datasets']:
+        extractor_dict = get_extractor_configuration(exp_config['dataset'][extractor])
+        exp_config['dataset'][extractor] = extractor_dict
 
-    # get variable information for each of the selected provider
+    # get variable information for each of the selected extractor
     variables, exp_config = get_variable_info(exp_config)
 
     ## check if the selected and generated variables are duplicates
@@ -361,6 +396,8 @@ def get_exp_configuration(exp_config_path,
     # check if the units are consistent with scalars
     check_units_consistency(exp_config)
 
+    # get gap fill settings
+    exp_config = get_gapfill_settings(exp_config)
     # save configuration
     shut.save_json(
         os.path.join(exp_config['OutPath']['info_config'],

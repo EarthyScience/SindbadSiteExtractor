@@ -49,12 +49,12 @@ class cliff_gapfill:
             try:
                 data_tar_gfw_tmp = data_tar_var.where(
                     data_tar[qc_var].fillna(0) > self.qc_thres)
-                shut.log_and_print('xTrct', self.site, f'CLIFF GAPFILL',
+                shut.log_and_print('GapFill', self.site, f'CLIFF',
                                    f'{var_tar}[{qc_var} < {self.qc_thres}]',
                                    var_src, self.temporal_resolution)
             except:
                 data_tar_gfw_tmp = data_tar_var
-                shut.log_and_print('xTrct', self.site, f'CLIFF GAPFILL',
+                shut.log_and_print('GapFill', self.site, f'CLIFF',
                                    f'{var_tar}[{qc_var} not found!!]', var_src,
                                    self.temporal_resolution)
 

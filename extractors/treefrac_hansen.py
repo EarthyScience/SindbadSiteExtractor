@@ -23,7 +23,7 @@ def extract(dataset, site_info, config):
     date_ = bxtr.get_date_vec()
 
     src_data = []
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
 
         src_df = pd.read_csv(bxtr.vars[tar_name]['data_path'])
         src_name =  bxtr.vars[tar_name]['sourceVariableName']

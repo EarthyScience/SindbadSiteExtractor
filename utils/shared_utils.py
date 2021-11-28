@@ -30,15 +30,24 @@ def data_structure_temporal_NoDepth(data, lat, lon):
         ds_ = data
     return ds_
 
+def flatten_xr_hour_to_time(x_data):
+    if 'hour' in x_data.dims:
+        import pandas as pd
+        time1 = x_data['time'].values[0]
+        x_data = x_data.rename({
+            'time': 'date'
+        }).stack(time=('date', 'hour')).reset_index('time')
+        times = pd.date_range(time1, periods=len(x_data['time']), freq='H')
+        x_data['time'] = times
+    else:
+        x_data = x_data
+    return x_data
 
 def flatten_hour_to_time(_data):
-    import pandas as pd
-    time1 = _data['time'].values[0]
-    _data = _data.rename({
-        'time': 'date'
-    }).stack(time=('date', 'hour')).reset_index('time')
-    times = pd.date_range(time1, periods=len(_data['time']), freq='H')
-    _data['time'] = times
+    if isinstance(_data, list):
+        _data = [flatten_xr_hour_to_time(__data) for __data in _data]
+    else:
+        _data = flatten_xr_hour_to_time(_data)
     return _data
 
 
@@ -83,6 +92,7 @@ def log_datavar_info(dataset,
 
     data_units = data_ar.units
     tname = get_transform_name(transform)
+
     ## get data information
     data_a = data_ar.values
     data_min = np.nanmin(data_a)
@@ -97,9 +107,30 @@ def log_datavar_info(dataset,
     n_out_bounds = ((bounds_in[0] > data_tmp) &
                     (data_tmp > bounds_in[1])).sum()
     n_out_bounds_perc = round(n_out_bounds * 100 / (n_data_tmp), 2)
-    logger.info(f'\n Dataset:: {dataset} \n site: {site}\
-                \n reso:: {t_reso}\
-                \n var:: \n \t src: {src_var_name} \n \t target: {tar_var_name}\n \t partitioning: {partitioning} \n units:: \n \t data: {data_units} \n \t json-target:: {json_units_tar} \n \t json-source: {json_units_src}, \n data (after processing):: \n \t shape: {data_a.shape} \n \t size: {data_a.size} \n \t min: {data_min} \n \t max: {data_max} \n json_bnds:: \n \t min: {bounds_in[0]} \n \t max: {bounds_in[1]} \n counts:: \n \t out_bounds_none_NaN: {n_out_bounds} ({n_out_bounds_perc}%) \n \t nans: {nan_c} ({nan_c_p}%) \n transform:: {tname}'
+
+    logger.info(f'\n Dataset:: {dataset}\
+                    \n site: {site}\
+                    \n reso:: {t_reso}\
+                    \n var::\
+                        \n \t src: {src_var_name}\
+                        \n \t target: {tar_var_name}\
+                        \n \t partitioning: {partitioning}\
+                    \n units::\
+                        \n \t data: {data_units}\
+                        \n \t json-target:: {json_units_tar}\
+                        \n \t json-source: {json_units_src}\
+                    \n data (after processing)::\
+                        \n \t shape: {data_a.shape}\
+                        \n \t size: {data_a.size}\
+                        \n \t min: {data_min}\
+                        \n \t max: {data_max}\
+                    \n json_bnds::\
+                        \n \t min: {bounds_in[0]}\
+                        \n \t max: {bounds_in[1]}\
+                    \n counts::\
+                        \n \t out_bounds_none_NaN: {n_out_bounds} ({n_out_bounds_perc}%)\
+                        \n \t nans: {nan_c} ({nan_c_p}%)\
+                    \n transform:: {tname}'
                 )
     return
 
@@ -115,18 +146,37 @@ def do_unit_conversion(data, var_name, src_units, tar_units, units_scalar):
     if units_scalar == 1.:
         if src_units.lower() != tar_units.lower():
             logger.warning(
-                f'Unit Conversion::\n{var_name}: \nunits \n\t src: [{src_units}] \n\t target: [{tar_units}] \n scaled by: {units_scalar} \n Note :: potentially inconsistent units. Make sure that transforms below take care of unit conversion.'
+                f'Unit Conversion::\
+                    \n {var_name}:\
+                    \n units\
+                        \n \t src: [{src_units}]\
+                        \n \t target: [{tar_units}]\
+                        \n \t scaled by: {units_scalar}\
+                    \n Note: potentially inconsistent units. Make sure that transforms below take care of unit conversion.'
             )
         else:
             logger.warning(
-                f'Unit Conversion::\n{var_name}: \nunits \n\t src: [{src_units}] \n\t target: [{tar_units}] \n scaled by: {units_scalar} \n Note :: No unit conversion needed.'
+                f'Unit Conversion::\
+                    \n {var_name}:\
+                    \n units\
+                        \n \t src: [{src_units}]\
+                        \n \t target: [{tar_units}]\
+                        \n \t scaled by: {units_scalar}\
+                    \n Note :: No unit conversion needed.'
             )
 
             data_out.attrs["units"] = src_units
     else:
         data_out.values = data_out.values * units_scalar
-        logger.info(
-            f'Unit Conversion::\n{var_name}: \nunits \n\t src: [{src_units}] \n\t target: [{tar_units}] \n scaled by: {units_scalar} \n mean \n\t before : {np.nanmean(data.values)} \n\t after : {np.nanmean(data_out.values)} '
+        logger.info(f'Unit Conversion::\
+                    \n {var_name}:\
+                    \n units\
+                        \n \t src: [{src_units}]\
+                        \n \t target: [{tar_units}]\
+                        \n \t scaled by: {units_scalar}\
+                    \n mean:\
+                        \n \t before: {np.nanmean(data.values)}\
+                        \n\t after: {np.nanmean(data_out.values)}'
         )
         data_out.attrs["units"] = tar_units
     return data_out

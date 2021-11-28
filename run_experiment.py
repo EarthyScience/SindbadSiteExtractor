@@ -16,6 +16,7 @@ sys.path.append(os.getcwd())
 def get_site_list(cubepath, version):
     import numpy as np
     site_list_path = os.path.join(exp_config['OutPath']['info_config'], f"site_list_{version}.csv")
+    print(site_list_path)
     if os.path.exists(site_list_path):
         site_list = [site.strip() for site in open(site_list_path).readlines()]
     else:
@@ -24,13 +25,14 @@ def get_site_list(cubepath, version):
         Climate_FLUXNET_prov    = ec.eddy_covariance.EddyProvider(cubepath = cubepath,version  = version)
         Climate_FLUXNET_data = Climate_FLUXNET_prov.get_data(Variable('P'))
         site_list = Climate_FLUXNET_data.site.values
+        print(site_list_path)
         np.savetxt(site_list_path, site_list, delimiter=",", fmt="%s")
     return site_list
 
 class DataCompiler:    
     def __init__(self, exp_settings=None):
         self.exp_settings = exp_settings
-    def extract(self, site):
+    def process(self, site):
         site_data = compile_site_data(site, self.exp_settings)
         return site_data
 

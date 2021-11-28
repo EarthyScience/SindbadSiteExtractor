@@ -29,7 +29,7 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "ncarval[at]bgc-jena.mpg.de",
-        "data_path": "/Net/Groups/BGI/work_3/cliff/output/csvs/",
+        "data_path": "/Net/Groups/BGI/work_3/cliff/output/downscaling/csvs/",
         "description": "Downscaled climate forcing using ERA-Interim"
         },
     "sel_variables": "all except SW_IN_POT",
@@ -43,7 +43,7 @@
             "sourceVariableName": "TA",
             "sourceVariableUnit": "deg C",
             "nameShort": "TA",
-            "nameLong": "air temperature - gapfilled using MDS method",
+            "nameLong": "air temperature",
             "DayMin": true,
             "DayMax": true,
             "DayTime": true

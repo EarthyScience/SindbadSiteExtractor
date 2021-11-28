@@ -23,7 +23,7 @@ def extract(dataset, site_info, config):
 
     src_data = []
 
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
         
         PFT_df = pd.read_csv(bxtr.vars[tar_name]['data_path'])
         PFT_dat = PFT_df.loc[PFT_df['Site_ID'] == bxtr.site]

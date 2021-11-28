@@ -1,34 +1,38 @@
 {
     "OutPath": "/User/homes/skoirala/skoirala/toolDev/outputs_sindbad_preproc/gapfill/",
     "diagnostic_plots": true,
-    "njobs_parallel": 1,
-    "sites_toRun": [
-        "US-Wi3",
+    "njobs_parallel": 25,
+    "sites_toRun1": [
         "AR-SLu",
+        "US-Wi3",
         "JP-MBF"
     ],
-    "sites_toRunA": [
+    "sites_toRun": [
         "all"
     ],
     "start_date": "1989-01-01",
     "end_date": "2020-12-31",
-    "temporal_resolution": "hourly",
+    "temporal_resolution": "daily",
     "FLUXNET_version": "FLUXNET2015",
     "exp_name": "SINDBAD",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.03/site_cube",
-    "loop_sources": false,
-    "resample_output": [
-        "monthly"
-    ],
-    "do_gap_fill": false,
+    "loop_sources": true,
+    "resample_output": "",
+    "sel_gapfills": "clim clim2",
+    "allow_extraction_errors": true,
     "gap_fill": {
         "clim": {
             "target": "bgi_FLUXCOM_clim",
             "source": "cliff_erai",
-            "qc_thres": 0.9
+            "qc_thres": 0.85
+        },
+        "clim2": {
+            "target": "bgi_FLUXCOM_clim",
+            "source": "cliff_cru",
+            "qc_thres": 0.85
         }
     },
-    "sel_datasets": "all except cliff_erai",
+    "sel_datasets": "all",
     "dataset": {
         "bgi_FLUXCOM_obs": "configuration/sindbad/fluxcom_obs.json",
         "bgi_FLUXCOM_clim": "configuration/sindbad/fluxcom_clim.json",
@@ -44,6 +48,8 @@
         "db_besnard2018": "configuration/sindbad/disturbage_besnard2018.json",
         "atmCO2": "configuration/sindbad/atmCO2_point.json",
         "agb": "configuration/sindbad/agb.json",
-        "cliff_erai": "configuration/sindbad/cliff_csv.json"
+        "cliff_erai": "configuration/sindbad/cliff_erai_csv.json",
+        "cliff_cru": "configuration/sindbad/cliff_cruncepv8_csv.json",
+        "swinpot": "configuration/sindbad/oneflux_swinpot_csv.json"
     }
 }

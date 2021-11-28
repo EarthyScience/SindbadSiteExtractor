@@ -30,7 +30,7 @@ def extract(dataset, site_info, config):
 
     src_data = []
 
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
         src_df = pd.read_csv(bxtr.vars[tar_name]['data_path'])
         last_disturbance_on = src_df.loc[src_df['Site_ID'] == bxtr.site][
             'Plantation_Date_max'].values.astype(np.datetime64)

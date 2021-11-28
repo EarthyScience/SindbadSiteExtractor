@@ -43,7 +43,7 @@ def add_date_variables(dat):
     year = dates.year.to_numpy()
     month = dates.month.to_numpy()
     day = dates.day.to_numpy()
-    hour = dates.hour.to_numpy()  #+ 1
+    hour = dates.hour.to_numpy()
 
     julian_day = np.zeros_like(year)
     for _ind in range(len(year)):
@@ -103,10 +103,10 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
         data_freq = resampled
     site_fig_dir = os.path.join(exp_settings['OutPath']['figs'], data_freq)
 
-    # site_fig_dir = os.path.join(exp_settings['OutPath']['figs'], site)
     os.makedirs(site_fig_dir, exist_ok=True)
     skipvars = 'month day year hour julian_day'.split()
     plotvars = list(set(list(ds.keys())) - set(skipvars))
+    fig_size = (12, 2.5)
     for data_key in exp_settings["sel_datasets"]:
         data_set = exp_settings["dataset"][data_key]
         for var_, var_info in data_set['variables'].items():
@@ -120,11 +120,11 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                                    data_freq,
                                    tar_label='variable',
                                    src_label='units')
-                # print(f'{dat_.sourceDataProductName} : {data_freq} | {site} : {var_}')
+
                 if ('depth_FLUXNET' in dat_.dims) & ('time' in dat_.dims):
                     fig, ax = plt.subplots(1,
                                            1,
-                                           figsize=(8, 4),
+                                           figsize=fig_size,
                                            gridspec_kw={
                                                'wspace': 0.35,
                                                'hspace': 0.5
@@ -136,17 +136,14 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                             dat_.sel(depth_FLUXNET=layer_).values.reshape(-1),
                             lw=0.6,
                             label='Layer ' + str(layer_))
-                    plt.legend()
-                    ax.set_xlabel('time', size=8)
-                    ax.set_ylabel(data_freq + " " + var_ + ' [' + dat_.units +
-                                  ']',
-                                  size=8)
+                    plt.legend(loc='best', fontsize=5)
+                    x_l = ax.set_xlabel('time', size=8)
                 elif ('time' in dat_.dims) & (
                         'depth_FLUXNET' not in dat_.dims) & ('depth_soilGrids'
                                                              not in dat_.dims):
                     fig, ax = plt.subplots(1,
                                            1,
-                                           figsize=(8, 4),
+                                           figsize=fig_size,
                                            gridspec_kw={
                                                'wspace': 0.35,
                                                'hspace': 0.5
@@ -154,55 +151,58 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                     if not var_.endswith("_gfld"):
                         ax.plot(dat_.time.values.reshape(-1),
                                 dat_.values.reshape(-1),
-                                lw=0.6)
+                                lw=0.6,
+                                ls=":")
                     else:
-                        # print(dat_, dat_.sourceDataProductName)
+
                         ax.plot(dat_.time.values.reshape(-1),
                                 dat_.values.reshape(-1),
                                 lw=0.6,
+                                ls=":",
                                 label=dat_.sourceDataProductName)
                         dat_ori_ = ds[var_info['with_gaps']]
-                        # print(dat_ori_)
+
                         ax.plot(dat_ori_.time.values.reshape(-1),
                                 dat_ori_.values.reshape(-1),
                                 lw=0.6,
+                                ls="--",
                                 label=dat_ori_.sourceDataProductName)
-                        plt.legend()
+                        plt.legend(loc='best', fontsize=5)
 
-                    ax.set_xlabel('time', size=8)
-                    ax.set_ylabel(data_freq + " " + var_ + ' [' + dat_.units +
-                                  ']',
-                                  size=8)
+                    x_l = ax.set_xlabel('time', size=8)
                 elif 'depth_soilGrids' in dat_.dims:
                     if 'time' in dat_.dims:
                         ## time axis is automatically generated in the monthly data are created using resampling
                         dat_ = dat_.mean(dim='time', keep_attrs=True)
                     fig, ax = plt.subplots(1,
                                            1,
-                                           figsize=(8, 4),
+                                           figsize=(4, 4),
                                            gridspec_kw={
                                                'wspace': 0.35,
                                                'hspace': 0.5
                                            })
                     ax.scatter(dat_.depth_soilGrids.values, dat_.values, s=10)
-                    ax.set_xlabel('depth_soilGrids', size=8)
-                    ax.set_ylabel(data_freq + " " + var_ + ' [' + dat_.units +
-                                  ']',
-                                  size=8)
+                    x_l = ax.set_xlabel('depth_soilGrids', size=8)
                 ax.tick_params(labelsize=6)
                 ax.spines['top'].set_visible(False)
                 ax.spines['right'].set_visible(False)
-                plt.title(
-                    f'{site_info["site_ID"]}:: {data_key} in json: {dat_.sourceDataProductName} with {exp_settings["FLUXNET_version"]}\n {get_bounds_str(dat_,var_info["bounds"])}',
+                y_l = ax.set_ylabel(data_freq + " " + var_ + '\n[' +
+                                    dat_.units + ']',
+                                    size=8)
+                t_l = plt.title(
+                    f'{exp_settings["FLUXNET_version"]}:::{site_info["site_ID"]}:: {data_key} [exp-json], src: {dat_.sourceDataProductName} \n{get_bounds_str(dat_,var_info["bounds"])}',
                     multialignment='center',
-                    va='top',
+                    va='bottom',
                     size=8,
-                    y=1.03)
+                    color='#339900',
+                    y=1.06)
                 plt.savefig(
                     site_fig_dir + "/" + site_info["site_ID"] + '_' + var_ +
                     "." + exp_settings['start_date'].split('-')[0] + "-" +
                     str(int(exp_settings['end_date'].split('-')[0])) + '.' +
                     data_freq + '.png',
+                    bbox_inches='tight',
+                    box_extra_artists=[x_l, y_l, t_l],
                     dpi=300)
             else:
                 logging.warning(
@@ -211,28 +211,31 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
     shut.log_and_print_sep()
     return
 
+
 def add_gapfill_settings(exp_settings,
                          fill_src=None,
                          fill_tar=None,
                          dataset_key=None,
                          qc_thres=None):
-    exp_settings['sel_datasets'] = np.append(exp_settings['sel_datasets'],
-                                             dataset_key)
-    exp_settings['dataset'][dataset_key] = copy.deepcopy(
-        exp_settings['dataset'][fill_tar])
-    exp_settings['dataset'][dataset_key]['gfld_src'] = fill_src
-    exp_settings['dataset'][dataset_key]['gfld_tar'] = fill_tar
+    _exp_settings = copy.deepcopy(exp_settings)
 
-    src_suffix = exp_settings['dataset'][fill_src]['var_suffix']
+    _exp_settings['sel_datasets'] = np.append(_exp_settings['sel_datasets'],
+                                              dataset_key)
+    _exp_settings['dataset'][dataset_key] = copy.deepcopy(
+        _exp_settings['dataset'][fill_tar])
+    _exp_settings['dataset'][dataset_key]['gfld_src'] = fill_src
+    _exp_settings['dataset'][dataset_key]['gfld_tar'] = fill_tar
+
+    src_suffix = _exp_settings['dataset'][fill_src]['var_suffix']
     if len(src_suffix.strip()) > 0:
         src_suffix = '_' + src_suffix
 
-    tar_suffix = exp_settings['dataset'][fill_tar]['var_suffix']
+    tar_suffix = _exp_settings['dataset'][fill_tar]['var_suffix']
     if len(tar_suffix.strip()) > 0:
         tar_suffix = '_' + tar_suffix
-    tar_info = copy.deepcopy(exp_settings['dataset'][fill_tar]['variables'])
-    src_info = copy.deepcopy(exp_settings['dataset'][fill_src]['variables'])
-    _v_tars = list(exp_settings['dataset'][fill_tar]['variables'].keys())
+    tar_info = copy.deepcopy(_exp_settings['dataset'][fill_tar]['variables'])
+    src_info = copy.deepcopy(_exp_settings['dataset'][fill_src]['variables'])
+    _v_tars = list(_exp_settings['dataset'][fill_tar]['variables'].keys())
 
     for _v_tar in _v_tars:
         _v_tar_gfld = _v_tar + src_suffix + '_gfld'
@@ -251,10 +254,10 @@ def add_gapfill_settings(exp_settings,
                 'data_path'] = f"{tar_info[_v_tar]['data_path']}; {src_info[_v_src]['data_path']}"
             gfl_var_info['with_gaps'] = _v_tar
 
-        exp_settings['dataset'][dataset_key]['variables'][
+        _exp_settings['dataset'][dataset_key]['variables'][
             _v_tar_gfld] = gfl_var_info
-        exp_settings['dataset'][dataset_key]['variables'].pop(_v_tar)
-    return exp_settings
+        _exp_settings['dataset'][dataset_key]['variables'].pop(_v_tar)
+    return _exp_settings
 
 
 def write_netcdf(ds, exp_settings, site, resampled=None):
@@ -270,8 +273,8 @@ def write_netcdf(ds, exp_settings, site, resampled=None):
         str(int(exp_settings['end_date'].split('-')[0])) + '.' + data_freq +
         '.nc')
     ds.to_netcdf(ncfile_name, mode='w')
-    shut.log_and_print_sep(
-        f'saved nc data: {data_freq} : {ncfile_name}'.center(150, '-'))
+    shut.log_and_print_sep(f'ncFile: {data_freq} : {ncfile_name}'.center(
+        150, ' '))
     shut.log_and_print_sep()
     return
 
@@ -289,8 +292,6 @@ def resample_data(_data, _res):
 
 def harmonize_data_attrs(site_info, data, _config, resampled=None):
     site = site_info['site_ID']
-    start_date = _config["start_date"]
-    end_date = _config["end_date"]
 
     #%Sort variable alphabeticatly
     var_selected_data = sorted(list(data.keys()))
@@ -309,6 +310,18 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
             set(var_selected_src).intersection(set(var_selected_data)))
 
         for var_ in var_selected:
+            units = var_info[var_]['variableUnit']
+            t_units = ['mm'.lower(), 'gC m-2'.lower(), 'MJ m-2'.lower()]
+            if units.lower() in t_units:
+                if var_info[var_]['isCarbon'] or var_info[var_][
+                        'isEnergy'] or var_info[var_]['isWater']:
+                    if _config['temporal_resolution'] == 'daily':
+                        units = units + ' d-1'
+                    elif _config['temporal_resolution'] == 'hourly':
+                        units = units + ' h-1'
+                    else:
+                        units = units
+
             sourceDataProductName = var_info[var_]['sourceDataProductName']
             if 'time' in data[var_].dims and 'depth_soilGrids' in data[
                     var_].dims:
@@ -319,7 +332,7 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
             attrs_dict = dict(
                 bounds=str([np.nanmin(data[var_]),
                             np.nanmax(data[var_])]),
-                units=var_info[var_]['variableUnit'],
+                units=units,
                 short_name=var_info[var_]['nameShort'],
                 long_name=nameLong,
                 sourceDataProductName=sourceDataProductName,
@@ -390,6 +403,117 @@ def close_logger():
     return
 
 
+def update_out_dir(_exp_settings, data_variant):
+    __exp_settings = copy.deepcopy(_exp_settings)
+    __exp_settings['OutPath']['figs'] = os.path.join(
+        __exp_settings['OutPath']['figs'], data_variant)
+    __exp_settings['OutPath']['nc_file'] = os.path.join(
+        __exp_settings['OutPath']['nc_file'], data_variant)
+    return __exp_settings
+
+
+def finalize_and_save(data_dict,
+                      site,
+                      site_info,
+                      exp_settings,
+                      gap_filled_data=None,
+                      gap_filler_key=None):
+    shut.log_and_print_sep(
+        f'harmonizing, plotting, and saving for gapfiller: {gap_filler_key}'.
+        center(150, '-'))
+    shut.log_and_print_sep()
+    _exp_settings = copy.deepcopy(exp_settings)
+    _data_dict = copy.deepcopy(data_dict)
+    try:
+        data_values = _data_dict.values()
+        if len(data_values) == 0:
+            exit_msg = f"None of the selected datasets provide any data at {_exp_settings['temporal_resolution']} resolution. Selected datasets were [{','.join(_exp_settings['sel_datasets'])}]"
+            logging.warning(exit_msg)
+            raise Exception(exit_msg)
+    except Exception as e:
+        logging.info(
+            f"Cannot compile data for: {site_info['site_ID']} for  {site_info['site_ID']}. Error: "
+        )
+        print(e)
+        logging.info(e)
+        close_logger()
+        return {site: {'status': 'failed'}}
+
+    if gap_filled_data is None:
+        if _exp_settings['do_gap_fill'] == False:
+            _exp_settings = _exp_settings
+        else:
+            _exp_settings = update_out_dir(_exp_settings, 'no_CLIFF')
+            for _gf in _exp_settings['sel_gapfills']:
+                _data_dict.pop(_exp_settings['gap_fill'][_gf]['source'])
+    else:
+        gap_filler = _exp_settings['gap_fill'][gap_filler_key]['source']
+        gap_filled = _exp_settings['gap_fill'][gap_filler_key]['target']
+        _data_dict['data_gfld'] = gap_filled_data
+        _exp_settings = update_out_dir(
+            _exp_settings, _exp_settings['dataset'][gap_filler]["src_cliff"])
+        _exp_settings["start_date"] = _exp_settings['dataset'][gap_filler][
+            "src_start_date"]
+        _exp_settings["end_date"] = _exp_settings['dataset'][gap_filler][
+            "src_end_date"]
+        sel_data_gf_only = [gap_filler, gap_filled, f'{gap_filler_key}_gfld']
+
+    shut.log_and_print_sep()
+    #%% Merge all data
+    logging.info(f'Merging all data: {site_info["site_ID"]}')
+    ds = xr.merge(_data_dict.values())
+
+    # remove gap_fill_data from dictionary
+    if 'data_gfld' in _data_dict.keys():
+        _data_dict.pop('data_gfld')
+
+    # slice the time series
+    ds = ds.sel(
+        time=slice(_exp_settings["start_date"], _exp_settings["end_date"]))
+
+    # get only a subset to plot
+
+    #%% resample, harmonize metadata, and save
+    res_harmon = [None]
+    if len(_exp_settings["resample_output"]) > 0:
+        res_harmon = _exp_settings["resample_output"]
+        res_harmon.insert(0, None)
+    for res in res_harmon:
+        if res is not None:
+            ds_res = resample_data(ds, res)
+        else:
+            ds_res = ds
+        ds_res_h = harmonize_data_attrs(site_info,
+                                        ds_res,
+                                        _exp_settings,
+                                        resampled=res)
+        write_netcdf(ds_res_h, _exp_settings, site, resampled=res)
+        if gap_filler_key is not None:
+            _exp_settings['sel_datasets'] = sel_data_gf_only
+        if _exp_settings['diagnostic_plots']:
+            plot_dianostic_figures(ds_res_h,
+                                   site_info,
+                                   _exp_settings,
+                                   site,
+                                   resampled=res)
+        if res is None:
+            res = _exp_settings['temporal_resolution']
+        shut.log_and_print_sep(
+            f'harmonizing, plotting, and saving complete {res}'.center(
+                150, '-'))
+        shut.log_and_print_sep()
+
+    shut.log_and_print_sep()
+
+    site_dict_d = ds.to_dict(data=False).copy()
+
+    # close datasets
+    ds_res.close()
+    ds.close()
+
+    return site_dict_d
+
+
 def compile_site_data(site, exp_settings=None):
     log_path = os.path.join(
         exp_settings['OutPath']['log'],
@@ -423,9 +547,17 @@ def compile_site_data(site, exp_settings=None):
         )
         extractor_mod = load_extractor(extractor_name)
         extractor_function = getattr(extractor_mod, 'extract')
-        provided_data = extractor_function(site_info=site_info,
-                                       config=exp_settings,
-                                       dataset=extractor)
+        try:
+            provided_data = extractor_function(site_info=site_info,
+                                               config=exp_settings,
+                                               dataset=extractor)
+        except:
+            if exp_settings["allow_extraction_errors"]:
+                continue
+            else:
+                sys.exit(
+                    f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]}'
+                )
         if provided_data is not None:
             data_all[extractor] = provided_data
             if (len(sitePFT) == 0) & ('PFT' in provided_data.attrs):
@@ -435,89 +567,35 @@ def compile_site_data(site, exp_settings=None):
                                                   in provided_data.attrs):
                 last_disturbance_on = f"{provided_data.attrs['last_disturbance_on']}"
         shut.log_and_print_sep()
-    if exp_settings['do_gap_fill'] == True:
-        for gfik, gfiv in exp_settings["gap_fill"].items():
-            if gfiv['source'] in data_all.keys(
-            ) and gfiv['target'] in data_all.keys():
-                data_gapfilled = cliff_gapfill(fill_src=gfiv['source'],
-                                               fill_tar=gfiv['target'],
-                                               site_info=site_info,
-                                               data_dict=data_all,
-                                               qc_thres=gfiv['qc_thres'],
-                                               config=exp_settings).gapfill()
-                exp_settings = add_gapfill_settings(exp_settings,
-                                                    fill_src=gfiv['source'],
-                                                    fill_tar=gfiv['target'],
-                                                    dataset_key=f'{gfik}_gfld',
-                                                    qc_thres=gfiv['qc_thres'])
-                data_all[f'{gfik}_gfld'] = data_gapfilled
-            else:
-                logging.warning(
-                    f"Cannot do gap filling for {gfik}: do_gap_fill is set to {exp_settings['do_gap_fill']} in experiment[json], but one or both of {gfiv['source']} and {gfiv['target']} are not in selected datasets. change sel_datasets, gap filling source or target, or set do_gap_fill to {not exp_settings['do_gap_fill']}."
-                )
-
-    # add pft to the settings to write to netcdf
 
     exp_settings['last_disturbance_on'] = last_disturbance_on
     exp_settings['sitePFT'] = sitePFT
     exp_settings['PFTextractor'] = PFTextractor
-    #%% Merge all data
-    logging.info(f'Merging all data: {site_info["site_ID"]}')
-    try:
-        data_values = data_all.values()
-        if len(data_values) == 0:
-            exit_msg = f"None of the selected datasets provide any data at {exp_settings['temporal_resolution']} resolution. Selected datasets were [{','.join(exp_settings['sel_datasets'])}]"
-            logging.warning(exit_msg)
-            raise Exception(exit_msg)
-        else:
-            ds = xr.merge(data_all.values())
-    except Exception as e:
-        logging.info(
-            f"Cannot compile data for: {site_info['site_ID']} for  {site_info['site_ID']}. Error: "
-        )
-        print(e)
-        logging.info(e)
-        close_logger()
-        return {site: {'status': 'failed'}}
 
-    shut.log_and_print_sep()
-
-    # slice the time series
-    ds = ds.sel(
-        time=slice(exp_settings["start_date"], exp_settings["end_date"]))
-
-    #%% resample, harmonize metadata, and save
-    res_harmon = [None]
-    if len(exp_settings["resample_output"]) > 0:
-        res_harmon = exp_settings["resample_output"]
-        res_harmon.insert(0, None)
-    for res in res_harmon:
-        if res is not None:
-            ds_res = resample_data(ds, res)
-        else:
-            ds_res = ds
-        ds_res_h = harmonize_data_attrs(site_info,
-                                        ds_res,
-                                        exp_settings,
-                                        resampled=res)
-        write_netcdf(ds_res_h, exp_settings, site, resampled=res)
-        if exp_settings['diagnostic_plots']:
-            plot_dianostic_figures(ds_res_h,
-                                   site_info,
-                                   exp_settings,
-                                   site,
-                                   resampled=res)
-        if res is None:
-            res = exp_settings['temporal_resolution']
-        shut.log_and_print_sep(
-            f'harmonizing, plotting, and saving complete {res}'.center(
-                150, '-'))
-        shut.log_and_print_sep()
-
-    shut.log_and_print_sep()
+    site_dict_d = finalize_and_save(data_all, site, site_info, exp_settings)
+    if exp_settings['do_gap_fill'] == True:
+        for gfik in exp_settings['sel_gapfills']:
+            gfiv = exp_settings["gap_fill"][gfik]
+            data_gapfilled = cliff_gapfill(fill_src=gfiv['source'],
+                                           fill_tar=gfiv['target'],
+                                           site_info=site_info,
+                                           data_dict=data_all,
+                                           qc_thres=gfiv['qc_thres'],
+                                           config=exp_settings).gapfill()
+            gf_exp_settings = add_gapfill_settings(exp_settings,
+                                                   fill_src=gfiv['source'],
+                                                   fill_tar=gfiv['target'],
+                                                   dataset_key=f'{gfik}_gfld',
+                                                   qc_thres=gfiv['qc_thres'])
+            # data_all[f'{gfik}_gfld'] = data_gapfilled
+            site_dict_d = finalize_and_save(data_all,
+                                            site,
+                                            site_info,
+                                            gf_exp_settings,
+                                            gap_filled_data=data_gapfilled,
+                                            gap_filler_key=gfik)
 
     #%% Export site data
-    site_dict_d = ds.to_dict(data=False).copy()
     site_dict = {
         site: {
             'start_year': exp_settings['start_date'].split('-')[0],
@@ -526,11 +604,9 @@ def compile_site_data(site, exp_settings=None):
             'longitude': site_info['longitude']
         }
     }
+    # add pft to the settings
     if 'PFT' in list(site_dict_d['attrs'].keys()):
         site_dict[site]['PFT'] = site_dict['attrs']['PFT']
-    # close datasets
-    ds_res.close()
-    ds.close()
 
     shut.log_and_print_sep(
         f'Successful data processing for site: {site}'.center(150, ' '))

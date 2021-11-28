@@ -19,7 +19,7 @@ def extract(dataset, site_info, config):
     bxtr = BasexTractor(dataset=dataset, site_info=site_info, config=config)
     
     src_data = []
-    for tar_name in list(bxtr.vars.keys()):
+    for tar_name in bxtr.vars_list:
         
         bxtr.log_var_start(tar_name)
 
