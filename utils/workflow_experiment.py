@@ -455,6 +455,9 @@ def finalize_and_save(data_dict,
         _exp_settings["end_date"] = _exp_settings['dataset'][gap_filler][
             "src_end_date"]
         sel_data_gf_only = [gap_filler, gap_filled, f'{gap_filler_key}_gfld']
+        for _gf in _exp_settings['sel_gapfills']:
+            if _gf != gap_filler_key:
+                _data_dict.pop(_exp_settings['gap_fill'][_gf]['source'], None)
 
     #%% Merge all data
     logging.info(f'Merging all data: {site_info["site_ID"]}')
@@ -548,6 +551,9 @@ def compile_site_data(site, exp_settings=None):
                                                config=exp_settings,
                                                dataset=extractor)
         except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
             print(e)     
             logging.info(
                 f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]} due to error {e}'

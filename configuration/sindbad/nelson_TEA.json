@@ -5,8 +5,8 @@
         "partitioning": "",
         "variableUnit": "mm",
         "bounds": [
-            -1000,
-            1000
+            -25,
+            25
         ],
         "sourceVariableName": "",
         "sourceVariableUnit": "mm",

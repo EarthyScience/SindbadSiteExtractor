@@ -1,6 +1,6 @@
 {
-    "extractor": "jung_QC",
-    "var_suffix": "mjung",
+    "extractor": "merged_QC",
+    "var_suffix": "merged",
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",
@@ -15,7 +15,7 @@
         "nameShort": "",
         "nameLong": "",
         "spaceTimeType": "normal",
-        "sourceDataProductName": "FLUXNET-Jung",
+        "sourceDataProductName": "FLUXNET-Jung-merged",
         "QC": "",
         "RANDUNC": "",
         "weightVar": "",
@@ -30,7 +30,7 @@
         "skipUnitcheck": false,
         "publication": "contact mjung[at]bgc-jena.mpg.de",
         "data_path": "",
-        "description": "Quality flags identifying bad quality data [0]. Combine with fqcOK for intepreting data points flagged as 1."
+        "description": "Merged quality flags calculated as the product of Jung QC and corresponding QC from eddy processing. For QC variables not found in eddy data, NEE_QC is used."
 
     },
     "sel_variables": "all",
@@ -39,49 +39,49 @@
             "partitioning": "NT",
             "sourceVariableName": "GPP_QC",
             "nameShort": "GPP_QC",
-            "nameLong": "Jung QC for Gross Primary Production- nighttime partioning"
+            "nameLong": "merged QC for Gross Primary Production - nighttime partioning"
         },
         "GPP_QC_DT": {
             "partitioning": "DT",
             "sourceVariableName": "GPP_QC",
             "nameShort": "GPP_QC",
-            "nameLong": "Jung QC for Gross Primary Production - daytime partioning"
+            "nameLong": "merged QC for Gross Primary Production - daytime partioning"
         },
         "RECO_QC_NT": {
             "partitioning": "NT",
             "sourceVariableName": "RECO_QC",
             "nameShort": "RECO_QC",
-            "nameLong": "Jung QC for Ecosystem Respiration - nighttime partioning"
+            "nameLong": "merged QC for Ecosystem Respiration - nighttime partioning"
         },
         "RECO_QC_DT": {
             "partitioning": "DT",
             "sourceVariableName": "RECO_QC",
             "nameShort": "RECO_QC",
-            "nameLong": "Jung QC for Ecosystem Respiration - daytime partioning"
+            "nameLong": "merged QC for Ecosystem Respiration - daytime partioning"
         },
         "NEE_QC": {
             "partitioning": "",
             "sourceVariableName": "NEE_QC",
             "nameShort": "NEE_QC",
-            "nameLong": "Jung QC for Net Ecosystem Exchange - daytime partioning"
+            "nameLong": "merged QC for Net Ecosystem Exchange - daytime partioning"
         },
         "NETRAD_QC": {
             "partitioning": "",
             "sourceVariableName": "NETRAD_QC",
             "nameShort": "NETRAD_QC",
-            "nameLong": "Jung QC for Net Radiation"
+            "nameLong": "merged QC for Net Radiation"
         },
         "LE_QC": {
             "partitioning": "",
             "sourceVariableName": "LE_QC",
             "nameShort": "LE_QC",
-            "nameLong": "Jung QC for Latent Heat Flux"
+            "nameLong": "merged QC for Latent Heat Flux"
         },
         "H_QC": {
             "partitioning": "",
             "sourceVariableName": "H_QC",
             "nameShort": "H_QC",
-            "nameLong": "Jung QC for Sensible Heat Flux"
+            "nameLong": "merged QC for Sensible Heat Flux"
         }
     }
 }

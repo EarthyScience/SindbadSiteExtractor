@@ -5,7 +5,7 @@ Created on Nov 23 2021
 
 @author: sujan
 """
-from fluxcom.providers import eddy_covariance as ec
+from fluxcom.providers import EddyProvider
 from fluxcom.core.variables import Variable
 from extractors.BasexTractor import BasexTractor
 import logging
@@ -19,7 +19,7 @@ def extract(dataset, site_info, config):
     if not bxtr.is_resolution_supported(provided_reso='hourly'):
         return None
 
-    src_prov = ec.eddy_covariance.EddyProvider(cubepath=bxtr.flx_cubepath,
+    src_prov = EddyProvider(cubepath=bxtr.flx_cubepath,
                                                version=bxtr.version,
                                                site=bxtr.site,
                                                NEE_partitioning_method=None)

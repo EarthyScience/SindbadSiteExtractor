@@ -56,7 +56,6 @@
             "sourceVariableUnit": "mm h-1",
             "nameShort": "P",
             "nameLong": "precipitation",
-            "DaySum": true,
             "QC":  "QC",
             "isWater": true,
             "skipUnitcheck": true
@@ -100,7 +99,6 @@
             "nameShort": "LW_IN",
             "nameLong": "longwave radiation - incoming",
             "QC": "SW_IN_QC",
-            "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -115,7 +113,6 @@
             "nameShort": "SW_IN",
             "nameLong": "shortwave radiation - incoming",
             "QC":  "QC",
-            "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -130,7 +127,6 @@
             "nameShort": "NETRAD",
             "nameLong": "net radiation",
             "QC":  "QC",
-            "DayTime": true,
             "isEnergy": true,
             "skipUnitcheck": true
         },
@@ -156,8 +152,7 @@
             "sourceVariableUnit": "%",
             "nameShort": "Relative Humidity",
             "nameLong": "relative humidity of air",
-            "QC": "VPD_QC",
-            "DayTime": true
+            "QC": "VPD_QC"
         }
     }
 }

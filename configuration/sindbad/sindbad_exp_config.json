@@ -1,11 +1,11 @@
 {
-    "OutPath": "/Net/Groups/BGI/scratch/skoirala/cliffNet/",
+    "OutPath": "/Net/Groups/BGI/scratch/skoirala/test_cliff/",
     "diagnostic_plots": true,
-    "njobs_parallel": 40,
-    "sites_toRun1": [
-        "ZA-Kru"
-    ],
+    "njobs_parallel": 1,
     "sites_toRun": [
+        "CA-TP1"
+    ],
+    "sites_toRuna": [
         "all"
     ],
     "start_date": "1989-01-01",
@@ -39,8 +39,10 @@
         "bgi_FLUXCOM_obs": "configuration/sindbad/fluxcom_obs.json",
         "bgi_FLUXCOM_clim": "configuration/sindbad/fluxcom_clim.json",
         "bgi_FLUXCOM_surface": "configuration/sindbad/fluxcom_surface.json",
+        "merged_qc": "configuration/sindbad/merged_QC.json",
         "jung_qc": "configuration/sindbad/jung_QC.json",
         "nelson_tea": "configuration/sindbad/nelson_TEA.json",
+        "modis_MCD43A_mergedNDVI": "configuration/sindbad/modis_MCD43A_mergedNDVI.json",
         "modis_MCD43A": "configuration/sindbad/modis_MCD43A.json",
         "modis_MxD11A1": "configuration/sindbad/modis_MxD11A1.json",
         "soilgrids": "configuration/sindbad/soilgrids.json",
@@ -50,6 +52,7 @@
         "db_besnard2018": "configuration/sindbad/disturbage_besnard2018.json",
         "atmCO2": "configuration/sindbad/atmCO2_point.json",
         "agb": "configuration/sindbad/agb.json",
+        "agb_merged": "configuration/sindbad/agb_merged.json",
         "cliff_erai": "configuration/sindbad/cliff_erai_csv.json",
         "cliff_crun": "configuration/sindbad/cliff_cruncepv8_csv.json",
         "cliff_cruj": "configuration/sindbad/cliff_crujrav2_2_csv.json",

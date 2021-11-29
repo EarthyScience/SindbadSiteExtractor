@@ -130,11 +130,9 @@ def get_selected_list(sel, full):
     """
     olist = full
     if isinstance(sel, list):
-        print(sel, 'before')
         for _sel in sel:
             if _sel.strip() == '':
                 sel.remove(_sel)
-        print(sel, 'after')
         if "all" in sel:
             return olist
         else:
@@ -246,7 +244,6 @@ def get_variable_info(_config):
 
 
 def get_extractor_configuration(conf_file):
-    print(conf_file)
     with open(conf_file, 'r') as config_file:
         extractor_rf = config_file.read()
     extractor_conf = json.loads(extractor_rf)

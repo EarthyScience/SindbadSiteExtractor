@@ -1,6 +1,8 @@
 {
     "extractor": "disturbage_besnard2018",
     "var_suffix": "sb2018",
+    "src_start_date": "1900-01-01",
+    "src_end_date": "2020-12-31",
     "base_info": {
         "partitioning": "",
         "variableUnit": "adimensional",
