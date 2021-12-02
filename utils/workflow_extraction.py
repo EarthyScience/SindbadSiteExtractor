@@ -101,7 +101,7 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
         data_freq = exp_settings["temporal_resolution"]
     else:
         data_freq = resampled
-    site_fig_dir = os.path.join(exp_settings['OutPath']['figs'], data_freq)
+    site_fig_dir = os.path.join(exp_settings['output_dir_path']['figs'], data_freq)
 
     os.makedirs(site_fig_dir, exist_ok=True)
     skipvars = 'month day year hour julian_day'.split()
@@ -266,7 +266,7 @@ def write_netcdf(ds, exp_settings, site, resampled=None):
         ds = add_date_variables(ds)
     else:
         data_freq = resampled
-    ncdir = os.path.join(exp_settings['OutPath']['nc_file'], data_freq)
+    ncdir = os.path.join(exp_settings['output_dir_path']['nc_file'], data_freq)
     os.makedirs(ncdir, exist_ok=True)
     ncfile_name = os.path.join(
         ncdir, site + "." + exp_settings['start_date'].split('-')[0] + "." +
@@ -404,10 +404,10 @@ def close_logger():
 
 def update_out_dir(_exp_settings, data_variant):
     __exp_settings = copy.deepcopy(_exp_settings)
-    __exp_settings['OutPath']['figs'] = os.path.join(
-        __exp_settings['OutPath']['figs'], data_variant)
-    __exp_settings['OutPath']['nc_file'] = os.path.join(
-        __exp_settings['OutPath']['nc_file'], data_variant)
+    __exp_settings['output_dir_path']['figs'] = os.path.join(
+        __exp_settings['output_dir_path']['figs'], data_variant)
+    __exp_settings['output_dir_path']['nc_file'] = os.path.join(
+        __exp_settings['output_dir_path']['nc_file'], data_variant)
     return __exp_settings
 
 
@@ -434,7 +434,6 @@ def finalize_and_save(data_dict,
         )
         print(e)
         logging.info(e)
-        close_logger()
         return None
 
     if gap_filled_data is None:
@@ -515,8 +514,8 @@ def finalize_and_save(data_dict,
 
 def compile_site_data(site, exp_settings=None):
     log_path = os.path.join(
-        exp_settings['OutPath']['log'],
-        f"{site}_{exp_settings['OutPath']['expName']}.log")
+        exp_settings['output_dir_path']['log'],
+        f"{site}_{exp_settings['output_dir_path']['expName']}.log")
     filehandler = logging.FileHandler(log_path, 'w')
     formatter = logging.Formatter(
         '%(levelname)s::%(filename)s::\n\t%(funcName)s::%(lineno)d::\n\t%(message)s'
@@ -546,27 +545,25 @@ def compile_site_data(site, exp_settings=None):
         )
         extractor_mod = load_extractor(extractor_name)
         extractor_function = getattr(extractor_mod, 'extract')
-        try:
-            provided_data = extractor_function(site_info=site_info,
-                                               config=exp_settings,
-                                               dataset=extractor)
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(exc_type, fname, exc_tb.tb_lineno)
-            print(e)     
-            logging.info(
-                f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]} due to error {e}'
-            )
-            if exp_settings["allow_extraction_errors"]:
+        if exp_settings["allow_extraction_errors"]:
+            try:
+                provided_data = extractor_function(site_info=site_info,
+                                                config=exp_settings,
+                                                dataset=extractor)
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)
+                print(e)     
                 logging.info(
-                    f'Allowing to continue because allow_extraction_errors in exp[json] is set to {exp_settings["allow_extraction_errors"]}'
+                    f'Failed getting dataset| configuration: {extractor}, extractor: {extractor_name}, site: {site_info["site_ID"]} due to error {e}. Allowing to continue because allow_extraction_errors in exp[json] is set to {exp_settings["allow_extraction_errors"]}'
                 )
                 provided_data = None
-            else:
-                sys.exit(
-                    f'Cannot continue because allow_extraction_errors in exp[json] is set to {exp_settings["allow_extraction_errors"]}'
-                )
+        else:
+                provided_data = extractor_function(site_info=site_info,
+                                                config=exp_settings,
+                                                dataset=extractor)
+
         if provided_data is not None:
             data_all[extractor] = provided_data
             if (len(sitePFT) == 0) & ('PFT' in provided_data.attrs):

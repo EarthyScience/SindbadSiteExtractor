@@ -91,7 +91,6 @@
                 -100,
                 100
             ],
-            "source2sindbadUnit": 10,
             "sourceVariableName": "NEE",
             "sourceVariableUnit": "umolCO2 m-2 s-1",
             "nameShort": "NEE",

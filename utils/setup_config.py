@@ -77,30 +77,30 @@ def setup_out_dir(exp_config):
     """
     setup and create the output fields and directories
     """
-    out_main_dir = exp_config['OutPath']
+    out_main_dir = exp_config['output_dir_path']
     out_sub_path = get_cliff_dirname(exp_config["FLUXNET_version"],
                                      exp_config["temporal_resolution"])
 
-    exp_config['OutPath'] = {}
-    exp_config['OutPath']['main'] = os.path.join(out_main_dir, out_sub_path)
+    exp_config['output_dir_path'] = {}
+    exp_config['output_dir_path']['main'] = os.path.join(out_main_dir, out_sub_path)
     opath = out_sub_path.split('.')[-2]
     otime = out_sub_path.split('.')[-1]
-    exp_config['OutPath']['nc_file'] = os.path.join(
-        exp_config['OutPath']['main'], 'data')
-    os.makedirs(exp_config['OutPath']['nc_file'], exist_ok=True)
+    exp_config['output_dir_path']['nc_file'] = os.path.join(
+        exp_config['output_dir_path']['main'], 'data')
+    os.makedirs(exp_config['output_dir_path']['nc_file'], exist_ok=True)
     # figures
     if exp_config['diagnostic_plots']:
-        exp_config['OutPath']['figs'] = os.path.join(
-            exp_config['OutPath']['main'], 'figs_diagno')
-        os.makedirs(exp_config['OutPath']['figs'], exist_ok=True)
+        exp_config['output_dir_path']['figs'] = os.path.join(
+            exp_config['output_dir_path']['main'], 'figs_diagno')
+        os.makedirs(exp_config['output_dir_path']['figs'], exist_ok=True)
     # configuration output
-    exp_config['OutPath']['expName'] = f'fluxnetBGI2021.{opath}.{otime}'
-    exp_config['OutPath']['info_config'] = os.path.join(
-        exp_config['OutPath']['main'], 'config_info')
-    exp_config['OutPath']['log'] = os.path.join(exp_config['OutPath']['main'],
+    exp_config['output_dir_path']['expName'] = f'fluxnetBGI2021.{opath}.{otime}'
+    exp_config['output_dir_path']['info_config'] = os.path.join(
+        exp_config['output_dir_path']['main'], 'config_info')
+    exp_config['output_dir_path']['log'] = os.path.join(exp_config['output_dir_path']['main'],
                                                 'logs')
-    os.makedirs(exp_config['OutPath']['log'], exist_ok=True)
-    os.makedirs(exp_config['OutPath']['info_config'], exist_ok=True)
+    os.makedirs(exp_config['output_dir_path']['log'], exist_ok=True)
+    os.makedirs(exp_config['output_dir_path']['info_config'], exist_ok=True)
     return exp_config
 
 
@@ -252,7 +252,7 @@ def get_extractor_configuration(conf_file):
 
 def check_units_consistency(full_info):
     with open(
-            os.path.join(full_info['OutPath']['info_config'],
+            os.path.join(full_info['output_dir_path']['info_config'],
                          'units_check.log'), 'w') as unf:
         for name in full_info['sel_datasets']:
             dataset = full_info['dataset'][name]
@@ -381,7 +381,7 @@ def get_exp_configuration(exp_config_path,
 
     # get extractor information for each of the selected datasets
     for extractor in exp_config['sel_datasets']:
-        extractor_dict = get_extractor_configuration(exp_config['dataset'][extractor])
+        extractor_dict = get_extractor_configuration(os.path.join(exp_config['config_dir_path'], exp_config['dataset'][extractor]))
         exp_config['dataset'][extractor] = extractor_dict
 
     # get variable information for each of the selected extractor
@@ -397,10 +397,10 @@ def get_exp_configuration(exp_config_path,
     exp_config = get_gapfill_settings(exp_config)
     # save configuration
     shut.save_json(
-        os.path.join(exp_config['OutPath']['info_config'],
+        os.path.join(exp_config['output_dir_path']['info_config'],
                      "variable_info.json"), variables)
     shut.save_json(
-        os.path.join(exp_config['OutPath']['info_config'], "exp_info.json"),
+        os.path.join(exp_config['output_dir_path']['info_config'], "exp_info.json"),
         exp_config)
     return exp_config
 

@@ -1,5 +1,5 @@
 {
-    "OutPath": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-5/",
+    "output_dir_path": "/Net/Groups/BGI/work_3/cliff/input/fluxnetBGI2021_siteCube-v0.03_iter-5/",
     "diagnostic_plots": true,
     "njobs_parallel": 60,
     "sites_toRun1": [
