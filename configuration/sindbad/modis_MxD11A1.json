@@ -30,7 +30,7 @@
         "isCarbon": false,
         "skipUnitcheck": true,
         "publication": "https://lpdaac.usgs.gov/products/MxD11A13v006/; Walter et al., (in prep) ask swalther[at]bgc-jena.mpg.de",
-        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",
+        "data_path": "",
         "description": "Derived from MxD11A1 based on AQUA and TERRA"
     },
     "sel_variables": "all",

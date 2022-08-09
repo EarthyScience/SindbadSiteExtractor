@@ -5,11 +5,11 @@ Created on Nov 23 2021
 
 @author: sujan
 """
-from fluxcom.providers import EddyProvider
+# from fluxcom.providers import EddyProvider
+from fluxcom.providers.meteo_downscale import era5 
 from fluxcom.core.variables import Variable
 from extractors.BasexTractor import BasexTractor
 import logging
-import copy
 logger = logging.getLogger(__name__)
 
 
@@ -20,16 +20,14 @@ def extract(dataset, site_info, config):
     if not bxtr.is_resolution_supported(provided_reso='hourly'):
         return None
 
-    src_prov_o = EddyProvider(cubepath=bxtr.flx_cubepath,
+    src_prov = era5.ERA5Provider(cubepath=bxtr.flx_cubepath,
                                                version=bxtr.version,
-                                               site=bxtr.site,
-                                               NEE_partitioning_method=None)
+                                               site=bxtr.site)
 
-    src_vars = [_var.name for _var in src_prov_o.variables]
+    src_vars = [_var.name for _var in src_prov.variables]
     src_data = []
     for tar_name in bxtr.vars_list:
         src_name = bxtr.vars[tar_name]['sourceVariableName']
-        src_prov=copy.deepcopy(src_prov_o) #without this copy, the provider get_data will not find variables which is in the original provider: 2022/08/06
         if src_name in src_vars:
             bxtr.log_var_start(tar_name)
 

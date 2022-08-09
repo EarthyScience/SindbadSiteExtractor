@@ -1,6 +1,11 @@
 {
-    "extractor": "bgi_FLUXCOM",
-    "var_suffix": "",
+    "extractor": "cliff_csvload",
+    "var_suffix": "ERAIv2",
+    "src_cliff": "ERAinterim.v2",
+    "src_start_date": "1979-01-01",
+    "src_end_date": "2017-12-31",
+    "sel_src_start_date": "1979-01-01",
+    "sel_src_end_date": "2017-12-31",
     "base_info": {
         "partitioning": "",
         "variableUnit": "",
@@ -12,7 +17,7 @@
         "nameShort": "",
         "nameLong": "",
         "spaceTimeType": "normal",
-        "sourceDataProductName": "FLUXNET",
+        "sourceDataProductName": "CLIFF_ERAI_v2",
         "QC": "",
         "RANDUNC": "",
         "weightVar": "",
@@ -25,24 +30,12 @@
         "isWater": false,
         "isCarbon": false,
         "skipUnitcheck": false,
-        "publication": "https://fluxnet.fluxdata.org; DOI:10.1071/BT07151, DOI:10.1175/1520-0477(2001)082<2415:FANTTS>2.3.CO;2",
-        "data_path": "",
-        "description": "Eddy tower meteorological measurements"
+        "publication": "ncarval[at]bgc-jena.mpg.de",
+        "data_path": "/Net/Groups/BGI/work_3/cliff/output/downscaling/csvs/",
+        "description": "CLIFF-downscaled climate forcing using ERA-Interim"
         },
-    "sel_variables": "all",
+    "sel_variables": "all except SW_IN_POT",
     "variables": {
-        "atmCO2": {
-            "variableUnit": "ppm",
-            "bounds": [
-                -80,
-                60
-            ],
-            "sourceVariableName": "CO2",
-            "sourceVariableUnit": "umolCO2 mol-1",
-            "nameShort": "TA",
-            "skipUnitcheck": true,
-            "nameLong": "CO2 concentration"
-        },
         "TA": {
             "variableUnit": "deg C",
             "bounds": [
@@ -52,11 +45,7 @@
             "sourceVariableName": "TA",
             "sourceVariableUnit": "deg C",
             "nameShort": "TA",
-            "nameLong": "air temperature - gapfilled using MDS method",
-            "QC":  "QC",
-            "DayMin": true,
-            "DayMax": true,
-            "DayTime": true
+            "nameLong": "air temperature"
         },
         "P": {
             "variableUnit": "mm",
@@ -65,12 +54,9 @@
                 150
             ],
             "sourceVariableName": "P",
-            "sourceVariableUnit": "mm h-1",
+            "sourceVariableUnit": "mm",
             "nameShort": "P",
-            "nameLong": "precipitation",
-            "QC":  "QC",
-            "isWater": true,
-            "skipUnitcheck": true
+            "nameLong": "precipitation"
         },
         "VPD": {
             "variableUnit": "Pa",
@@ -79,12 +65,9 @@
                 5000
             ],
             "sourceVariableName": "VPD",
-            "sourceVariableUnit": "hPa",
-            "source2sindbadUnit": 100,
+            "sourceVariableUnit": "Pa",
             "nameShort": "VPD",
-            "nameLong": "vapor pressure deficit",
-            "QC":  "QC",
-            "DayTime": true
+            "nameLong": "vapor pressure deficit"
         },
         "PA": {
             "variableUnit": "Pa",
@@ -93,12 +76,9 @@
                 100000
             ],
             "sourceVariableName": "PA",
-            "sourceVariableUnit": "kPa",
-            "source2sindbadUnit": 1000,
+            "sourceVariableUnit": "Pa",
             "nameShort": "atmospheric pressure",
-            "nameLong": "atmospheric pressure",
-            "QC": "QC",
-            "DayTime": true
+            "nameLong": "atmospheric pressure"
         },
         "LW_IN": {
             "variableUnit": "MJ m-2",
@@ -107,12 +87,9 @@
                 100
             ],
             "sourceVariableName": "LW_IN",
-            "sourceVariableUnit": "W m-2",
+            "sourceVariableUnit": "MJ m-2",
             "nameShort": "LW_IN",
-            "nameLong": "longwave radiation - incoming",
-            "QC": "SW_IN_QC",
-            "isEnergy": true,
-            "skipUnitcheck": true
+            "nameLong": "longwave radiation - incoming"
         },
         "SW_IN": {
             "variableUnit": "MJ m-2",
@@ -121,12 +98,9 @@
                 100
             ],
             "sourceVariableName": "SW_IN",
-            "sourceVariableUnit": "W m-2",
+            "sourceVariableUnit": "MJ m-2",
             "nameShort": "SW_IN",
-            "nameLong": "shortwave radiation - incoming",
-            "QC":  "QC",
-            "isEnergy": true,
-            "skipUnitcheck": true
+            "nameLong": "shortwave radiation - incoming"
         },
         "NETRAD": {
             "variableUnit": "MJ m-2",
@@ -135,12 +109,9 @@
                 50
             ],
             "sourceVariableName": "NETRAD",
-            "sourceVariableUnit": "W m-2",
+            "sourceVariableUnit": "MJ m-2",
             "nameShort": "NETRAD",
-            "nameLong": "net radiation",
-            "QC":  "QC",
-            "isEnergy": true,
-            "skipUnitcheck": true
+            "nameLong": "net radiation"
         },
         "WS": {
             "variableUnit": "m s-1",
@@ -151,8 +122,7 @@
             "sourceVariableName": "WS",
             "sourceVariableUnit": "m s-1",
             "nameShort": "Wind_speed",
-            "nameLong": "wind speed",
-            "QC":  "QC"
+            "nameLong": "wind speed"
         },
         "RH": {
             "variableUnit": "%",
@@ -163,8 +133,7 @@
             "sourceVariableName": "RH",
             "sourceVariableUnit": "%",
             "nameShort": "Relative Humidity",
-            "nameLong": "relative humidity of air",
-            "QC": "VPD_QC"
+            "nameLong": "relative humidity of air"
         }
     }
 }

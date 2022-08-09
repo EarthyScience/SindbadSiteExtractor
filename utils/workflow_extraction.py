@@ -6,7 +6,6 @@ Created on Nov 23 2021
 @author: sujan
 """
 #%% Load library
-from numpy.lib.ufunclike import _deprecate_out_named_y
 import xarray as xr
 import os
 import sys
@@ -24,8 +23,9 @@ import utils.shared_utils as shut
 
 def get_site_info(site):
     import fluxcom as flx
-    lat = flx.site_cube.site_lat_lon.lat[site]
-    lon = flx.site_cube.site_lat_lon.lon[site]
+    lat_lon_utc = flx.site_cube.site_cube_utils.get_site_lat_lon_utc(site=site)
+    lat=lat_lon_utc[0]
+    lon=lat_lon_utc[1]
     site_info = {"site_ID": site, "latitude": lat, "longitude": lon}
     return site_info
 
@@ -205,6 +205,7 @@ def plot_dianostic_figures(ds, site_info, exp_settings, site, resampled=None):
                     bbox_inches='tight',
                     box_extra_artists=[x_l, y_l, t_l],
                     dpi=300)
+                plt.close()
             else:
                 logging.warning(
                     f'Variable {var_} from {data_key} dataset was not found in processed data.'
@@ -322,12 +323,17 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
                         units = units
 
             sourceDataProductName = var_info[var_]['sourceDataProductName']
+            if sourceDataProductName == 'FLUXNET':
+                sourceDataProductName = f'{sourceDataProductName}-{_config["FLUXNET_version"]}'
             if 'time' in data[var_].dims and 'depth_soilGrids' in data[
                     var_].dims:
                 nameLong = f"{data_freq} {var_info[var_]['nameLong']} from {sourceDataProductName}"
             else:
                 nameLong = f"{var_info[var_]['nameLong']} from {sourceDataProductName}"
 
+            src_path = _config["fluxcom_cube_path"]
+            if 'data_path' in var_info[var_].keys():
+                src_path = var_info[var_]['data_path']
             attrs_dict = dict(
                 bounds=str([np.nanmin(data[var_]),
                             np.nanmax(data[var_])]),
@@ -339,7 +345,7 @@ def harmonize_data_attrs(site_info, data, _config, resampled=None):
                 partitioning=var_info[var_]['partitioning'],
                 sourceVariableName=var_info[var_]['sourceVariableName'],
                 description=var_info[var_]['description'],
-                data_path=var_info[var_]['data_path'])
+                data_path=src_path)
 
             data[var_] = data[var_].assign_attrs(
                 collections.OrderedDict(sorted(attrs_dict.items())))
@@ -404,8 +410,9 @@ def close_logger():
 
 def update_out_dir(_exp_settings, data_variant):
     __exp_settings = copy.deepcopy(_exp_settings)
-    __exp_settings['output_dir_path']['figs'] = os.path.join(
-        __exp_settings['output_dir_path']['figs'], data_variant)
+    if __exp_settings['diagnostic_plots']:
+        __exp_settings['output_dir_path']['figs'] = os.path.join(
+            __exp_settings['output_dir_path']['figs'], data_variant)
     __exp_settings['output_dir_path']['nc_file'] = os.path.join(
         __exp_settings['output_dir_path']['nc_file'], data_variant)
     return __exp_settings
@@ -434,13 +441,13 @@ def finalize_and_save(data_dict,
         )
         print(e)
         logging.info(e)
-        return None
+        data_values=None
 
     if gap_filled_data is None:
         if _exp_settings['do_gap_fill'] == False:
             _exp_settings = _exp_settings
         else:
-            _exp_settings = update_out_dir(_exp_settings, 'no_CLIFF')
+            _exp_settings = update_out_dir(_exp_settings, _exp_settings["FLUXNET_version"])
             for _gf in _exp_settings['sel_gapfills']:
                 _data_dict.pop(_exp_settings['gap_fill'][_gf]['source'], None)
     else:
@@ -450,9 +457,9 @@ def finalize_and_save(data_dict,
         _exp_settings = update_out_dir(
             _exp_settings, _exp_settings['dataset'][gap_filler]["src_cliff"])
         _exp_settings["start_date"] = _exp_settings['dataset'][gap_filler][
-            "src_start_date"]
+            "sel_src_start_date"]
         _exp_settings["end_date"] = _exp_settings['dataset'][gap_filler][
-            "src_end_date"]
+            "sel_src_end_date"]
         sel_data_gf_only = [gap_filler, gap_filled, f'{gap_filler_key}_gfld']
         for _gf in _exp_settings['sel_gapfills']:
             if _gf != gap_filler_key:
@@ -503,7 +510,7 @@ def finalize_and_save(data_dict,
 
     shut.log_and_print_sep()
 
-    site_dict_d = ds.to_dict(data=False).copy()
+    site_dict_d = ds_res_h.attrs
 
     # close datasets
     ds_res.close()
@@ -593,7 +600,6 @@ def compile_site_data(site, exp_settings=None):
                                                     fill_tar=gfiv['target'],
                                                     dataset_key=f'{gfik}_gfld',
                                                     qc_thres=gfiv['qc_thres'])
-                # data_all[f'{gfik}_gfld'] = data_gapfilled
                 site_dict_d = finalize_and_save(data_all,
                                                 site,
                                                 site_info,
@@ -601,18 +607,27 @@ def compile_site_data(site, exp_settings=None):
                                                 gap_filled_data=data_gapfilled,
                                                 gap_filler_key=gfik)
     #%% Export site data
-    site_dict = {
-        site: {
-            'start_year': exp_settings['start_date'].split('-')[0],
-            'end_year': exp_settings['end_date'].split('-')[0],
+    site_dict = {}
+    site_dict[site] = {
+            'PFT': 'NA',
+            'last_disturbance_on': 'NA',
             'latitude': site_info['latitude'],
             'longitude': site_info['longitude'],
             'status': 'success'
         }
-    }
+    # site_dict[site] = {
+    #         'start_year': exp_settings['start_date'].split('-')[0],
+    #         'end_year': exp_settings['end_date'].split('-')[0],
+    #         'latitude': site_info['latitude'],
+    #         'longitude': site_info['longitude'],
+    #         'status': 'success'
+    #     }
         # add pft to the settings
-    if site_dict_d is not None and 'PFT' in list(site_dict_d['attrs'].keys()):
-            site_dict[site]['PFT'] = site_dict['attrs']['PFT']
+    if site_dict_d is not None:
+        if 'PFT' in list(site_dict_d.keys()):
+            site_dict[site]['PFT'] = site_dict_d['PFT']
+        if 'last_disturbance_on' in list(site_dict_d.keys()):
+            site_dict[site]['last_disturbance_on'] = site_dict_d['last_disturbance_on']
     else:
         site_dict[site]['status'] = 'failed'
 

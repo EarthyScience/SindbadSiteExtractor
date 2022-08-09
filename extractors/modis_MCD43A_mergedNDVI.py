@@ -6,7 +6,7 @@ Created on Nov 23 2021
 @author: sujan
 """
 from fluxcom.core.variables import Variable
-from fluxcom.providers.modis.refl.modis_MCD43A import MCD43A
+from fluxcom.providers import MCD43A
 
 
 from extractors.BasexTractor import BasexTractor

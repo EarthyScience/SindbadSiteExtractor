@@ -4,6 +4,8 @@
     "src_cliff": "ERAinterim.v2",
     "src_start_date": "1979-01-01",
     "src_end_date": "2017-12-31",
+    "sel_src_start_date": "1979-01-01",
+    "sel_src_end_date": "2017-12-31",
     "base_info": {
         "partitioning": "",
         "variableUnit": "",

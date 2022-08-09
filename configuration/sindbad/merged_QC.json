@@ -33,7 +33,7 @@
         "description": "Merged quality flags calculated as the product of Jung QC and corresponding QC from eddy processing. For QC variables not found in eddy data, NEE_QC is used."
 
     },
-    "sel_variables": "all",
+    "sel_variables": "all except GPP_QC_DT RECO_QC_DT",
     "variables": {
         "GPP_QC_NT": {
             "partitioning": "NT",

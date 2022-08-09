@@ -29,10 +29,10 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "https://lpdaac.usgs.gov/products/mcd43a3v006/; Walter et al., (in prep) ask swalther[at]bgc-jena.mpg.de",
-        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",
+        "data_path": "",
         "description": "Derived from MCD43A version 6"
     },
-    "sel_variables": "all",
+    "sel_variables": "all except NDWI",
     "variables": {
         "NDVI": {
             "sourceVariableName": "NDVI",
@@ -53,6 +53,11 @@
             "sourceVariableName": "NDWI",
             "nameShort": "NDWI",
             "nameLong": "Normalized difference water index"
+        },
+        "NIRv": {
+            "sourceVariableName": "NIRv",
+            "nameShort": "NIRv",
+            "nameLong": "Near-infrared reflectance of vegetation"
         }
     }
 }

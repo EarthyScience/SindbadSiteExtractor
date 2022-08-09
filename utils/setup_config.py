@@ -97,10 +97,13 @@ def setup_out_dir(exp_config):
     exp_config['output_dir_path']['expName'] = f'fluxnetBGI2021.{opath}.{otime}'
     exp_config['output_dir_path']['info_config'] = os.path.join(
         exp_config['output_dir_path']['main'], 'config_info')
+    exp_config['output_dir_path']['site_info'] = os.path.join(
+        exp_config['output_dir_path']['main'], 'config_info','site_info')
     exp_config['output_dir_path']['log'] = os.path.join(exp_config['output_dir_path']['main'],
                                                 'logs')
     os.makedirs(exp_config['output_dir_path']['log'], exist_ok=True)
     os.makedirs(exp_config['output_dir_path']['info_config'], exist_ok=True)
+    os.makedirs(exp_config['output_dir_path']['site_info'], exist_ok=True)
     return exp_config
 
 
@@ -311,13 +314,13 @@ def check_duplicate_variables(full_info):
     return
 
 
-def check_duplicate_datasets(sel_dataset):
+def check_duplicate_datasets(sel_dataset, check_info="datasets"):
     if check_duplicates_in_list(sel_dataset):
         sys.exit(
-            f"Selected datasets in exp_config are duplicates. 'sel_datasets' list and keys of dataset need to be unique. Cannot continue: \n {sorted(sel_dataset)}"
+            f"Selected {check_info} in exp_config are duplicates. '{check_info}' list and keys of {check_info} need to be unique. Cannot continue: \n {sorted(sel_dataset)}"
         )
     else:
-        print(f"No duplicates found in selected datasets: \n {sel_dataset}")
+        print(f"No duplicates found in selected {check_info}: \n {sel_dataset}")
     return
 
 def get_gapfill_settings(_config):
@@ -360,8 +363,10 @@ def get_inp_config(exp_config_path):
 
 def get_exp_configuration(exp_config_path,
                           fn_version=None,
-                          temporal_resolution=None):
+                          temporal_resolution=None,
+                          output_dir_path=None):
     # get input configuration
+    print(fn_version, temporal_resolution, output_dir_path)
     exp_config_r = get_inp_config(exp_config_path)
 
     # replace version and time scale configs if passed
@@ -369,6 +374,10 @@ def get_exp_configuration(exp_config_path,
         exp_config_r["FLUXNET_version"] = fn_version
     if temporal_resolution is not None:
         exp_config_r["temporal_resolution"] = temporal_resolution
+    if output_dir_path is not None:
+        exp_config_r["output_dir_path"] = output_dir_path
+
+    print(exp_config_r["FLUXNET_version"], exp_config_r["temporal_resolution"], exp_config_r["output_dir_path"])
     exp_config = copy.deepcopy(exp_config_r)
 
     # setup directory
@@ -378,6 +387,12 @@ def get_exp_configuration(exp_config_path,
 
     ## check if the selected datasets have duplicates
     check_duplicate_datasets(exp_config['sel_datasets'])
+
+    exp_config['resample_output'] = get_selected_list(
+        exp_config['resample_output'], ['daily', 'monthly', 'annual'])
+
+    ## check if the selected datasets have duplicates
+    check_duplicate_datasets(exp_config['resample_output'], check_info="resample_output")
 
     # get extractor information for each of the selected datasets
     for extractor in exp_config['sel_datasets']:

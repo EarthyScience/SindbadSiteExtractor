@@ -6,7 +6,7 @@ Created on Nov 23 2021
 @author: sujan
 """
 from fluxcom.core.variables import Variable
-from fluxcom.providers.modis.LST.modis_MxD11A1 import MxD11A1
+from fluxcom.providers import MxD11A1
 import xarray as xr
 
 from extractors.BasexTractor import BasexTractor

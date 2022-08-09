@@ -1,0 +1,48 @@
+{
+    "extractor": "oneflux_swinpot_csvload",
+    "var_suffix": "ONEFlux",
+    "src_start_date": "1800-01-01",
+    "src_end_date": "2100-12-31",
+    "base_info": {
+        "partitioning": "",
+        "variableUnit": "",
+        "bounds": [],
+        "sourceVariableName": "",
+        "sourceVariableUnit": "",
+        "source2sindbadUnit": 1,
+        "isCategorical": false,
+        "nameShort": "",
+        "nameLong": "",
+        "spaceTimeType": "normal",
+        "sourceDataProductName": "ONEFlux",
+        "QC": "",
+        "RANDUNC": "",
+        "weightVar": "",
+        "DaySum": false,
+        "DayMin": false,
+        "DayMax": false,
+        "wDayMean": false,
+        "DayTime": false,
+        "isEnergy": false,
+        "isWater": false,
+        "isCarbon": false,
+        "skipUnitcheck": true,
+        "publication": "Pastorello, G., Trotta, C., Canfora, E. et al. The FLUXNET2015 dataset and the ONEFlux processing pipeline for eddy covariance data. Sci Data 7, 225 (2020). https://doi.org/10.1038/s41597-020-0534-3",
+        "data_path": "/Net/Groups/BGI/work_3/sindbad/data/oneflux_sw_in_pot/",
+        "description": "SW_IN_POT calculated using oneflux processing by jnelson[at]bgc-jena.mpg.de"
+        },
+    "sel_variables": "all",
+    "variables": {
+        "SW_IN_POT": {
+            "variableUnit": "MJ m-2",
+            "bounds": [
+                0,
+                150
+            ],
+            "sourceVariableName": "SW_IN_POT",
+            "sourceVariableUnit": "W m-2",
+            "nameShort": "SW_IN_POT",
+            "nameLong": "potential shortwave radiation - incoming"
+        }
+    }
+}

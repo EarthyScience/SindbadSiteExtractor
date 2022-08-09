@@ -9,6 +9,7 @@ from numpy.core.arrayprint import format_float_positional
 import xarray as xr
 import numpy as np
 import utils.shared_utils as shut
+import copy
 
 import logging
 logger = logging.getLogger(__name__)
@@ -18,8 +19,8 @@ class cliff_gapfill:
     def __init__(self, site_info, fill_src, fill_tar, qc_thres, data_dict,
                  config):
         self.site = site_info['site_ID']
-        self.data_tar = data_dict[fill_tar].copy()
-        self.data_src = data_dict[fill_src].copy()
+        self.data_tar = copy.deepcopy(data_dict[fill_tar])
+        self.data_src = copy.deepcopy(data_dict[fill_src])
         self.qc_thres = qc_thres
         self.info_src = config['dataset'][fill_src]
         self.info_tar = config['dataset'][fill_tar]

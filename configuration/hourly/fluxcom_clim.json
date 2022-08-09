@@ -31,18 +31,6 @@
         },
     "sel_variables": "all",
     "variables": {
-        "atmCO2": {
-            "variableUnit": "ppm",
-            "bounds": [
-                -80,
-                60
-            ],
-            "sourceVariableName": "CO2",
-            "sourceVariableUnit": "umolCO2 mol-1",
-            "nameShort": "TA",
-            "skipUnitcheck": true,
-            "nameLong": "CO2 concentration"
-        },
         "TA": {
             "variableUnit": "deg C",
             "bounds": [
@@ -53,10 +41,7 @@
             "sourceVariableUnit": "deg C",
             "nameShort": "TA",
             "nameLong": "air temperature - gapfilled using MDS method",
-            "QC":  "QC",
-            "DayMin": true,
-            "DayMax": true,
-            "DayTime": true
+            "QC":  "QC"
         },
         "P": {
             "variableUnit": "mm",
@@ -83,8 +68,7 @@
             "source2sindbadUnit": 100,
             "nameShort": "VPD",
             "nameLong": "vapor pressure deficit",
-            "QC":  "QC",
-            "DayTime": true
+            "QC":  "QC"
         },
         "PA": {
             "variableUnit": "Pa",
@@ -97,8 +81,7 @@
             "source2sindbadUnit": 1000,
             "nameShort": "atmospheric pressure",
             "nameLong": "atmospheric pressure",
-            "QC": "QC",
-            "DayTime": true
+            "QC": "QC"
         },
         "LW_IN": {
             "variableUnit": "MJ m-2",

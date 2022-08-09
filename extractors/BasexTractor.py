@@ -6,6 +6,7 @@ Created on Nov 23 2021
 @author: sujan
 """
 from fluxcom import transformers
+import fluxcom.providers as flpr
 from fluxcom.core.variables import Variable
 import xarray as xr
 import utils.shared_utils as shut
@@ -125,7 +126,7 @@ class BasexTractor:
                     transform.append(DaySum())
                 elif "DayTime" in tar_name:
                     transform.append(
-                        DaytimeMean(src_prov.get_data(Variable("SW_IN_POT"))))
+                        DaytimeMean(src_prov.get_data(Variable('SW_IN_POT'))))
                 elif "DayMin" in tar_name:
                     transform.append(DayMin())
                 elif "DayMax" in tar_name:

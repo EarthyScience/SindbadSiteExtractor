@@ -80,6 +80,8 @@ def extract(dataset, site_info, config):
     pft = src_data_dict[tar_name]
     if pft in bxtr.vars[tar_name]['PFT_types']:
         data.values = data.values * bxtr.vars[tar_name]['AGB_scalar']
+        if np.sum(np.isnan(data.values.flatten())) == len(data.values.flatten()):
+            data.values=np.ones_like(data.values) * bxtr.vars[tar_name]['AGB_scalar']
         # data.values = np.ones_like(data.values) * bxtr.vars[tar_name]['AGB_scalar']
 
     src_data_dict[tar_name] = data

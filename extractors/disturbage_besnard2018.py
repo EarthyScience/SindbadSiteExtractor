@@ -39,7 +39,7 @@ def extract(dataset, site_info, config):
 
         data = xr.Dataset({
             tar_name:
-            xr.DataArray(data=np.nan, dims=['time'], coords={'time': date_})
+            xr.DataArray(data=0, dims=['time'], coords={'time': date_})
         })
 
         if len(last_disturbance_on) == 0:

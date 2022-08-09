@@ -32,7 +32,7 @@
         "data_path": "",
         "description": "Derived from TEA partitioning method"
     },
-    "sel_variables": "all exept T_DT",
+    "sel_variables": "all",
     "variables": {
         "T_NT": {
             "partitioning": "NT",
@@ -40,17 +40,11 @@
             "nameShort": "T_NT",
             "nameLong": "transpiration - from Nighttime GPP- quantile 75"
         },
-        "E_NT": {
-            "partitioning": "NT",
-            "sourceVariableName": "ET_E",
-            "nameShort": "E_NT",
-            "nameLong": "soil evaporation - from Nighttime GPP- quantile 75"
-        },
-        "ET": {
-            "partitioning": "",
-            "sourceVariableName": "ET",
-            "nameShort": "ET",
-            "nameLong": "evapotranspiration - from Nighttime GPP- quantile 75"
+        "T_DT": {
+            "partitioning": "DT",
+            "sourceVariableName": "ET_T",
+            "nameShort": "T_DT",
+            "nameLong": "transpiration - from Daytime GPP- quantile 75"
         },
         "ET_POT": {
             "partitioning": "",

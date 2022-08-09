@@ -29,7 +29,7 @@
         "isCarbon": false,
         "skipUnitcheck": false,
         "publication": "https://lpdaac.usgs.gov/products/mcd43a3v006/; Walter et al., (in prep) ask swalther[at]bgc-jena.mpg.de",
-        "data_path": "/Net/Groups/BGI/scratch/FLUXCOM/v0.03/site_cube",
+        "data_path": "",
         "description": "Merge of kNDVI and NDVI derived from MCD43A version 6. If kNDVI is available, mergedNDVI=kNDVI, else  mergedNDVI=NDVI"
     },
     "sel_variables": "all",

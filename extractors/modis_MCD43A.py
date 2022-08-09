@@ -6,7 +6,7 @@ Created on Nov 23 2021
 @author: sujan
 """
 from fluxcom.core.variables import Variable
-from fluxcom.providers.modis.refl.modis_MCD43A import MCD43A
+from fluxcom.providers import MCD43A
 
 
 from extractors.BasexTractor import BasexTractor
@@ -31,7 +31,8 @@ def extract(dataset, site_info, config):
             bxtr.log_var_start(tar_name)
 
             
-            data = src_prov.get_data(Variable(src_name, units=bxtr.vars[tar_name]['sourceVariableUnit'], partitioning=bxtr.vars[tar_name]['partitioning']))
+            # data = src_prov.get_data(Variable(src_name, units=bxtr.vars[tar_name]['sourceVariableUnit'], partitioning=bxtr.vars[tar_name]['partitioning']))
+            data = src_prov.get_data(Variable(src_name, units=bxtr.vars[tar_name]['sourceVariableUnit']))
 
             data = data.rename(tar_name)
             
@@ -39,9 +40,9 @@ def extract(dataset, site_info, config):
 
             src_data.append(data)
 
-            bxtr.log_var_end(data, tar_name, src_prov.transforms)
+            bxtr.log_var_end(data, tar_name, transforms=src_prov.transforms)
 
-            src_prov.transforms = []
+            # src_prov.transforms = []
 
 
     src_dataset =  bxtr.merge_and_format(src_data)   

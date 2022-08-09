@@ -1,11 +1,11 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 50,
-    "sites_toRun": [
-        "CA-Man"
+    "njobs_parallel": 25,
+    "sites_toRun1": [
+        "DE-Hai"
     ],
-    "sites_toRuna": [
+    "sites_toRun": [
         "all"
     ],
     "start_date": "1989-01-01",
@@ -14,11 +14,10 @@
     "FLUXNET_version": "",
     "exp_name": "SINDBAD",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.04/site_cube",
-    "config_dir_path": "/Net/Groups/BGI/people/skoirala/toolDev/sindbad-preproc/configuration/sindbad/",
-    "resample_output": [],
+    "config_dir_path": "/Net/Groups/BGI/people/skoirala/toolDev/sindbad-preproc/configuration/hourly/",
+    "resample_output": [""],
     "nsel_gapfills": "cruncep crujra",
-    "sel_gapfillsn": "none",
-    "sel_gapfills": "erai crujra",
+    "sel_gapfills": "erai",
     "allow_extraction_errors": true,
     "gap_fill": {
         "erai": {
@@ -37,18 +36,13 @@
             "qc_thres": 0.85
         }
     },
-    "sel_datasets": "all except cliff_crun",
-    "sel_datasetst": "bgi_FLUXCOM_obs",
+    "sel_datasetsa": "bgi_FLUXCOM_obs bgi_FLUXCOM_clim swinpot",
+    "sel_datasets": "bgi_FLUXCOM_obs bgi_FLUXCOM_clim swinpot bgi_FLUXCOM_clim_era5 cliff_erai",
     "dataset": {
         "bgi_FLUXCOM_obs": "fluxcom_obs.json",
+        "bgi_FLUXCOM_clim_era5": "fluxcom_clim_era5.json",
         "bgi_FLUXCOM_clim": "fluxcom_clim.json",
-        "bgi_FLUXCOM_surface": "fluxcom_surface.json",
-        "merged_qc": "merged_QC.json",
-        "jung_qc": "jung_QC.json",
         "nelson_tea": "nelson_TEA.json",
-        "modis_MCD43A_mergedNDVI": "modis_MCD43A_mergedNDVI.json",
-        "modis_MCD43A": "modis_MCD43A.json",
-        "modis_MxD11A1": "modis_MxD11A1.json",
         "soilgrids": "soilgrids.json",
         "vf_insitu": "vegFrac_insitu.json",
         "vf_hilda": "vegFrac_hilda.json",

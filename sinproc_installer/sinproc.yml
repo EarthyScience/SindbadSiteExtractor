@@ -1,4 +1,4 @@
-name: sinproc
+name: sinproc004
 channels:
   - numba/label/dev
   - anaconda

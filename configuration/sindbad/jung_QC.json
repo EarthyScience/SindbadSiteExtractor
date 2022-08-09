@@ -33,7 +33,7 @@
         "description": "Quality flags identifying bad quality data [0]. Combine with fqcOK for intepreting data points flagged as 1."
 
     },
-    "sel_variables": "all",
+    "sel_variables": "all except GPP_QC_DT RECO_QC_DT",
     "variables": {
         "GPP_QC_NT": {
             "partitioning": "NT",
