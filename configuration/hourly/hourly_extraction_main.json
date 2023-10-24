@@ -1,7 +1,7 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 25,
+    "njobs_parallel": 100,
     "sites_toRun1": [
         "DE-Hai"
     ],
@@ -14,10 +14,10 @@
     "FLUXNET_version": "",
     "exp_name": "SINDBAD",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.04/site_cube",
-    "config_dir_path": "/Net/Groups/BGI/people/skoirala/toolDev/sindbad-preproc/configuration/hourly/",
+    "config_dir_path": "/Net/Groups/BGI/scratch/skoirala/toolDev/sindbad-preproc/configuration/hourly/",
     "resample_output": [""],
     "nsel_gapfills": "cruncep crujra",
-    "sel_gapfills": "erai",
+    "sel_gapfills": "no",
     "allow_extraction_errors": true,
     "gap_fill": {
         "erai": {
@@ -37,7 +37,7 @@
         }
     },
     "sel_datasetsa": "bgi_FLUXCOM_obs bgi_FLUXCOM_clim swinpot",
-    "sel_datasets": "bgi_FLUXCOM_obs bgi_FLUXCOM_clim swinpot bgi_FLUXCOM_clim_era5 cliff_erai",
+    "sel_datasets": "bgi_FLUXCOM_obs bgi_FLUXCOM_clim swinpot bgi_FLUXCOM_clim_era5",
     "dataset": {
         "bgi_FLUXCOM_obs": "fluxcom_obs.json",
         "bgi_FLUXCOM_clim_era5": "fluxcom_clim_era5.json",

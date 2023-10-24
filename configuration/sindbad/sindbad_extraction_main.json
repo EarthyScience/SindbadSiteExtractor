@@ -1,11 +1,11 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 50,
-    "sites_toRun": [
+    "njobs_parallel": 100,
+    "sites_toRun1": [
         "CA-Man"
     ],
-    "sites_toRuna": [
+    "sites_toRun": [
         "all"
     ],
     "start_date": "1989-01-01",
@@ -14,7 +14,7 @@
     "FLUXNET_version": "",
     "exp_name": "SINDBAD",
     "fluxcom_cube_path": "/Net/Groups/BGI/data/FLUXCOM/v0.04/site_cube",
-    "config_dir_path": "/Net/Groups/BGI/people/skoirala/toolDev/sindbad-preproc/configuration/sindbad/",
+    "config_dir_path": "/Net/Groups/BGI/scratch/skoirala/toolDev/sindbad-preproc/configuration/sindbad/",
     "resample_output": [],
     "nsel_gapfills": "cruncep crujra",
     "sel_gapfillsn": "none",

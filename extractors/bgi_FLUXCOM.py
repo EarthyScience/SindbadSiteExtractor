@@ -37,7 +37,7 @@ def extract(dataset, site_info, config):
 
             if len(transform) > 0:
                 src_prov.add_transform(transform)
-            if src_name == 'P':
+            if src_name in ('P', 'PPFD_IN'):
                 data = src_prov.get_data(Variable(src_name))
             else:
                 data = src_prov.get_data(

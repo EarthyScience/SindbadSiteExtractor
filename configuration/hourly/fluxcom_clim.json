@@ -111,6 +111,20 @@
             "isEnergy": true,
             "skipUnitcheck": true
         },
+        "PPFD": {
+            "variableUnit": "µmolPhoton m-2 s-1",
+            "bounds": [
+                -50,
+                50
+            ],
+            "sourceVariableName": "PPFD_IN",
+            "sourceVariableUnit": "µmolPhoton m-2 s-1",
+            "nameShort": "PPFD",
+            "nameLong": "Photosynthetic photon flux density - incoming",
+            "QC":  "QC",
+            "isCarbon": true,
+            "skipUnitcheck": true
+        },
         "NETRAD": {
             "variableUnit": "MJ m-2",
             "bounds": [
