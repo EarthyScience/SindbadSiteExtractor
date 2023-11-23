@@ -31,7 +31,7 @@
     },
     "sel_variables": "all",
     "variables": {
-        "CO2_F": {
+        "CO2": {
             "variableUnit": "ppm",
             "bounds": [
                 100,
@@ -41,6 +41,7 @@
             "sourceVariableUnit": "umolCO2 mol-1",
             "nameShort": "CO2_F_MDS",
             "nameLong": "CO2 mole fraction",
+            "QC":"QC",
             "skipUnitcheck": true
         },
         "GPP_DT": {

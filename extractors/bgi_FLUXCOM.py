@@ -50,7 +50,7 @@ def extract(dataset, site_info, config):
             data = bxtr.convert_units(data, tar_name)
             src_data.append(data)
             bxtr.log_var_end(data, tar_name, transform)
-            src_prov.transforms = []
+            # src_prov.transforms = []
 
     src_dataset = bxtr.merge_and_format(src_data)
     return src_dataset

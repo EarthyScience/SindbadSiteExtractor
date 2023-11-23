@@ -111,7 +111,7 @@
             "isEnergy": true,
             "skipUnitcheck": true
         },
-        "PPFD": {
+        "PPFD_IN": {
             "variableUnit": "µmolPhoton m-2 s-1",
             "bounds": [
                 -50,
@@ -121,7 +121,7 @@
             "sourceVariableUnit": "µmolPhoton m-2 s-1",
             "nameShort": "PPFD",
             "nameLong": "Photosynthetic photon flux density - incoming",
-            "QC":  "QC",
+            "QC":  "SW_IN_QC",
             "isCarbon": true,
             "skipUnitcheck": true
         },

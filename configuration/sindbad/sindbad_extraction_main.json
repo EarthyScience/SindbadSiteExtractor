@@ -1,15 +1,15 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 100,
+    "njobs_parallel": 50,
     "sites_toRun1": [
-        "CA-Man"
+        "BE-Bra"
     ],
     "sites_toRun": [
         "all"
     ],
-    "start_date": "1989-01-01",
-    "end_date": "2020-12-31",
+    "start_date": "1979-01-01",
+    "end_date": "2017-12-31",
     "temporal_resolution": "",
     "FLUXNET_version": "",
     "exp_name": "SINDBAD",
@@ -18,7 +18,8 @@
     "resample_output": [],
     "nsel_gapfills": "cruncep crujra",
     "sel_gapfillsn": "none",
-    "sel_gapfills": "erai crujra",
+    "sel_gapfillsb": "erai crujra",
+    "sel_gapfills": "erai",
     "allow_extraction_errors": true,
     "gap_fill": {
         "erai": {
@@ -37,8 +38,8 @@
             "qc_thres": 0.85
         }
     },
-    "sel_datasets": "all except cliff_crun",
-    "sel_datasetst": "bgi_FLUXCOM_obs",
+    "sel_datasets": "all except cliff_crun cliff_cruj",
+    "sel_datasetst": "agb agb_merged",
     "dataset": {
         "bgi_FLUXCOM_obs": "fluxcom_obs.json",
         "bgi_FLUXCOM_clim": "fluxcom_clim.json",

@@ -1,7 +1,7 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 100,
+    "njobs_parallel": 155,
     "sites_toRun1": [
         "DE-Hai"
     ],
