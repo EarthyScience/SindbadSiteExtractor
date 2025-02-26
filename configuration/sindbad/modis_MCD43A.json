@@ -16,7 +16,7 @@
         "nameLong": "",
         "spaceTimeType": "normal",
         "sourceDataProductName": "MCD43A",
-        "QC": "",
+        "QC": "QC",
         "RANDUNC": "",
         "weightVar": "",
         "DaySum": false,

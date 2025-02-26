@@ -37,8 +37,8 @@ def extract(dataset, site_info, config):
             tar_name:
             xr.DataArray(data=np.nan, dims=['time'], coords={'time': date_})
         })
-
-        sel_data[sel_data == -9999] = np.nan
+        sel_data = sel_data[2:] # ignore the latitude and longitude co-ordinates
+        sel_data[sel_data <= 0.] = np.nan
         dval = data[tar_name].values
         if len(sel_data) > 0:
             if '_globBiomass' in tar_name:

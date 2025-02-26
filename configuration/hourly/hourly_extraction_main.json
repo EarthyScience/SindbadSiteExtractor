@@ -1,14 +1,14 @@
 {
     "output_dir_path": "",
     "diagnostic_plots": true,
-    "njobs_parallel": 155,
+    "njobs_parallel": 64,
     "sites_toRun1": [
         "DE-Hai"
     ],
     "sites_toRun": [
         "all"
     ],
-    "start_date": "1989-01-01",
+    "start_date": "1979-01-01",
     "end_date": "2020-12-31",
     "temporal_resolution": "",
     "FLUXNET_version": "",

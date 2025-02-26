@@ -46,8 +46,9 @@ def extract(dataset, site_info, config):
                 xr.DataArray(data=np.nan, dims=['time'], coords={'time': date_})
             })
 
+            sel_data = sel_data[2:] # ignore the latitude and longitude co-ordinates
             if len(sel_data) > 0:
-                sel_data[sel_data == -9999] = np.nan
+                sel_data[sel_data <= 0] = np.nan
                 if '_std' in tar_name:
                     sel_data = np.nanstd(sel_data)
                 else:
@@ -72,7 +73,7 @@ def extract(dataset, site_info, config):
             })
 
             if len(sel_data) > 0:
-                sel_data[sel_data == -9999] = np.nan
+                sel_data[sel_data <= 0 ] = np.nan
                 dval = data[tar_name].values
                 for _sel_data in sel_data:
                     yr = _sel_data[0]

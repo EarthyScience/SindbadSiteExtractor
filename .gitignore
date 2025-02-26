@@ -2,6 +2,8 @@
 /*
 
 # Files to not ignore
+!/*.sh
+!/*.py
 !/.gitignore
 !/.gitattributes
 !/README.md
