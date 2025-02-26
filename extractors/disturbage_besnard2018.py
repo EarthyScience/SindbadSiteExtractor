@@ -4,7 +4,7 @@
 A data provicer for forest age and disturbance
 Created on Nov 23 2021
 
-@author: sujan
+@author: @dr-ko
 """
 import sys, os
 sys.path.append(os.path.join(os.getcwd(), '../'))

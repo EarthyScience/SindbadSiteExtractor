@@ -17,4 +17,4 @@ The tool put together data from 3 main sources
 
 # Contact:
 
-Sujan Koirala (on the tool and data), Nuno Carvalhais (on the data), Simon Besnard (on the extractors and biomass/age estimates)
+Sujan Koirala <skoirala@bgc-jena.mpg.de> (on the tool and data), Nuno Carvalhais <ncarvalhais@bgc-jena.mpg.de> (on the data)
