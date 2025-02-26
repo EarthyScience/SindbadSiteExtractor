@@ -3,7 +3,7 @@
 """
 Created on Nov 23 2021
 
-@author: dr-ko
+@author: @dr-ko
 """
 from fluxcom.core.variables import Variable
 from fluxcom.providers import MxD11A1

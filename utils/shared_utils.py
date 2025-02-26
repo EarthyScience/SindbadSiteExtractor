@@ -3,7 +3,7 @@
 """
 Created on Nov 22 2021
 
-@author: dr-ko
+@author: @dr-ko
 """
 #%% Load libray
 import xarray as xr

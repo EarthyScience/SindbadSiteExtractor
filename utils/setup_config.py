@@ -3,7 +3,7 @@
 """
 Created on Fri Apr 16 18:57:14 2021
 
-@author: dr-ko
+@author: @dr-ko
 """
 import json
 import sys

@@ -3,7 +3,7 @@
 """
 Created on Nov 23 2021
 
-@author: dr-ko
+@author: @dr-ko
 """
 from fluxcom.providers import eddy_covariance as ec
 from fluxcom.core.variables import Variable
